@@ -9,6 +9,7 @@ const port = process.env['PORT'];
 
 // Middlewaret
 app.use(morgan('tiny')); // Logger
+app.use(express.urlencoded({extended: true})); // Parse POST data
 
 // Routerit
 app.use('/t1', t1);

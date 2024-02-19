@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Form</title>
+</head>
+<body>
+    <form id="test-form" hx-post="/t1" hx-target="#form-response" hx-swap="outerHTML">
+        <input type="text" name="name" placeholder="Tyyppi" required><br>
+        <input type="text" name="address" placeholder="Osoite" required><br>
+        <input type="text" name="zip" placeholder="Postinumero" required><br>
+        <input type="text" name="city" placeholder="Postitoimipaikka" required><br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="form-response">
+        <!-- Vastaus palvelimelta (esim tallennus onnistui) -->
+    </div>
+    
+    <script src="https://unpkg.com/htmx.org"></script>
+</body>
+</html>

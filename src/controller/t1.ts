@@ -7,7 +7,10 @@ router.get('/', (_req, res) => {
 });
 
 router.post('/', (_req, res) => {
-  res.send('<div>Työkohde on lisätty asiakkaalle.</div>');
+  console.log(_req.body);
+  const {name, address} = _req.body;
+  console.log(`Vastaanotettu T1 tiedoilla: ${name}, ${address}`);
+  res.send(`<div>Työkohde ${address} on lisätty asiakkaalle ${name}.</div>`);
 });
 
 export default router;
