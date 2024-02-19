@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
-import express, {Express} from 'express';
+import express from 'express';
 import morgan from 'morgan';
 import t1 from './controller/t1';
 
 dotenv.config();
-const app: Express = express();
+const app = express();
 const port = process.env['PORT'];
 
 // Middlewaret
