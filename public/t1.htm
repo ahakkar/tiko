@@ -6,12 +6,27 @@
 </head>
 <body>
     <form id="test-form" hx-post="/t1" hx-target="#form-response" hx-swap="outerHTML">
-        <input type="text" name="name" placeholder="Tyyppi" required><br>
-        <input type="text" name="address" placeholder="Osoite" required><br>
-        <input type="text" name="zip" placeholder="Postinumero" required><br>
-        <input type="text" name="city" placeholder="Postitoimipaikka" required><br>
+        <p><h2>Lisää uusi työkohde asiakkaalle X</h2></p>
+        <p>
+            Nimi
+            <input type="text" name="name" placeholder="Tyyppi" required>
+        </p>
+        <p>
+            Osoite
+            <input type="text" name="address" placeholder="Osoite" required>
+        </p>
+        <p>
+            Postinumero
+            <input type="text" name="zip" placeholder="Postinumero" required>
+        </p>
+        <p>
+            Postitoimipaikka
+            <input type="text" name="city" placeholder="Postitoimipaikka" required>
+        </p>
+
         <button type="submit">Submit</button>
     </form>
+    
     <div id="form-response">
         <!-- Vastaus palvelimelta (esim tallennus onnistui) -->
     </div>
