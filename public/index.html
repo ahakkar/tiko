@@ -10,9 +10,28 @@
 </head>
 
 <body>
-    <h1>Sähkötärsky</h1>
-    <p>Tervetuloa sähkötärskyyn!</p>
-    <p><a href="t1.htm">T1 - lisää uusi työkohde asiakkaalle</a></p>
+    <h1>Sähkötärsky</h1>    
+    <nav>
+        <p><a href="#" hx-get="/par/t1" hx-target="#main-content">T1 - lisää työkohde</a></p>
+        <p><a href="#" hx-get="/par/t2" hx-target="#main-content">T2 - merkitse työt</a></p>
+        <p><a href="#" hx-get="/par/t3" hx-target="#main-content">T3 - muodosta muikkarit</a></p>
+        <p><a href="#" hx-get="/par/t4" hx-target="#main-content">T4 - arvioi luotettavuutta</a></p>
+        <p><a href="#" hx-get="/par/t5" hx-target="#main-content">T5 - päivitä hinnasto</a></p>
+        <hr>
+        <p><a href="#" hx-get="/par/r1" hx-target="#main-content">R1 - hinta-arvio</a></p>
+        <p><a href="#" hx-get="/par/r2" hx-target="#main-content">R2 - tuntityölasku</a></p>
+        <p><a href="#" hx-get="/par/r3" hx-target="#main-content">R3 - tuntityölasku2</a></p>
+        <p><a href="#" hx-get="/par/r4" hx-target="#main-content">R4 - urakkatarjous</a></p>
+        <p><a href="#" hx-get="/par/r5" hx-target="#main-content">R5 - laskuta urakat</a></p>
+        <p><a href="#" hx-get="/par/r6" hx-target="#main-content">R6 - Junk Co. raportti</a></p>
+    </nav>    
+
+    <hr>
+    
+    <div id="main-content">
+        <!-- SPA vaihtelee kontsaa tähän -->
+        <p>Tervetuloa sähkötärskyyn!</p>
+    </div>
 </body>
 
 </html>
