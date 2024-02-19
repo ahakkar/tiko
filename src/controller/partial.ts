@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import path from 'path';
 import fs from 'fs';
+import {StatusCode} from '../constants/statusCodes';
 
 const router = Router();
 
@@ -14,12 +15,10 @@ router.get('/:pageName', (req, res) => {
     `${req.params.pageName}.htm`
   );
 
-  console.log(filePath);
-
   // File exists? check
   fs.access(filePath, fs.constants.F_OK, err => {
     if (err) {
-      res.status(404).send('Page not found');
+      res.status(StatusCode.BadRequest).send('Page not found');
     } else {
       res.sendFile(filePath);
     }
