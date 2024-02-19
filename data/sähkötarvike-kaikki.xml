@@ -1,0 +1,49 @@
+<!ELEMENT tarvikkeet (toimittaja,tarvike*)>
+<!ELEMENT tarvike (ttiedot)>
+<!ELEMENT ttiedot (id, nimi, merkki, tyyppi, hinta, yksikko)>
+<!ELEMENT toimittaja (toim_nimi,osoite?)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT nimi (#PCDATA)>
+<!ELEMENT merkki (#PCDATA)>
+<!ELEMENT tyyppi (#PCDATA)>
+<!ELEMENT hinta (#PCDATA)>
+<!ELEMENT yksikko (#PCDATA)>
+<!ELEMENT toim_nimi (#PCDATA)>
+<!ELEMENT osoite (#PCDATA)>
+
+<tarvikkeet>
+    <toimittaja>
+        <toim_nimi>Toimittaja 1</toim_nimi>
+        <osoite>www.toimittaja1.fi</osoite>
+    </toimittaja>
+    <tarvike>
+        <ttiedot>
+            <id>1</id>
+            <nimi>Philips Ultra LED 2500K 0.001W</nimi>
+            <merkki>Philips</merkki>
+            <tyyppi>lamppu</tyyppi>
+            <hinta>5.55</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>2</id>
+            <nimi>Kuparinen johdin 1mm</nimi>
+            <merkki>Wires Inc.</merkki>
+            <tyyppi>johto</tyyppi>
+            <hinta>0.5</hinta>
+            <yksikko>m</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>2</id>
+            <nimi>LED-valon vaihtamisopas toivottomille sähkötekniikoille</nimi>
+            <merkki>Sähkökilta</merkki>
+            <tyyppi>kirja</tyyppi>
+            <hinta>10</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+</tarvikkeet>

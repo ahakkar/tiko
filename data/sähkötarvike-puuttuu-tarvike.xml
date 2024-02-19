@@ -1,0 +1,19 @@
+<!ELEMENT tarvikkeet (toimittaja,tarvike*)>
+<!ELEMENT tarvike (ttiedot)>
+<!ELEMENT ttiedot (id, nimi, merkki, tyyppi, hinta, yksikko)>
+<!ELEMENT toimittaja (toim_nimi,osoite?)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT nimi (#PCDATA)>
+<!ELEMENT merkki (#PCDATA)>
+<!ELEMENT tyyppi (#PCDATA)>
+<!ELEMENT hinta (#PCDATA)>
+<!ELEMENT yksikko (#PCDATA)>
+<!ELEMENT toim_nimi (#PCDATA)>
+<!ELEMENT osoite (#PCDATA)>
+
+<tarvikkeet>
+    <toimittaja>
+        <toim_nimi>Toimittaja 1</toim_nimi>
+        <osoite>www.toimittaja1.fi</osoite>
+    </toimittaja>
+</tarvikkeet>
