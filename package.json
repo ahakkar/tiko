@@ -4,15 +4,10 @@
   "description": "This is a template readme file to enforce main default branch. Edit this file as you see fit.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "gts lint",
-    "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "npm run compile",
-    "pretest": "npm run compile",
-    "posttest": "npm run lint",
-    "start": "nodemon"
+    "dev": "nodemon",
+    "start": "tsc && node dist/index.js"
   },
   "keywords": [],
   "author": "",
