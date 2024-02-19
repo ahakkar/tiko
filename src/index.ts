@@ -1,1 +1,3 @@
-console.log('Hello, TypeScript with Node.js!');
+console.log('testii!');
+console.log('testii2!');
+console.log('testii3!');
