@@ -23,10 +23,10 @@ export const render = async (_req: Request, res: Response) => {
 };
 
 export const handlePost = async (req: Request, res: Response) => {
-  console.log(req.body);
-  const {name, address} = req.body;
-  console.log(`Vastaanotettu T1 tiedoilla: ${name}, ${address}`);
-  res.send(`<div>Työkohde ${address} on lisätty kohteelle ${name}.</div>`);
+  const {address, worksite_type} = req.body;
+  res.send(
+    `<div>Työkohde tyyppiä ${worksite_type} on lisätty osoitteeseen ${address}.</div>`
+  );
 };
 
 function generateWorkSites(): string {
