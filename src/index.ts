@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
-import partials from './controller/partial';
+import customers from './controller/customers';
+import products from './controller/products';
+import projects from './controller/projects';
+import worksites from './controller/worksites';
 
 dotenv.config();
 const app = express();
@@ -12,7 +15,10 @@ app.use(morgan('tiny')); // Logger
 app.use(express.urlencoded({extended: true})); // Parse POST data
 
 // Routerit
-app.use('/par', partials);
+app.use('/customers', customers);
+app.use('/products', customers);
+app.use('/projects', customers);
+app.use('/worksites', customers);
 
 // Staattiset tiedostot
 app.use(express.static('public'));
