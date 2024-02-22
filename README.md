@@ -9,17 +9,19 @@
 Kehityksen aikana käytämme Dockeria. Olemme luoneet kaksi konttia, joista yksi
 sisältää tietokannamme PostgreSQL:n ja toinen palvelimemme Node.js:n.
 
-Kontit luodaan komennolla:
+PostgreSQL:n kontti käyttää alustamiseen [script](./script)-kansion
+SQL-tiedostoja. Kontti siis luo tietokannan ja luo taulut tiedostojen
+mukaisesti.
+
+Node.js:n kontti käyttää projektikansiota suoraan sellaisenaan, joten ensin
+pitää asentaa riippuvuudet:
 
 ```bash
-docker compose up -d
+npm install
 ```
 
-Edellinen komento myös lataa tarvittavat Node.js:n paketit kontin sisäiseen
-node_modules-kansioon, kun komentoa suoritetaan ensimmäistä kertaa.
-Kun Node.js:n paketteja muutetaan, kontin sisäinen node_modules-kansio on
-päivitettävä. Tämä onnistuu `--build app` -lipulla:
+Kontit käynnistetään komennolla:
 
 ```bash
-docker compose up --build app
+docker compose up
 ```
