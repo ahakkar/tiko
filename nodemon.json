@@ -1,5 +1,10 @@
 {
-    "watch": ["src", ".env"],
-    "ext": "ts",
-    "exec": "ts-node ./src/index.ts"
+    "watch": [
+        "src",
+        ".env",
+        "public"
+    ],
+    "ext": "ts,html",
+    "exec": "ts-node ./src/index.ts",
+    "pollingInterval": 1000
 }
