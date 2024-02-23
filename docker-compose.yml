@@ -7,17 +7,18 @@ services:
     env_file:
       - .env
     volumes:
-      - ./script/*.sql:/docker-entrypoint-initdb.d/
+      - ./script/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
     ports:
       - 5432:5432
 
   app:
     container_name: tiko_nodejs
-    image: node:16.13.2
-    working_dir: /app
     command: npm run dev
+    build:
+      dockerfile: Dockerfile
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
       - 8010:8010
     depends_on:

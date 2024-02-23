@@ -1,6 +1,6 @@
 CREATE TABLE Test (
-    id INT PRIMARY KEY,
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(255) NOT NULL
 );
 
-INSERT INTO Test (name) VALUES (1, 'Hello');
+INSERT INTO Test (name) VALUES ('Hello');
