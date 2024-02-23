@@ -10,8 +10,7 @@ Kehityksen aikana käytämme Dockeria. Olemme luoneet kaksi konttia, joista yksi
 sisältää tietokannamme PostgreSQL:n ja toinen palvelimemme Node.js:n.
 
 PostgreSQL:n kontti käyttää alustamiseen [script](./script)-kansion
-SQL-tiedostoja. Kontti siis luo tietokannan ja luo taulut tiedostojen
-mukaisesti.
+SQL-tiedostoja. SQL-tiedostot suoritetaan aakkosjärjestyksessä.
 
 Kontit käynnistetään komennolla:
 
@@ -26,4 +25,12 @@ päivitettävä. Tämä onnistuu `--build app`-lipulla:
 
 ```bash
 docker compose up --build app
+```
+
+Kontit pysäytetään CTRL+C -näppäinyhdistelmällä.
+
+Kontit voi poistaa komennolla:
+
+```bash
+docker compose down
 ```
