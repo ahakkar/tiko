@@ -12,6 +12,8 @@ sisältää tietokannamme PostgreSQL:n ja toinen palvelimemme Node.js:n.
 PostgreSQL:n kontti käyttää alustamiseen [dbinit](./dbinit)-kansion
 SQL-tiedostoja. SQL-tiedostot suoritetaan aakkosjärjestyksessä.
 
+### Konttien käynnistäminen
+
 Kontit käynnistetään komennolla:
 
 ```bash
@@ -33,4 +35,12 @@ Kontit voi poistaa komennolla:
 
 ```bash
 docker compose down
+```
+
+### Tietokannan hallinta
+
+Tietokanta sijaitsee Dockerissa, joten komento täytyy ajaa Dockerin kautta:
+
+```bash
+docker exec -it tiko_postgres psql -U tiko
 ```
