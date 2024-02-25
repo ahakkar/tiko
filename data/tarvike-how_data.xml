@@ -1,0 +1,49 @@
+<!ELEMENT tarvikkeet (toimittaja,tarvike*)>
+<!ELEMENT tarvike (ttiedot)>
+<!ELEMENT ttiedot (id, nimi, merkki, tyyppi, hinta, yksikko)>
+<!ELEMENT toimittaja (toim_nimi,osoite?)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT nimi (#PCDATA)>
+<!ELEMENT merkki (#PCDATA)>
+<!ELEMENT tyyppi (#PCDATA)>
+<!ELEMENT hinta (#PCDATA)>
+<!ELEMENT yksikko (#PCDATA)>
+<!ELEMENT toim_nimi (#PCDATA)>
+<!ELEMENT osoite (#PCDATA)>
+
+<tarvikkeet>
+    <toimittaja>
+        <toim_nimi>How-data</toim_nimi>
+        <osoite>www.howdata.fi</osoite>
+    </toimittaja>
+    <tarvike>
+        <ttiedot>
+            <id>1</id>
+            <nimi>USB-kaapeli</nimi>
+            <merkki>Xiangling Shenzhen Specialty Co.</merkki>
+            <tyyppi>johto</tyyppi>
+            <hinta>4</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>2</id>
+            <nimi>Ethernet CAT6 suojattu</nimi>
+            <merkki>ASDF</merkki>
+            <tyyppi>johto</tyyppi>
+            <hinta>0,50</hinta>
+            <yksikko>m</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>3</id>
+            <nimi>HDMI 10m</nimi>
+            <merkki>Xianling Shenzhen Specialty Co.</merkki>
+            <tyyppi>johto</tyyppi>
+            <hinta>1</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+</tarvikkeet>

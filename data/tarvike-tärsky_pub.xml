@@ -1,0 +1,49 @@
+<!ELEMENT tarvikkeet (toimittaja,tarvike*)>
+<!ELEMENT tarvike (ttiedot)>
+<!ELEMENT ttiedot (id, nimi, merkki, tyyppi, hinta, yksikko)>
+<!ELEMENT toimittaja (toim_nimi,osoite?)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT nimi (#PCDATA)>
+<!ELEMENT merkki (#PCDATA)>
+<!ELEMENT tyyppi (#PCDATA)>
+<!ELEMENT hinta (#PCDATA)>
+<!ELEMENT yksikko (#PCDATA)>
+<!ELEMENT toim_nimi (#PCDATA)>
+<!ELEMENT osoite (#PCDATA)>
+
+<tarvikkeet>
+    <toimittaja>
+        <toim_nimi>Tärsky pub</toim_nimi>
+        <osoite>www.pubtarsky.fi</osoite>
+    </toimittaja>
+    <tarvike>
+        <ttiedot>
+            <id>1</id>
+            <nimi>Tuote A 4,5% 0,33L</nimi>
+            <merkki>Laatupanimo</merkki>
+            <tyyppi>virvoitusjuoma</tyyppi>
+            <hinta>1</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>2</id>
+            <nimi>Tuote B 4,6% 0,33L</nimi>
+            <merkki>Laatupanimo</merkki>
+            <tyyppi>virvoitusjuoma</tyyppi>
+            <hinta>1</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>3</id>
+            <nimi>opaskirja</nimi>
+            <merkki>OSYW</merkki>
+            <tyyppi>kirjallisuus</tyyppi>
+            <hinta>8</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+</tarvikkeet>

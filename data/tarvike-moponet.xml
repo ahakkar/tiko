@@ -1,0 +1,79 @@
+<!ELEMENT tarvikkeet (toimittaja,tarvike*)>
+<!ELEMENT tarvike (ttiedot)>
+<!ELEMENT ttiedot (id, nimi, merkki, tyyppi, hinta, yksikko)>
+<!ELEMENT toimittaja (toim_nimi,osoite?)>
+<!ELEMENT id (#PCDATA)>
+<!ELEMENT nimi (#PCDATA)>
+<!ELEMENT merkki (#PCDATA)>
+<!ELEMENT tyyppi (#PCDATA)>
+<!ELEMENT hinta (#PCDATA)>
+<!ELEMENT yksikko (#PCDATA)>
+<!ELEMENT toim_nimi (#PCDATA)>
+<!ELEMENT osoite (#PCDATA)>
+
+<tarvikkeet>
+    <toimittaja>
+        <toim_nimi>Moponet</toim_nimi>
+        <osoite>www.moponet.fi</osoite>
+    </toimittaja>
+    <tarvike>
+        <ttiedot>
+            <id>1</id>
+            <nimi>Sähköjohto</nimi>
+            <merkki>Creo</merkki>
+            <tyyppi>sähköjohto</tyyppi>
+            <hinta>1</hinta>
+            <yksikko>m</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>2</id>
+            <nimi>Jakorasia</nimi>
+            <merkki>BBA</merkki>
+            <tyyppi>Kojerasiat ja jakorasiat</tyyppi>
+            <hinta>3</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>3</id>
+            <nimi>Pistorasia</nimi>
+            <merkki>BBA</merkki>
+            <tyyppi>pistorasia</tyyppi>
+            <hinta>10</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>4</id>
+            <nimi>Maakaapeli</nimi>
+            <merkki>Tampereen kaapelitehdas Oy</merkki>
+            <tyyppi>Asennuskaapelit ja sähköjohdot</tyyppi>
+            <hinta>4</hinta>
+            <yksikko>m</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>5</id>
+            <nimi>3-napainen vipuliitin 0,2-4 mm²</nimi>
+            <merkki>Awog</merkki>
+            <tyyppi>Johtoliittimet</tyyppi>
+            <hinta>0,80</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+    <tarvike>
+        <ttiedot>
+            <id>6</id>
+            <nimi>Ryhmäkeskus VO5356.245P 25A PC IP65</nimi>
+            <merkki>Viola</merkki>
+            <tyyppi>Sähkökeskukset ja ryhmäkeskukset</tyyppi>
+            <hinta>210</hinta>
+            <yksikko>kpl</yksikko>
+        </ttiedot>
+    </tarvike>
+</tarvikkeet>
