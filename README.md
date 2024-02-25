@@ -9,7 +9,7 @@
 Kehityksen aikana käytämme Dockeria. Olemme luoneet kaksi konttia, joista yksi
 sisältää tietokannamme PostgreSQL:n ja toinen palvelimemme Node.js:n.
 
-PostgreSQL:n kontti käyttää alustamiseen [script](./script)-kansion
+PostgreSQL:n kontti käyttää alustamiseen [dbinit](./dbinit)-kansion
 SQL-tiedostoja. SQL-tiedostot suoritetaan aakkosjärjestyksessä.
 
 Kontit käynnistetään komennolla:

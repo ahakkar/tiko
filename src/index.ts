@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
-import customers from './controller/customers';
-import products from './controller/products';
-import projects from './controller/projects';
-import worksites from './controller/worksites';
+import customers from './controllers/customers';
+import products from './controllers/products';
+import projects from './controllers/projects';
+import worksites from './controllers/worksites';
 
 dotenv.config();
 const app = express();
