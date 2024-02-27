@@ -9,9 +9,6 @@ export const htmxChecker = (
   res: Response,
   next: NextFunction
 ) => {
-  const isHtmxRequest = req.headers['hx-request'] === 'true';
-  if (isHtmxRequest) {
-    res.locals['htmx'] = true;
-  }
+  res.locals['htmx'] = req.headers['hx-request'] === 'true';
   next();
 };
