@@ -3,25 +3,28 @@
 <html lang="fi">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Sähkötärsky</title>
+  <meta charset="UTF-8">
+  <title>Sähkötärsky</title>
 
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gray-200">
+  <div>
     {{> navbar}}
 
+    <div class="p-2"></div>
+
     <div class="max-w-screen-lg mx-auto">
-        <div class="py-8"></div>
-        <div id="main-content">
-            <!-- SPA vaihtelee kontsaa tähän -->
-            {{/unless}}
-            {{{body}}}
-            {{#unless htmx}}
-        </div>
+      <div id="main-content" class="bg-white p-5 rounded-xl">
+        <!-- SPA vaihtelee kontsaa tähän -->
+        {{/unless}}
+        {{{body}}}
+        {{#unless htmx}}
+      </div>
     </div>
+  </div>
 </body>
 
 </html>
