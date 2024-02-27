@@ -4,7 +4,7 @@
         ".env",
         "public"
     ],
-    "ext": "ts,html",
+    "ext": "ts,html,hbs",
     "exec": "ts-node ./src/index.ts",
     "pollingInterval": 1000
 }

@@ -3,11 +3,11 @@ import {Router} from 'express';
 const router = Router();
 
 router.get('/', (_req, res) => {
-  res.send('<div>Hello World!</div>');
+  res.render('asiakkaat');
 });
 
 router.post('/', (_req, res) => {
-  res.send('<div>Työkohde on lisätty asiakkaalle.</div>');
+  res.send('<div>TODO</div>');
 });
 
 export default router;
