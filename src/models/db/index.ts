@@ -4,7 +4,6 @@ import { Pool, PoolClient, QueryResult } from "pg";
 dotenv.config();
 
 const pool = new Pool({
-    database: process.env['POSTGRES_USER'],
     host: process.env['POSTGRES_HOST'],
     user: process.env['POSTGRES_USER'],
     password: process.env['POSTGRES_PASSWORD']
