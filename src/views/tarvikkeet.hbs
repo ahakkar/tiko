@@ -1,5 +1,30 @@
-<!-- Raportti 2 html -->
 <div>
-    <h1>Raportti 2</h1>
-    <p>Raportti 2:n sisällöt.</p>
+  <h1 class="text-2xl font-semibold">Tarvikkeet</h1>
+  <table class="border-2 border-black">
+    <thead>
+      <tr>
+        <th>Nimi</th>
+        <th>Merkki</th>
+        <th>Tyyppi</th>
+        <th>Yksikkö</th>
+        <th>Toimittaja</th>
+        <th>Varastotilanne</th>
+        <th>Hinta sisään</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each warehouseItems}}
+      <tr hx-get="/tarvikkeet/{{this.id}}" hx-target="#main-content" hx-push-url="true"
+        class="hover:underline text-center border-collapse odd:bg-gray-200">
+        <td>{{this.nimi}}</td>
+        <td>{{this.merkki}}</td>
+        <td>{{this.tyyppi}}</td>
+        <td>{{this.yksikkö}}</td>
+        <td>{{this.toimittajaId}}</td>
+        <td>{{this.varastotilanne}}</td>
+        <td>{{this.hintaSisään}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
