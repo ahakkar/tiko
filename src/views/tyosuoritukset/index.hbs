@@ -1,0 +1,32 @@
+<h1 class="font-medium text-3xl py-3">Työsuoritukset</h1>
+
+<button hx-get="/tyosuoritukset/uusi" hx-target="#main-content" hx-push-url="true"
+  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+  Uusi työsuoritus
+</button>
+
+<div class="p-2"></div>
+
+<div>
+  {{#each tyosuoritukset}}
+  <div hx-get="/tyosuoritukset/{{tyosuoritus.id}}" hx-target="#main-content" hx-push-url="true"
+    class="flex justify-between p-2 hover:bg-slate-200 rounded cursor-pointer">
+    <div>
+      <div>
+        <span class="font-medium text-xl">
+          {{tyokohde.osoite}}, {{tyokohde.postitoimipaikka}}
+        </span>
+        <span class="uppercase text-xl">
+          {{tyosuoritus.tyyppi}}
+        </span>
+      </div>
+      <div>{{tyosuoritus.aloitus_pvm}}</div>
+      <div>{{asiakas.nimi}}</div>
+      <div>{{tyokohde.nimi}}</div>
+    </div>
+    <div>
+      {{tyosuoritus.tila}}
+    </div>
+  </div>
+  {{/each}}
+</div>
