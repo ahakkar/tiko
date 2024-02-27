@@ -43,7 +43,6 @@ router.get('/uusi', (_req, res) => {
 router.get('/:id', (req, res) => {
   const id = Number(req.params.id);
   const tyo = TYOT.find(tyo => tyo.tyosuoritus.id === id);
-  console.log(tyo);
   if (tyo) {
     res.render('tyosuoritukset/tyosuoritus', tyo);
   } else {
