@@ -1,0 +1,33 @@
+<h1 class="font-medium text-3xl">Asiakkaat</h1>
+
+<div id="form">
+  <button hx-get="/asiakkaat/form" hx-target="#form"
+    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+    Uusi asiakas
+  </button>
+</div>
+
+<table class="min-w-full text-left text-sm">
+  <thead class="border-b font-medium dark:border-neutral-500">
+    <tr>
+      <th scope="col" class="px-6 py-4">Nimi</th>
+      <th scope="col" class="px-6 py-4">Osoite</th>
+      <th scope="col" class="px-6 py-4">Postinumero</th>
+      <th scope="col" class="px-6 py-4">Postitoimipaikka</th>
+      <th scope="col" class="px-6 py-4">Sähköposti</th>
+      <th scope="col" class="px-6 py-4">Puhelinnumero</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each asiakkaat}}
+    <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
+      <td class="whitespace-nowrap px-6 py-4">{{nimi}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{osoite}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{postinumero}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{postitoimipaikka}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{sahkoposti}}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{puhelinnumero}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
