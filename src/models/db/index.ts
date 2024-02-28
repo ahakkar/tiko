@@ -1,12 +1,12 @@
-import dotenv from "dotenv";
-import { Pool, PoolClient, QueryResult } from "pg";
+import dotenv from 'dotenv';
+import {Pool, PoolClient, QueryResult} from 'pg';
 
 dotenv.config();
 
 const pool = new Pool({
-    host: process.env['POSTGRES_HOST'],
-    user: process.env['POSTGRES_USER'],
-    password: process.env['POSTGRES_PASSWORD']
+  host: process.env['POSTGRES_HOST'],
+  user: process.env['POSTGRES_USER'],
+  password: process.env['POSTGRES_PASSWORD'],
 });
 
 /**
@@ -15,7 +15,7 @@ const pool = new Pool({
  * @returns Palauttaa Promisen, joka sisältää kyselyn tuloksen
  */
 export function query(text: string): Promise<QueryResult<any>> {
-    return pool.query(text);
+  return pool.query(text);
 }
 
 /**
@@ -23,5 +23,5 @@ export function query(text: string): Promise<QueryResult<any>> {
  * @returns Promise, joka sisältää yhteyden tietokantaan
  */
 export function getClient(): Promise<PoolClient> {
-    return pool.connect();
+  return pool.connect();
 }
