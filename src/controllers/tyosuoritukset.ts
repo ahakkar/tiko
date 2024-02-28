@@ -3,6 +3,8 @@ const router = Router();
 
 // TODO: Kun lähdet tekemään interfacea, niin tee siitä jotakuinkin tällainen,
 // mutta lisää siihen kaikki tarvittavat kentät. Tämä on vain esimerkki.
+// En ole myöskään täysin päättänyt, kannattaako osa kentistä laskea frontendin
+// vai backendin puolella. Kaikesta voi neuvotella.
 const TYOT = [
   {
     kokonaissumma: 967,
@@ -27,15 +29,15 @@ const TYOT = [
       sahkoposti: 'jarmo.asiakas@gmail.com',
       puhelinnumero: '044 1234567',
     },
-    lasku: [
+    laskut: [
       {
         id: 1,
         edellinen_lasku: null,
         summa: 5000,
-        pvm: '1.9.2023',
+        pvm: '1.9.2023', // Päivämäärät olioina?
         era_pvm: '20.10.2023',
         maksettu_pvm: '1.11.2023',
-        tila: 'maksettu',
+        tila: 'Maksettu', // Luo tämä teksti frontendissä eikä backendissä?
         jarjestysluku: 1,
       },
       {
@@ -45,8 +47,18 @@ const TYOT = [
         pvm: '2.9.2023',
         era_pvm: '22.10.2023',
         maksettu_pvm: null,
-        tila: 'valmis',
-        jarjestysluku: 1,
+        tila: 'Ei maksettu',
+        jarjestysluku: 2,
+      },
+      {
+        id: 2,
+        edellinen_lasku: null,
+        summa: 3000,
+        pvm: '3.9.2023',
+        era_pvm: '23.10.2023',
+        maksettu_pvm: '4.9.2023',
+        tila: 'Maksettu',
+        jarjestysluku: 0,
       },
     ],
     tarvikkeet: [
@@ -89,23 +101,6 @@ const TYOT = [
       },
     ],
   },
-  // {
-  //   tyosuoritus: {
-  //     id: 2,
-  //     tyyppi: 'urakka',
-  //     tila: 'suunnitellaan',
-  //     aloitus_pvm: '1.2.2024',
-  //   },
-  //   tyokohde: {
-  //     osoite: 'Saunatie 1',
-  //     postitoimipaikka: 'Tampere',
-  //     postinumero: '33100',
-  //     tyyppi: 'Kesämökki',
-  //   },
-  //   asiakas: {
-  //     nimi: 'Pauliina Kustomeri',
-  //   },
-  // },
 ];
 
 router.get('/uusi', (_req, res) => {
@@ -115,11 +110,18 @@ router.get('/uusi', (_req, res) => {
 router.get('/:id', (req, res) => {
   const id = Number(req.params.id);
   const tyo = TYOT.find(tyo => tyo.tyosuoritus.id === id);
-  if (tyo) {
-    res.render('tyosuoritukset/tyosuoritus', tyo);
-  } else {
+  if (!tyo) {
     res.status(404).send('Not found');
   }
+  res.render('tyosuoritukset/tyosuoritus', {
+    ...tyo,
+    laskut: tyo?.laskut.map(lasku => ({
+      ...lasku,
+      is_muistutuslasku: lasku.jarjestysluku === 1,
+      is_karhulasku: lasku.jarjestysluku >= 2,
+      karhuluku: lasku.jarjestysluku - 1,
+    })),
+  });
 });
 
 router.get('/', (_req, res) => {
