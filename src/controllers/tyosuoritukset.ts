@@ -1,6 +1,8 @@
 import {Router} from 'express';
 const router = Router();
 
+// TODO: Kun lähdet tekemään interfacea, niin tee siitä jotakuinkin tällainen,
+// mutta lisää siihen kaikki tarvittavat kentät. Tämä on vain esimerkki.
 const TYOT = [
   {
     kokonaissumma: 967,
