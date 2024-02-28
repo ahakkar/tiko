@@ -103,8 +103,8 @@ const TYOT = [
   },
 ];
 
-router.get('/uusi', (_req, res) => {
-  res.render('tyosuoritukset/uusi');
+router.get('/form', (_req, res) => {
+  res.render('tyosuoritukset/form');
 });
 
 router.get('/:id', (req, res) => {

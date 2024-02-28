@@ -22,8 +22,8 @@
   <div class="flex">
     <div>
       <div>{{asiakas.nimi}}</div>
-      {{#if asiakas.sahkoposti}}<div>{{asiakas.sahkoposti}}</div>{{/if}}
-      {{#if asiakas.puhelinnumero}}<div>{{asiakas.puhelinnumero}}</div>{{/if}}
+      <div>{{asiakas.sahkoposti}}</div>
+      <div>{{asiakas.puhelinnumero}}</div>
     </div>
     <div class="px-10"></div>
     <div class="shrink-0">
@@ -43,17 +43,18 @@
     Uusi lasku
   </button>
 
-  {{#each lasku}}
+  {{#each laskut}}
   <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true"
     class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
     <div>
       <div class="font-medium">{{pvm}}</div>
-      {{#if jarjestysluku}}<div>{{jarjestysluku}}. muistutuslasku</div>{{/if}}
       <div>{{summa}} €</div>
       <div>{{era_pvm}}</div>
     </div>
-    <div class="capitalize">
-      {{tila}}
+    <div class="flex justify-between flex-col min-h-full">
+      <div class="text-right font-medium">{{tila}}</div>
+      {{#if is_muistutuslasku}}<div class="px-3 rounded-full bg-yellow-500 text-white">Muistutuslasku</div>{{/if}}
+      {{#if is_karhulasku}}<div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
     </div>
   </div>
   {{/each}}
@@ -123,4 +124,4 @@
 
 <div class="py-3"></div>
 
-<div class="font-medium text-xl">Kokonaissumma {{kokonaissumma}}</div>
+<div class="font-medium text-xl">Kokonaissumma {{kokonaissumma}} €</div>
