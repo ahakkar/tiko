@@ -28,8 +28,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', (_req, res) => {
-  res.send('<div>TODO</div>');
+router.post('/lataa', (_req, res) => {
+  res.send('<div>Tiedosto vastaanotettu</div>');
 });
 
 export default router;

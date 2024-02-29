@@ -1,6 +1,18 @@
 <h1 class="font-medium text-3xl">Tarvikkeet</h1>
 
 <table class="min-w-full text-left text-sm">
+  <form hx-encoding="multipart/form-data" hx-post="/tarvikkeet/lataa" hx-trigger="submit" hx-target="#main-content">
+    <div class="py-2 my-2">
+      <label for="file-input"
+        class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+        Lataa uusi tarvikelista
+      </label>
+      <input id="file-input" type="file" name="items-file" accept=".xml"
+        class="file:hidden max-w-32">
+      <input type="submit" value="Lähetä"
+        class="border rounded bg-transparent px-2 m-2 py-1 hover:bg-gray-100">
+    </div>
+  </form>
   <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
       <th scope="col" class="px-6 py-4">Nimi</th>
