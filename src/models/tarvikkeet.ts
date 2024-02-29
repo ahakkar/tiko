@@ -1,30 +1,31 @@
+import {QueryResultRow} from 'pg';
 import {query} from './db';
 
-interface VarastoTarvike {
+interface VarastoTarvike extends QueryResultRow {
   id: number;
-  toimittajaId: number;
+  toimittaja_id: number;
   nimi: string;
   merkki: string;
   tyyppi: string;
   varastotilanne: number;
-  yksikkö: string;
-  hintaSisään: number;
+  yksikko: string;
+  hinta_sisaan: number;
 }
 
-interface Tarvike {
+interface Tarvike extends QueryResultRow {
   id: number;
-  varastotarvikeId: number;
-  työsuoritusId: number;
+  varastotarvike_id: number;
+  tyosuoritus_id: number;
   maara: number;
-  hintaUlos: number;
+  hinta_ulos: number;
   pvm: Date;
   aleprosentti: number;
-  alvProsentti: number;
+  alv_prosentti: number;
   hinta: number;
   alv: number;
 }
 
-interface Toimittaja {
+interface Toimittaja extends QueryResultRow {
   id: number;
   nimi: string;
   osoite: string;
@@ -39,35 +40,16 @@ interface Toimittaja {
  */
 
 async function retrieveWarehouseItems(): Promise<VarastoTarvike[]> {
-  const result = await query('SELECT * FROM varastotarvike');
-  return result.rows.map((row: any): VarastoTarvike => {
-    return {
-      id: row.id,
-      toimittajaId: row.toimittaja_id,
-      nimi: row.nimi,
-      merkki: row.merkki,
-      tyyppi: row.tyyppi,
-      varastotilanne: row.varastotilanne,
-      yksikkö: row.yksikko,
-      hintaSisään: row.hinta_sisaan,
-    };
-  });
+  const result = await query<VarastoTarvike>('SELECT * FROM varastotarvike');
+  return result.rows;
 }
 
 async function retrieveWarehouseItem(id: number): Promise<VarastoTarvike> {
-  const result = await query(`SELECT * FROM varastotarvike WHERE id = ${id}`);
-  const item = result.rows.map((row: any): VarastoTarvike => {
-    return {
-      id: row.id,
-      toimittajaId: row.toimittaja_id,
-      nimi: row.nimi,
-      merkki: row.merkki,
-      tyyppi: row.tyyppi,
-      varastotilanne: row.varastotilanne,
-      yksikkö: row.yksikko,
-      hintaSisään: row.hinta_sisaan,
-    };
-  })[0];
+  const result = await query<VarastoTarvike>(
+    `SELECT * FROM varastotarvike WHERE id = ${id}`
+  );
+
+  const item = result.rows.at(0);
   if (!item) {
     throw new Error(`Varastotarviketta id:llä ${id} ei löytynyt`);
   }
@@ -75,23 +57,8 @@ async function retrieveWarehouseItem(id: number): Promise<VarastoTarvike> {
 }
 
 async function retrieveItem(id: number): Promise<Tarvike> {
-  const result = await query(`SELECT * FROM tarvike WHERE id = ${id}`);
-  const item = result.rows
-    .map(row => {
-      return {
-        id: row.id,
-        varastotarvikeId: row.varastotarvike_id,
-        työsuoritusId: row.tyosuoritus_id,
-        maara: row.maara,
-        hintaUlos: row.hinta_ulos,
-        pvm: row.pvm,
-        aleprosentti: row.aleprosentti,
-        alvProsentti: row.alv_prosentti,
-        hinta: row.hinta,
-        alv: row.alv,
-      };
-    })
-    .at(0);
+  const result = await query<Tarvike>(`SELECT * FROM tarvike WHERE id = ${id}`);
+  const item = result.rows.at(0);
   if (!item) {
     throw new Error(`Tarviketta id:llä ${id} ei löytynyt`);
   }
@@ -99,16 +66,11 @@ async function retrieveItem(id: number): Promise<Tarvike> {
 }
 
 async function retrieveSupplier(id: number): Promise<Toimittaja> {
-  const result = await query(`SELECT * FROM toimittaja WHERE id = ${id}`);
-  const supplier = result.rows
-    .map(row => {
-      return {
-        id: row.id,
-        nimi: row.nimi,
-        osoite: row.osoite,
-      };
-    })
-    .at(0);
+  const result = await query<Toimittaja>(
+    `SELECT * FROM toimittaja WHERE id = ${id}`
+  );
+
+  const supplier = result.rows.at(0);
   if (!supplier) {
     throw new Error(`Toimittajaa id:llä ${id} ei löytynyt`);
   }

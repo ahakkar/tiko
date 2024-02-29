@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import {Pool, PoolClient, QueryResult} from 'pg';
+import {Pool, PoolClient, QueryResult, QueryResultRow} from 'pg';
 
 dotenv.config();
 
@@ -14,8 +14,10 @@ const pool = new Pool({
  * @param text Kysely
  * @returns Palauttaa Promisen, joka sisältää kyselyn tuloksen
  */
-export function query(text: string): Promise<QueryResult<any>> {
-  return pool.query(text);
+export function query<T extends QueryResultRow>(
+  text: string
+): Promise<QueryResult<T>> {
+  return pool.query<T>(text);
 }
 
 /**
