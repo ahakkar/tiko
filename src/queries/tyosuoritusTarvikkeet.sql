@@ -10,7 +10,7 @@ SELECT
     t.hinta,
     t.alv,
     v.nimi,
-    v.hinta_sisaan AS varastotarvike_hinta_sisaan,
+    v.hinta_sisaan,
     ROUND(t.hinta_ulos * t.maara + t.alv, 2) AS hinta_yhteensa 
 FROM
     tarvike t

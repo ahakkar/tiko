@@ -8,6 +8,7 @@ import {StatusCode} from '../constants/statusCodes';
 import {Tuntihinta} from '../models/int/tuntihinta.interface';
 import {Lasku} from '../models/int/lasku.interface';
 import {Tarvike} from '../models/int/tarvike.interface';
+import Decimal from 'decimal.js';
 const router = Router();
 
 router.get('/uusi', (_req, res) => {
@@ -55,15 +56,25 @@ router.post('/', (_req, res) => {
   res.send('<div>TODO</div>');
 });
 
+/**
+ * Laskee tuntihintojen ja tarvikkeiden yhteishinnan
+ * @param tuntihinnat
+ * @param tarvikkeet
+ * @returns
+ */
 function sumKokonaissumma(tuntihinnat: Tuntihinta[], tarvikkeet: Tarvike[]) {
-  let kokonaissumma = 0;
+  let kokonaissumma = new Decimal(0);
+
   for (const tuntihinta of tuntihinnat) {
-    kokonaissumma += parseFloat(tuntihinta.hinta_yhteensa);
+    console.log(tuntihinta.hinta_yhteensa);
+    kokonaissumma = kokonaissumma.plus(new Decimal(tuntihinta.hinta_yhteensa));
   }
   for (const tarvike of tarvikkeet) {
-    kokonaissumma += tarvike.hinta_ulos;
+    console.log(tarvike.hinta_yhteensa);
+    kokonaissumma = kokonaissumma.plus(new Decimal(tarvike.hinta_yhteensa));
   }
-  return kokonaissumma;
+
+  return kokonaissumma.toFixed(2);
 }
 
 export default router;

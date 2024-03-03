@@ -7,6 +7,7 @@ export interface Tarvike extends QueryResultRow {
   maara: number;
   hinta_sisaan: number;
   hinta_ulos: number;
+  hinta_yhteensa: number;
   pvm: Date;
   aleprosentti: number;
   alv_prosentti: number;

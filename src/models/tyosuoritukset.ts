@@ -57,7 +57,7 @@ async function getDataById<T extends QueryResultRow>(
 ): Promise<T[]> {
   try {
     const queryStr = await getQueryFromFile(queryFile);
-    const {rows} = await query<T>(queryStr, [id]); // Use generic type T here
+    const {rows} = await query<T>(queryStr, [id]);
     return rows;
   } catch (e) {
     throw new Error(
