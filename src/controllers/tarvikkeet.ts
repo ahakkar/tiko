@@ -5,12 +5,12 @@ import {
   retrieveSupplier,
   retrieveWarehouseItem,
   retrieveWarehouseItems,
-  NewWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
 } from '../models/tarvikkeet';
 import {StatusCode} from '../constants/statusCodes';
 import {Request} from 'express-serve-static-core';
+import {NewWarehouseItems} from '../models/int/newwarehouseitems.interface';
 
 const router = Router();
 
