@@ -7,8 +7,8 @@ import {
 import {StatusCode} from '../constants/statusCodes';
 const router = Router();
 
-router.get('/form', (_req, res) => {
-  res.render('tyosuoritukset/form');
+router.get('/uusi', (_req, res) => {
+  res.render('tyosuoritukset/uusi');
 });
 
 router.get('/:id', async (req, res) => {
