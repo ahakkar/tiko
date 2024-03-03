@@ -6,7 +6,7 @@ import {Asiakas} from './int/asiakas.interface';
 import {Tyokohde} from './int/tyokohde.interface';
 
 /**
- *
+ * Hakee tietokannasta kaikki tyosuoritukset
  * @returns Työsuorituksen tiedot (työsuoritus, asiakas, työkohde)
  */
 async function getTyosuoritukset(): Promise<Tyosuoritukset[]> {
@@ -21,7 +21,7 @@ async function getTyosuoritukset(): Promise<Tyosuoritukset[]> {
 }
 
 /**
- *
+ * Hakee tietokannasta yhden tyosuorituksen tiedot id:n perusteella
  * @param id tyosuorituksen id
  * @returns yhden tyosuorituksen tiedot
  */
@@ -45,6 +45,12 @@ async function getTyoSuoritusById(id: number): Promise<Tyosuoritukset[]> {
   }
 }
 
+/**
+ * Hakee tietokannasta kyselyn määrittelemät tiedot id:n perusteella
+ * @param id tyosuorituksen id
+ * @param queryFile kyselytiedoston nimi
+ * @returns tietokannasta haetut rivit
+ */
 async function getDataById(
   id: number,
   queryFile: string
@@ -67,6 +73,7 @@ async function getDataById(
 
 /**
  * Muuntaa tietokannasta tulleet rivit Tyosuoritukset-interfaceksi
+ * TODO korvaa utils/parse.ts tyylin funktiolla
  * @param rows tietokannasta tulleet rivit
  * @returns Tyosuoritus-olioiden taulukko
  */
