@@ -1,4 +1,5 @@
-export interface Asiakas {
+import {QueryResultRow} from 'pg';
+export interface Asiakas extends QueryResultRow {
   id: number;
   nimi: string;
   osoite: string;
