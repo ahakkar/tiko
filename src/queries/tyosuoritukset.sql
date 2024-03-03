@@ -1,7 +1,7 @@
 SELECT
     t.id AS tyosuoritus_id,
     t.urakka_id,
-    t.aloitus_pvm,
+    TO_CHAR(t.aloitus_pvm, 'DD.MM.YYYY') as aloitus_pvm,
     t.tila,
     a.id AS asiakas_id,
     a.nimi AS asiakas_nimi,

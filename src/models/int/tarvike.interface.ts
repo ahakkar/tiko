@@ -1,10 +1,11 @@
 import {QueryResultRow} from 'pg';
-
 export interface Tarvike extends QueryResultRow {
   id: number;
-  varastotarvike_id: number;
+  nimi: string;
   tyosuoritus_id: number;
+  varastotarvike_id: number;
   maara: number;
+  hinta_sisaan: number;
   hinta_ulos: number;
   pvm: Date;
   aleprosentti: number;

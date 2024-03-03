@@ -51,22 +51,17 @@ async function getTyoSuoritusById(id: number): Promise<Tyosuoritukset[]> {
  * @param queryFile kyselytiedoston nimi
  * @returns tietokannasta haetut rivit
  */
-async function getDataById(
+async function getDataById<T extends QueryResultRow>(
   id: number,
   queryFile: string
-): Promise<QueryResultRow[]> {
+): Promise<T[]> {
   try {
     const queryStr = await getQueryFromFile(queryFile);
-    const {rows} = await query(queryStr, [id]);
+    const {rows} = await query<T>(queryStr, [id]); // Use generic type T here
     return rows;
   } catch (e) {
     throw new Error(
-      'Virhe haettasessa työsuorituksen tietoja id:llä: ' +
-        id +
-        '\nkysely: ' +
-        queryFile +
-        '\nvirheilmoitus: ' +
-        e
+      `Virhe haettasessa työsuorituksen tietoja id:llä: ${id}\nkysely: ${queryFile}\nvirheilmoitus: ${e}`
     );
   }
 }
