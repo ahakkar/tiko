@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import {Pool, PoolClient, QueryResult, QueryResultRow} from 'pg';
+import {promises as fs} from 'fs';
+import path from 'path';
 
 dotenv.config();
 
@@ -34,4 +36,14 @@ export function query<T extends QueryResultRow>(
  */
 export function getClient(): Promise<PoolClient> {
   return pool.connect();
+}
+
+/**
+ * Lukee sql-kyselyn tiedostosta
+ * @param fileName Tiedoston nimi
+ * @returns Kysely stringinä
+ */
+export function getQueryFromFile(fileName: string): Promise<string> {
+  const filePath = path.join(__dirname, '..', '..', 'queries', fileName);
+  return fs.readFile(filePath, {encoding: 'utf-8'});
 }

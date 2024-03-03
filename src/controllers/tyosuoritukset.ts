@@ -1,4 +1,6 @@
 import {Router} from 'express';
+import {getTyosuoritukset} from '../models/tyosuoritukset';
+import {StatusCode} from '../constants/statusCodes';
 const router = Router();
 
 // TODO: Kun lähdet tekemään interfacea, niin tee siitä jotakuinkin tällainen,
@@ -124,8 +126,13 @@ router.get('/:id', (req, res) => {
   });
 });
 
-router.get('/', (_req, res) => {
-  res.render('tyosuoritukset', {tyosuoritukset: TYOT});
+router.get('/', async (_req, res) => {
+  try {
+    const tyosuoritukset = await getTyosuoritukset();
+    res.render('tyosuoritukset', {tyosuoritukset});
+  } catch (error) {
+    res.status(StatusCode.NotFound).send();
+  }
 });
 
 router.post('/', (_req, res) => {
