@@ -1,13 +1,66 @@
 import {Router} from 'express';
-import {getTyosuoritukset} from '../models/tyosuoritukset';
+import {
+  getTyosuoritukset,
+  getTyoSuoritusById,
+  getDataById,
+} from '../models/tyosuoritukset';
 import {StatusCode} from '../constants/statusCodes';
 const router = Router();
+
+router.get('/form', (_req, res) => {
+  res.render('tyosuoritukset/form');
+});
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+router.get('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const tyosuoritus = await getTyoSuoritusById(id);
+
+    // tää koko läjä pitäis siirtää modelin puolelle :D
+    // ja palauttaa sieltä vaan 1 objekti, ehkä..
+    const tarvikkeet = await getDataById(id, 'tyosuoritusTarvikkeet.sql');
+    const laskut = await getDataById(id, 'tyosuoritusLaskut.sql');
+    const tuntihinnat = await getDataById(id, 'tyosuoritusTuntihinnat.sql');
+
+    /*     console.log('tyosuoritus:', tyosuoritus[0]);
+    console.log('tarvikkeet:', tarvikkeet);
+    console.log('laskut:', laskut);
+    console.log('tuntihinnat:', tuntihinnat); */
+
+    res.render('tyosuoritukset/tyosuoritus', {
+      tyosuoritus: tyosuoritus[0]?.tyosuoritus,
+      asiakas: tyosuoritus[0]?.asiakas,
+      tyokohde: tyosuoritus[0]?.tyokohde,
+      tarvikkeet,
+      laskut,
+      tuntihinnat,
+      kokonaissumma: 666, // TODO laske kokonaissumma
+    });
+  } catch (error) {
+    res.status(StatusCode.NotFound).send();
+  }
+});
+
+router.get('/', async (_req, res) => {
+  try {
+    const tyosuoritukset = await getTyosuoritukset();
+    res.render('tyosuoritukset', {tyosuoritukset});
+  } catch (error) {
+    res.status(StatusCode.NotFound).send();
+  }
+});
+
+router.post('/', (_req, res) => {
+  res.send('<div>TODO</div>');
+});
 
 // TODO: Kun lähdet tekemään interfacea, niin tee siitä jotakuinkin tällainen,
 // mutta lisää siihen kaikki tarvittavat kentät. Tämä on vain esimerkki.
 // En ole myöskään täysin päättänyt, kannattaako osa kentistä laskea frontendin
 // vai backendin puolella. Kaikesta voi neuvotella.
-const TYOT = [
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/* const _TYOT = [
   {
     kokonaissumma: 967,
     tyosuoritus: {
@@ -103,40 +156,6 @@ const TYOT = [
       },
     ],
   },
-];
-
-router.get('/form', (_req, res) => {
-  res.render('tyosuoritukset/form');
-});
-
-router.get('/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const tyo = TYOT.find(tyo => tyo.tyosuoritus.id === id);
-  if (!tyo) {
-    res.status(404).send('Not found');
-  }
-  res.render('tyosuoritukset/tyosuoritus', {
-    ...tyo,
-    laskut: tyo?.laskut.map(lasku => ({
-      ...lasku,
-      is_muistutuslasku: lasku.jarjestysluku === 1,
-      is_karhulasku: lasku.jarjestysluku >= 2,
-      karhuluku: lasku.jarjestysluku - 1,
-    })),
-  });
-});
-
-router.get('/', async (_req, res) => {
-  try {
-    const tyosuoritukset = await getTyosuoritukset();
-    res.render('tyosuoritukset', {tyosuoritukset});
-  } catch (error) {
-    res.status(StatusCode.NotFound).send();
-  }
-});
-
-router.post('/', (_req, res) => {
-  res.send('<div>TODO</div>');
-});
+]; */
 
 export default router;

@@ -1,5 +1,5 @@
 import {QueryResultRow} from 'pg';
-import {query, getClient} from './db';
+import {query, getClient, getQueryFromFile} from './db';
 
 interface VarastoTarvike extends QueryResultRow {
   id: number;
@@ -194,6 +194,21 @@ function validateNewWarehouseItems(items: NewWarehouseItems): boolean {
   }
 }
 
+async function getTarvikkeet(tyosuoritus_id: number) {
+  try {
+    const queryStr = await getQueryFromFile('getTyosuoritusTarvikkeet.sql');
+    const {rows} = await query<Tarvike>(queryStr, [tyosuoritus_id]);
+
+    if (rows === undefined || rows.length === 0) {
+      throw new Error('Tyosuorituksia ei löytynyt.');
+    }
+
+    return rows;
+  } catch (e) {
+    throw new Error('Tyosuorituksia ei löytynyt.');
+  }
+}
+
 export {
   VarastoTarvike,
   Tarvike,
@@ -205,4 +220,5 @@ export {
   retrieveSupplier,
   addNewWarehouseItems,
   validateNewWarehouseItems,
+  getTarvikkeet,
 };
