@@ -9,6 +9,7 @@ import {Tuntihinta} from '../models/int/tuntihinta.interface';
 import {Lasku} from '../models/int/lasku.interface';
 import {Tarvike} from '../models/int/tarvike.interface';
 import Decimal from 'decimal.js';
+import {Tyosuoritukset} from '../models/int/tyosuoritukset.interface';
 const router = Router();
 
 router.get('/uusi', (_req, res) => {
@@ -36,7 +37,7 @@ router.get('/:id', async (req, res) => {
       laskut,
       tuntihinnat,
       tarvikkeet,
-      kokonaissumma: sumKokonaissumma(tuntihinnat, tarvikkeet),
+      kokonaissumma: sumKokonaissumma(tyosuoritus, tuntihinnat, tarvikkeet),
     });
   } catch (error) {
     res.status(StatusCode.NotFound).send();
@@ -62,15 +63,22 @@ router.post('/', (_req, res) => {
  * @param tarvikkeet
  * @returns
  */
-function sumKokonaissumma(tuntihinnat: Tuntihinta[], tarvikkeet: Tarvike[]) {
+function sumKokonaissumma(
+  tyosuoritus: Tyosuoritukset[],
+  tuntihinnat: Tuntihinta[],
+  tarvikkeet: Tarvike[]
+) {
   let kokonaissumma = new Decimal(0);
+  if (tyosuoritus[0]?.urakka.hinta_yhteensa) {
+    kokonaissumma = kokonaissumma.plus(
+      new Decimal(tyosuoritus[0]?.urakka.hinta_yhteensa)
+    );
+  }
 
   for (const tuntihinta of tuntihinnat) {
-    console.log(tuntihinta.hinta_yhteensa);
     kokonaissumma = kokonaissumma.plus(new Decimal(tuntihinta.hinta_yhteensa));
   }
   for (const tarvike of tarvikkeet) {
-    console.log(tarvike.hinta_yhteensa);
     kokonaissumma = kokonaissumma.plus(new Decimal(tarvike.hinta_yhteensa));
   }
 

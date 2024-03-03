@@ -4,6 +4,7 @@ import {Tyosuoritukset} from './int/tyosuoritukset.interface';
 import {Tyosuoritus} from './int/tyosuoritus.interface';
 import {Asiakas} from './int/asiakas.interface';
 import {Tyokohde} from './int/tyokohde.interface';
+import {Urakka} from './int/urakka.interface';
 
 /**
  * Hakee tietokannasta kaikki tyosuoritukset
@@ -90,9 +91,9 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
       id: row['tyosuoritus_id'],
       tyokohde_id: row['tyokohde_id'],
       urakka_id: row['urakka_id'],
-      aloitus_pvm: row['aloitus_pvm'],
-      asiakas_id: row['asiakas_id'],
-      tila: row['tila'],
+      aloitus_pvm: row['tyosuoritus_aloituspvm'],
+      asiakas_id: row['tyosuoritus_asiakasid'],
+      tila: row['tyosuoritus_tila'],
     };
 
     const tyokohde: Tyokohde = {
@@ -103,10 +104,23 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
       postitoimipaikka: row['tyokohde_postitoimipaikka'],
     };
 
+    const urakka: Urakka = {
+      id: row['urakka_id'],
+      lahtohinta: row['urakka_lahtohinta'],
+      aleprosentti: row['urakka_aleprosentti'],
+      alv_prosentti: row['urakka_alvprosentti'],
+      korotusprosentti: row['urakka_korotusprosentti'],
+      hinta: row['urakka_hinta'],
+      hinta_yhteensa: row['urakka_hintayhteensa'],
+      alv: row['urakka_alv'],
+      kotitalousvahennys: row['urakka_kotitalousvahennys'],
+    };
+
     result.push({
       tyosuoritus,
       asiakas,
       tyokohde,
+      urakka,
     });
   }
   return result;
