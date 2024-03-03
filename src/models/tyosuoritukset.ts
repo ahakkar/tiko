@@ -11,10 +11,9 @@ import {Tyokohde} from './int/tyokohde.interface';
  */
 async function getTyosuoritukset(): Promise<Tyosuoritukset[]> {
   try {
-    const queryStr = await getQueryFromFile('getTyosuoritukset.sql');
-    console.log('jees');
+    const queryStr = await getQueryFromFile('tyosuoritukset.sql');
     const {rows} = await query(queryStr);
-    console.log(rows);
+
     return mapRowsToTyosuoritukset(rows);
   } catch (e) {
     throw new Error('Tyosuorituksia ei löytynyt.');
@@ -26,18 +25,44 @@ async function getTyosuoritukset(): Promise<Tyosuoritukset[]> {
  * @param id tyosuorituksen id
  * @returns yhden tyosuorituksen tiedot
  */
-async function getTyoSuoritusById(id: number): Promise<Tyosuoritus> {
-  const result = await query<Tyosuoritus>(
-    'SELECT * FROM tyosuoritus WHERE id = $1',
-    [id]
-  );
+async function getTyoSuoritusById(id: number): Promise<Tyosuoritukset[]> {
+  try {
+    const queryStr = await getQueryFromFile('tyosuoritus.sql');
+    const {rows} = await query(queryStr, [id]);
 
-  const asiakas = result.rows.at(0);
-  if (!asiakas) {
-    throw new Error('Tyosuoritusta ei löytynyt.');
+    if (rows === undefined || rows.length === 0) {
+      throw new Error('Tyosuorituksia ei löytynyt.');
+    }
+
+    const tyosuorituksetArray = mapRowsToTyosuoritukset(rows);
+
+    if (tyosuorituksetArray[0] === undefined) {
+      throw new Error('Tyosuorituksia ei löytynyt.');
+    }
+    return tyosuorituksetArray;
+  } catch (e) {
+    throw new Error('Tyosuorituksia ei löytynyt.');
   }
+}
 
-  return asiakas;
+async function getDataById(
+  id: number,
+  queryFile: string
+): Promise<QueryResultRow[]> {
+  try {
+    const queryStr = await getQueryFromFile(queryFile);
+    const {rows} = await query(queryStr, [id]);
+    return rows;
+  } catch (e) {
+    throw new Error(
+      'Virhe haettasessa työsuorituksen tietoja id:llä: ' +
+        id +
+        '\nkysely: ' +
+        queryFile +
+        '\nvirheilmoitus: ' +
+        e
+    );
+  }
 }
 
 /**
@@ -53,7 +78,7 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
       id: row['asiakas_id'],
       nimi: row['asiakas_nimi'],
       osoite: row['asiakas_osoite'],
-      postinumero: row['asiakas_postinumero:'],
+      postinumero: row['asiakas_postinumero'],
       postitoimipaikka: row['asiakas_postitoimipaikka'],
       sahkoposti: row['asiakas_sahkoposti'],
       puhelinnumero: row['asiakas_puhelinnumero'],
@@ -82,8 +107,7 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
       tyokohde,
     });
   }
-  console.log(rows);
   return result;
 }
 
-export {getTyosuoritukset, getTyoSuoritusById};
+export {getTyosuoritukset, getTyoSuoritusById, getDataById};
