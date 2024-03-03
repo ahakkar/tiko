@@ -1,11 +1,9 @@
 <h1 class="font-medium text-3xl">Työsuoritukset</h1>
 
-<div id="form">
-  <button hx-get="/tyosuoritukset/form" hx-target="#form"
-    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
-    Uusi työsuoritus
-  </button>
-</div>
+<button hx-get="/tyosuoritukset/uusi" hx-target="#main-content" hx-push-url="true"
+  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+  Uusi työsuoritus
+</button>
 
 <div>
   {{#each tyosuoritukset}}
