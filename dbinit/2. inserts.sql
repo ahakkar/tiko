@@ -42,9 +42,9 @@ VALUES
 
 INSERT INTO tuntihintatyyppi (tyyppi, tuntihinta)
 VALUES
-('suunnittelu', 150.00),    -- 1 kaiva excelistä tuntihinnat
-('työ', 75.00),             -- 2
-('apu työ', 125.00);        -- 3
+('suunnittelu', 44.35),    -- 1
+('työ', 36.29),            -- 2
+('apu työ', 28.24);        -- 3
 
 INSERT INTO urakka (lahtohinta, aleprosentti, alv_prosentti, korotusprosentti)
 VALUES
