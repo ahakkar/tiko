@@ -44,6 +44,6 @@ export function getClient(): Promise<PoolClient> {
  * @returns Kysely stringinä
  */
 export function getQueryFromFile(fileName: string): Promise<string> {
-  const filePath = path.join(__dirname, '..', '..', 'queries', fileName);
+  const filePath = path.join(__dirname, '..', 'queries', fileName);
   return fs.readFile(filePath, {encoding: 'utf-8'});
 }

@@ -18,10 +18,7 @@ import {
  * @returns tyosuorituksien tiedot
  */
 const getTyosuoritukset = async (): Promise<Tyosuoritukset[]> => {
-  let queryStr = '';
-
-  queryStr = await getQueryFromFile('tyosuoritukset.sql');
-
+  const queryStr = await getQueryFromFile('tyosuoritukset.sql');
   const {rows} = await query(queryStr);
 
   if (rows.length === 0) {
