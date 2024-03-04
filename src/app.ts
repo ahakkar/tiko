@@ -12,7 +12,7 @@ const app = express();
 config.configHandlebars(app);
 
 // Middlewaret
-app.use(morgan('tiny')); // Logger
+app.use(morgan('dev')); // Logger
 app.use(express.urlencoded({extended: true})); // Parse POST data
 app.use(middleware.htmxChecker);
 
