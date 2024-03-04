@@ -132,6 +132,8 @@ async function addNewWarehouseItems(newItems: NewWarehouseItems) {
   } catch (error) {
     client.query('ROLLBACK');
     throw error;
+  } finally {
+    client.release();
   }
 }
 
