@@ -33,9 +33,52 @@ const query = async <T extends QueryResultRow>(
 /**
  * Palauttaa yhteyden tietokantaan monivaiheisia transaktioita varten
  * @returns Promise, joka sisältää yhteyden tietokantaan
+ * @deprecated Käytä mieluummin makeTransaction-funktiota
  */
 const getClient = async (): Promise<PoolClient> => {
   return pool.connect();
+};
+
+/**
+ * Kutsuu callback-funktion tietokantatransaktion sisällä. Funktiolla
+ * pääsee käsiksi client-olioon, jolla voi suorittaa kyselyitä.
+ *
+ * Funktion palautusarvo on Promise, joka palauttaa callback-funktion
+ * palautusarvon.
+ *
+ * BEGIN, COMMIT suoritetaan automaattisesti. ROLLBACK suoritetaan, jos
+ * callback-funktio heittää poikkeuksen.
+ *
+ * Esimerkki:
+ * ```
+ * const results = await makeTransaction(async (client) => {
+ *   const result1 = await client.query('SELECT * FROM taulu1');
+ *   if (!result1.rows.length) {
+ *     throw new Error('Taulu1 on tyhjä');
+ *   }
+ *   const result2 = await client.query('SELECT * FROM taulu2');
+ *   return {result1, result2};
+ * });
+ * ```
+ *
+ * @param callback Toiminto, joka suoritetaan transaktion sisällä
+ * @returns callback-funktion palautusarvo
+ */
+const makeTransaction = async <T>(
+  callback: (client: PoolClient) => Promise<T>
+): Promise<T> => {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const result = await callback(client);
+    await client.query('COMMIT');
+    return result;
+  } catch (e) {
+    await client.query('ROLLBACK');
+    throw e;
+  } finally {
+    client.release();
+  }
 };
 
 /**
@@ -48,4 +91,4 @@ const getQueryFromFile = async (fileName: string): Promise<string> => {
   return fs.readFile(filePath, {encoding: 'utf-8'});
 };
 
-export {query, getClient, getQueryFromFile};
+export {query, getClient, makeTransaction, getQueryFromFile};
