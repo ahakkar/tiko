@@ -18,8 +18,12 @@ router.get('/', async (_req, res) => {
   res.render('tyosuoritukset', {tyosuoritukset});
 });
 
-router.post('/', (_req, res) => {
-  res.send('<div>TODO</div>');
+router.post('/', (req, res) => {
+  console.log(req.body);
+  // TODO: Tallenna tietokantaan
+  const id = 1; // TODO: Korvaa luodun työsuorituksen id:llä
+  res.set('hx-redirect', `/tyosuoritukset/${id}`);
+  res.sendStatus(200);
 });
 
 export default router;
