@@ -51,13 +51,16 @@ const getClient = async (): Promise<PoolClient> => {
  *
  * Esimerkki:
  * ```
- * const results = await makeTransaction(async (client) => {
- *   const result1 = await client.query('SELECT * FROM taulu1');
- *   if (!result1.rows.length) {
- *     throw new Error('Taulu1 on tyhjä');
+ * const result = await makeTransaction(async (client) => {
+ *   const result = await client.query('SELECT * FROM taulu');
+ *   if (result.rows.length === 0) {
+ *     throw new Error('Taulu on tyhjä'); // Tekee ROLLBACKin
  *   }
- *   const result2 = await client.query('SELECT * FROM taulu2');
- *   return {result1, result2};
+ *   if (result.rows.length === 1) {
+ *     return result1.rows[0]; // Tekee COMMITin
+ *   }
+ *   await client.query('INSERT INTO taulu (sarake) VALUES ($1)', ['arvo']);
+ *   // Funktion päättyminen tekee COMMITin
  * });
  * ```
  *
