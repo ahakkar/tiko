@@ -7,10 +7,22 @@ router.get('/uusi', (_req, res) => {
   res.render('tyosuoritukset/uusi');
 });
 
+router.get('/:id/laskut/uusi', (_req, res) => {
+  res.render('tyosuoritukset/id/laskut/uusi');
+});
+
+router.get('/:id/tyot/uusi', (_req, res) => {
+  res.render('tyosuoritukset/id/tyot/uusi');
+});
+
+router.get('/:id/tarvikkeet/uusi', (_req, res) => {
+  res.render('tyosuoritukset/id/tarvikkeet/uusi');
+});
+
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   const koko = await getTyosuoritus(id);
-  res.render('tyosuoritukset/tyosuoritus', koko);
+  res.render('tyosuoritukset/id', koko);
 });
 
 router.get('/', async (_req, res) => {
