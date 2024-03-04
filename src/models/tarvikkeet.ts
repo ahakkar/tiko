@@ -1,8 +1,10 @@
 import {query, getClient, getQueryFromFile} from './db';
-import {NewWarehouseItems} from './int/newwarehouseitems.interface';
-import {Tarvike} from './int/tarvike.interface';
-import {Toimittaja} from './int/toimittaja.interface';
-import {VarastoTarvike} from './int/varastotarvike.interface';
+import {
+  NewWarehouseItems,
+  Tarvike,
+  Toimittaja,
+  VarastoTarvike,
+} from './interfaces';
 
 /**
  * Hakee kaikki varastotarvikkeet

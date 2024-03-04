@@ -1,4 +1,4 @@
-import {Tyokohde} from './int/tyokohde.interface';
+import {Tyokohde} from './interfaces';
 import {query} from './db';
 
 /**

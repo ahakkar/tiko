@@ -10,7 +10,7 @@ import {
 } from '../models/tarvikkeet';
 import {StatusCode} from '../constants/statusCodes';
 import {Request} from 'express-serve-static-core';
-import {NewWarehouseItems} from '../models/int/newwarehouseitems.interface';
+import {NewWarehouseItems} from '../models/interfaces';
 
 const router = Router();
 

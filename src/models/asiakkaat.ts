@@ -1,4 +1,4 @@
-import {Asiakas} from './int/asiakas.interface';
+import {Asiakas} from './interfaces';
 import {query} from './db';
 
 /**
