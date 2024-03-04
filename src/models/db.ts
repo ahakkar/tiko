@@ -23,27 +23,29 @@ const pool = new Pool({
  * @param params Parametrit
  * @returns Palauttaa Promisen, joka sisältää kyselyn tuloksen
  */
-export function query<T extends QueryResultRow>(
+const query = async <T extends QueryResultRow>(
   text: string,
   params?: Array<string | number | boolean | null>
-): Promise<QueryResult<T>> {
+): Promise<QueryResult<T>> => {
   return pool.query<T>(text, params);
-}
+};
 
 /**
  * Palauttaa yhteyden tietokantaan monivaiheisia transaktioita varten
  * @returns Promise, joka sisältää yhteyden tietokantaan
  */
-export function getClient(): Promise<PoolClient> {
+const getClient = async (): Promise<PoolClient> => {
   return pool.connect();
-}
+};
 
 /**
  * Lukee sql-kyselyn tiedostosta
  * @param fileName Tiedoston nimi
  * @returns Kysely stringinä
  */
-export function getQueryFromFile(fileName: string): Promise<string> {
+const getQueryFromFile = async (fileName: string): Promise<string> => {
   const filePath = path.join(__dirname, '..', 'queries', fileName);
   return fs.readFile(filePath, {encoding: 'utf-8'});
-}
+};
+
+export {query, getClient, getQueryFromFile};

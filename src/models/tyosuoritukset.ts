@@ -101,29 +101,27 @@ const getTyoSuoritusData = async (id: number): Promise<Tyosuoritukset[]> => {
  * Laskee tuntihintojen ja tarvikkeiden yhteishinnan
  * @param tuntihinnat
  * @param tarvikkeet
- * @returns
+ * @returns työsuorituksen yhteishinta
  */
-function sumKokonaissumma(
+const sumKokonaissumma = (
   tyosuoritus: Tyosuoritukset[],
   tuntihinnat: Tuntihinta[],
   tarvikkeet: Tarvike[]
-): string {
-  let kokonaissumma = new Decimal(0);
-  if (tyosuoritus[0]?.urakka.hinta_yhteensa) {
-    kokonaissumma = kokonaissumma.plus(
-      new Decimal(tyosuoritus[0]?.urakka.hinta_yhteensa)
-    );
-  }
+): string => {
+  let summa = new Decimal(0);
 
+  if (tyosuoritus[0]?.urakka.hinta_yhteensa) {
+    summa = summa.plus(new Decimal(tyosuoritus[0]?.urakka.hinta_yhteensa));
+  }
   for (const tuntihinta of tuntihinnat) {
-    kokonaissumma = kokonaissumma.plus(new Decimal(tuntihinta.hinta_yhteensa));
+    summa = summa.plus(new Decimal(tuntihinta.hinta_yhteensa));
   }
   for (const tarvike of tarvikkeet) {
-    kokonaissumma = kokonaissumma.plus(new Decimal(tarvike.hinta_yhteensa));
+    summa = summa.plus(new Decimal(tarvike.hinta_yhteensa));
   }
 
-  return kokonaissumma.toFixed(2);
-}
+  return summa.toFixed(2);
+};
 
 /**
  * Muuntaa tietokannasta tulleet rivit Tyosuoritukset-interfaceksi

@@ -5,17 +5,17 @@ import {query} from './db';
  *
  * @returns tyokohde taulun kaikki rivit
  */
-async function getTyokohteet(): Promise<Tyokohde[]> {
+const getTyokohteet = async (): Promise<Tyokohde[]> => {
   const {rows} = await query<Tyokohde>('SELECT * FROM tyokohde');
   return rows;
-}
+};
 
 /**
  *
  * @param id asiakkaan id
  * @returns yhden asiakkaan tiedot
  */
-async function getTyokohdeById(id: number): Promise<Tyokohde> {
+const getTyokohdeById = async (id: number): Promise<Tyokohde> => {
   const result = await query<Tyokohde>('SELECT * FROM tyokohde WHERE id = $1', [
     id,
   ]);
@@ -26,6 +26,6 @@ async function getTyokohdeById(id: number): Promise<Tyokohde> {
   }
 
   return tyokohde;
-}
+};
 
 export {getTyokohteet, getTyokohdeById};
