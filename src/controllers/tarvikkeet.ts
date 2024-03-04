@@ -10,7 +10,7 @@ import {
 } from '../models/tarvikkeet';
 import {StatusCode} from '../constants/statusCodes';
 import {Request} from 'express-serve-static-core';
-import {NewWarehouseItems} from '../models/int/newwarehouseitems.interface';
+import {NewWarehouseItems} from '../models/interfaces';
 
 const router = Router();
 
@@ -32,7 +32,7 @@ const upload = multer({fileFilter});
 router.get('/', async (_req, res) => {
   try {
     const warehouseItems = await retrieveWarehouseItems();
-    res.render('tarvikkeet', {warehouseItems});
+    res.render('tarvikkeet/tarvikkeet', {warehouseItems});
   } catch (error) {
     res.status(StatusCode.NotFound).send();
   }
@@ -43,36 +43,37 @@ router.get('/:id', async (req, res) => {
     const item = await retrieveWarehouseItem(parseInt(req.params.id));
     const toimittaja = await retrieveSupplier(item.toimittaja_id);
 
-    res.render('tarvike', {item, toimittaja});
+    res.render('tarvikkeet/tarvike', {item, toimittaja});
   } catch (error) {
     res.status(StatusCode.NotFound).send();
   }
 });
 
-router.post('/lataa', upload.single('items-file'), async (req, res) => {
+router.post('/lataa', upload.array('items-files'), async (req, res) => {
   try {
-    if (!req.file || !req.file.buffer) {
+    if (!req.files || !(req.files instanceof Array)) {
       throw new Error('Tiedostoa ei löytynyt');
     }
 
     const xmlParser = new XMLParser();
-    const newItems: NewWarehouseItems = xmlParser.parse(req.file.buffer);
+    for (const file of req.files) {
+      const newItems: NewWarehouseItems = xmlParser.parse(file.buffer);
 
-    // Jos tarvikkeita on vain yksi, XML-parseri ei palauta tarvike-objektia taulukkona,
-    // joten muutetaan se siinä tapauksessa taulukoksi manuaalisesti
-    if (!(newItems.tarvikkeet.tarvike instanceof Array)) {
-      newItems.tarvikkeet.tarvike = [newItems.tarvikkeet.tarvike];
+      // Jos tarvikkeita on tiedostossa vain yksi, XML-parseri ei palauta tarvike-objektia taulukkona,
+      // joten muutetaan se siinä tapauksessa taulukoksi manuaalisesti
+      if (!(newItems.tarvikkeet.tarvike instanceof Array)) {
+        newItems.tarvikkeet.tarvike = [newItems.tarvikkeet.tarvike];
+      }
+      if (!validateNewWarehouseItems(newItems)) {
+        throw new Error('Virheellinen XML-tiedosto');
+      }
+      // Lisätään uudet tarvikkeet tietokantaan
+      await addNewWarehouseItems(newItems);
     }
 
-    if (!validateNewWarehouseItems(newItems)) {
-      throw new Error('Virheellinen XML-tiedosto');
-    }
-
-    // Lisätään uudet tarvikkeet tietokantaan ja haetaan sen jälkeen kaikki tarvikkeet
-    await addNewWarehouseItems(newItems);
     const items = await retrieveWarehouseItems();
 
-    res.render('tarvikkeet', {warehouseItems: items});
+    res.render('tarvikkeet/tarvikkeet', {warehouseItems: items});
   } catch (error) {
     res.status(400).send();
   }
