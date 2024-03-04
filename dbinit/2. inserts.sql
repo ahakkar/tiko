@@ -42,7 +42,7 @@ VALUES
 
 INSERT INTO tuntihintatyyppi (tyyppi, tuntihinta)
 VALUES
-('suunnittelu', 150.00),    -- 1
+('suunnittelu', 150.00),    -- 1 kaiva excelistä tuntihinnat
 ('työ', 75.00),             -- 2
 ('apu työ', 125.00);        -- 3
 

@@ -1,10 +1,12 @@
 import {QueryResultRow} from 'pg';
 import {query, getQueryFromFile} from './db';
-import {Tyosuoritukset} from './int/tyosuoritukset.interface';
-import {Tyosuoritus} from './int/tyosuoritus.interface';
-import {Asiakas} from './int/asiakas.interface';
-import {Tyokohde} from './int/tyokohde.interface';
-import {Urakka} from './int/urakka.interface';
+import {
+  Tyosuoritukset,
+  Tyosuoritus,
+  Asiakas,
+  Tyokohde,
+  Urakka,
+} from './interfaces';
 
 /**
  * Hakee tietokannasta kaikki tyosuoritukset

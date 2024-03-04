@@ -1,15 +1,13 @@
 import {Router} from 'express';
+import Decimal from 'decimal.js';
 import {
   getTyosuoritukset,
   getTyoSuoritusById,
   getDataById,
 } from '../models/tyosuoritukset';
 import {StatusCode} from '../constants/statusCodes';
-import {Tuntihinta} from '../models/int/tuntihinta.interface';
-import {Lasku} from '../models/int/lasku.interface';
-import {Tarvike} from '../models/int/tarvike.interface';
-import Decimal from 'decimal.js';
-import {Tyosuoritukset} from '../models/int/tyosuoritukset.interface';
+import {Tuntihinta, Lasku, Tarvike, Tyosuoritukset} from '../models/interfaces';
+
 const router = Router();
 
 router.get('/uusi', (_req, res) => {
@@ -67,7 +65,7 @@ function sumKokonaissumma(
   tyosuoritus: Tyosuoritukset[],
   tuntihinnat: Tuntihinta[],
   tarvikkeet: Tarvike[]
-) {
+): string {
   let kokonaissumma = new Decimal(0);
   if (tyosuoritus[0]?.urakka.hinta_yhteensa) {
     kokonaissumma = kokonaissumma.plus(
