@@ -1,30 +1,28 @@
 <!-- Tapahtuma 2 html -->
 <div>
-  <form id="test-form" hx-post="/par/t1" hx-target="#form-response" hx-swap="outerHTML">
-    <p>
-    <h2>Lisää uusi työkohde asiakkaalle X</h2>
-    </p>
-    <p>
-      Nimi
-      <!-- WorkSite Placeholder -->
-    </p>
-    <p>
-      Osoite
-      <input type="text" name="address" placeholder="Osoite" required>
-    </p>
-    <p>
-      Postinumero
-      <input type="text" name="zip" placeholder="Postinumero" required>
-    </p>
-    <p>
-      Postitoimipaikka
-      <input type="text" name="city" placeholder="Postitoimipaikka" required>
-    </p>
+  <form id="uusi-kohde-form" hx-post="/tyokohteet" hx-target="#main-content"
+    class="my-2 ml-4">
+    <h2 class="text-lg font-semibold">Uusi työkohde</h2>
 
-    <button type="submit">Submit</button>
+    <label class="block font-semibold ml-2" for="tyyppi">Kohteen tyyppi</label>
+    <input type="text" name="tyyppi" id="tyyppi" placeholder="Kohteen tyyppi"
+      class="border rounded appearance-none ml-2 mb-2">
+
+    <label class="block font-semibold ml-2" for="osoite">Osoite</label>
+    <input type="text" name="osoite" id="osoite" placeholder="Osoite" required
+      class="border rounded appearance-none ml-2 mb-2">
+
+    <label class="block font-semibold ml-2" for="postinumero">Postinumero</label>
+    <input type="text" name="postinumero" id="postinumero" placeholder="Postinumero" required
+      class="border rounded appearance-none ml-2 mb-2">
+
+    <label class="block font-semibold ml-2" for="postitoimipaikka">Postitoimipaikka</label>
+    <input type="text" name="postitoimipaikka" id="postitoimipaikka" placeholder="Postitoimipaikka" required
+      class="border rounded appearance-none ml-2 mb-2">
+
+    <button type="submit"
+      class="block bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+      Lisää
+    </button>
   </form>
-
-  <div id="form-response">
-    <!-- Vastaus palvelimelta (esim tallennus onnistui) -->
-  </div>
 </div>

@@ -1,7 +1,9 @@
 import {Router} from 'express';
-import {getTyokohteet} from '../models/tyokohteet';
+import {createTyokohde, getTyokohteet} from '../models/tyokohteet';
 import {StatusCode} from '../constants/statusCodes';
+import multer, {Field} from 'multer';
 const router = Router();
+const upload = multer();
 
 router.get('/', async (_req, res) => {
   try {
@@ -23,8 +25,22 @@ router.get('/', async (_req, res) => {
   }
 }); */
 
-router.post('/', (_req, res) => {
-  res.send('<div>TODO</div>');
+router.get('/form', (_req, res) => {
+  res.render('tyokohteet/uusi');
+});
+
+const fields: Field[] = [
+  {name: 'tyyppi', maxCount: 1},
+  {name: 'osoite', maxCount: 1},
+  {name: 'postinumero', maxCount: 1},
+  {name: 'postitoimipaikka', maxCount: 1},
+];
+
+router.post('/', upload.fields(fields), async (req, res) => {
+  const {tyyppi, osoite, postinumero, postitoimipaikka} = req.body;
+  await createTyokohde(tyyppi, osoite, postinumero, postitoimipaikka);
+  const tyokohteet = await getTyokohteet();
+  res.status(200).render('tyokohteet', {tyokohteet});
 });
 
 export default router;

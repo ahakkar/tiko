@@ -28,4 +28,18 @@ const getTyokohdeById = async (id: number): Promise<Tyokohde> => {
   return tyokohde;
 };
 
-export {getTyokohteet, getTyokohdeById};
+const createTyokohde = async (
+  tyyppi: string,
+  osoite: string,
+  postinumero: string,
+  postitoimipaikka: string
+) => {
+  const result = await query<Tyokohde>(
+    'INSERT INTO tyokohde (tyyppi, osoite, postinumero, postitoimipaikka) VALUES ($1, $2, $3, $4) RETURNING *',
+    [tyyppi, osoite, postinumero, postitoimipaikka]
+  );
+
+  return result.rows.at(0);
+};
+
+export {getTyokohteet, getTyokohdeById, createTyokohde};
