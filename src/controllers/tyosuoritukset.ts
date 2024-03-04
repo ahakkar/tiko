@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
   // TODO: Tallenna tietokantaan
   const id = 1; // TODO: Korvaa luodun työsuorituksen id:llä
   res.set('hx-redirect', `/tyosuoritukset/${id}`);
-  res.sendStatus(200);
+  res.sendStatus(201);
 });
 
 export default router;
