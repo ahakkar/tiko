@@ -1,52 +1,66 @@
+import Decimal from 'decimal.js';
 import {QueryResultRow} from 'pg';
 import {query, getQueryFromFile} from './db';
 import {
+  KokoTyosuoritus,
   Tyosuoritukset,
   Tyosuoritus,
   Asiakas,
   Tyokohde,
   Urakka,
+  Lasku,
+  Tuntihinta,
+  Tarvike,
 } from './interfaces';
 
 /**
- * Hakee tietokannasta kaikki tyosuoritukset
- * @returns Työsuorituksen tiedot (työsuoritus, asiakas, työkohde)
+ * Hakee tietokannasta työsuorituksien perustiedot
+ * @returns tyosuorituksien tiedot
  */
-async function getTyosuoritukset(): Promise<Tyosuoritukset[]> {
-  try {
-    const queryStr = await getQueryFromFile('tyosuoritukset.sql');
-    const {rows} = await query(queryStr);
+const getTyosuoritukset = async (): Promise<Tyosuoritukset[]> => {
+  let queryStr = '';
 
-    return mapRowsToTyosuoritukset(rows);
-  } catch (e) {
+  queryStr = await getQueryFromFile('tyosuoritukset.sql');
+
+  const {rows} = await query(queryStr);
+
+  if (rows.length === 0) {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
-}
+
+  return mapRowsToTyosuoritukset(rows);
+};
 
 /**
- * Hakee tietokannasta yhden tyosuorituksen tiedot id:n perusteella
+ * Hakee kaiken työsuoritukseen liittyvän tiedon tietokannasta
  * @param id tyosuorituksen id
- * @returns yhden tyosuorituksen tiedot
+ * @returns tyosuoritukseen liittyvät tiedot
  */
-async function getTyoSuoritusById(id: number): Promise<Tyosuoritukset[]> {
-  try {
-    const queryStr = await getQueryFromFile('tyosuoritus.sql');
-    const {rows} = await query(queryStr, [id]);
-
-    if (rows === undefined || rows.length === 0) {
-      throw new Error('Tyosuorituksia ei löytynyt.');
-    }
-
-    const tyosuorituksetArray = mapRowsToTyosuoritukset(rows);
-
-    if (tyosuorituksetArray[0] === undefined) {
-      throw new Error('Tyosuorituksia ei löytynyt.');
-    }
-    return tyosuorituksetArray;
-  } catch (e) {
+const getTyosuoritus = async (id: number): Promise<KokoTyosuoritus> => {
+  const result: KokoTyosuoritus = {} as KokoTyosuoritus;
+  const tyosuoritus = await getTyoSuoritusData(id);
+  if (tyosuoritus[0] === undefined) {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
-}
+  const tuntihinnat = await getDataById<Tuntihinta>(
+    id,
+    'tyosuoritusTuntihinnat.sql'
+  );
+  const tarvikkeet = await getDataById<Tarvike>(
+    id,
+    'tyosuoritusTarvikkeet.sql'
+  );
+
+  result.tyosuoritus = tyosuoritus[0]?.tyosuoritus;
+  result.asiakas = tyosuoritus[0]?.asiakas;
+  result.tyokohde = tyosuoritus[0]?.tyokohde;
+  result.laskut = await getDataById<Lasku>(id, 'tyosuoritusLaskut.sql');
+  result.tuntihinnat = tuntihinnat;
+  result.tarvikkeet = tarvikkeet;
+  result.kokonaissumma = sumKokonaissumma(tyosuoritus, tuntihinnat, tarvikkeet);
+
+  return result;
+};
 
 /**
  * Hakee tietokannasta kyselyn määrittelemät tiedot id:n perusteella
@@ -54,10 +68,10 @@ async function getTyoSuoritusById(id: number): Promise<Tyosuoritukset[]> {
  * @param queryFile kyselytiedoston nimi
  * @returns tietokannasta haetut rivit
  */
-async function getDataById<T extends QueryResultRow>(
+const getDataById = async <T extends QueryResultRow>(
   id: number,
   queryFile: string
-): Promise<T[]> {
+): Promise<T[]> => {
   try {
     const queryStr = await getQueryFromFile(queryFile);
     const {rows} = await query<T>(queryStr, [id]);
@@ -67,6 +81,51 @@ async function getDataById<T extends QueryResultRow>(
       `Virhe haettasessa työsuorituksen tietoja id:llä: ${id}\nkysely: ${queryFile}\nvirheilmoitus: ${e}`
     );
   }
+};
+
+const getTyoSuoritusData = async (id: number): Promise<Tyosuoritukset[]> => {
+  const queryStr = await getQueryFromFile('tyosuoritus.sql');
+  const {rows} = await query(queryStr, [id]);
+
+  if (rows === undefined || rows.length === 0) {
+    throw new Error('Tyosuorituksia ei löytynyt.');
+  }
+
+  const tyosuoritus = mapRowsToTyosuoritukset(rows);
+
+  if (tyosuoritus[0] === undefined) {
+    throw new Error('Tyosuorituksia ei löytynyt.');
+  }
+
+  return tyosuoritus;
+};
+
+/**
+ * Laskee tuntihintojen ja tarvikkeiden yhteishinnan
+ * @param tuntihinnat
+ * @param tarvikkeet
+ * @returns
+ */
+function sumKokonaissumma(
+  tyosuoritus: Tyosuoritukset[],
+  tuntihinnat: Tuntihinta[],
+  tarvikkeet: Tarvike[]
+): string {
+  let kokonaissumma = new Decimal(0);
+  if (tyosuoritus[0]?.urakka.hinta_yhteensa) {
+    kokonaissumma = kokonaissumma.plus(
+      new Decimal(tyosuoritus[0]?.urakka.hinta_yhteensa)
+    );
+  }
+
+  for (const tuntihinta of tuntihinnat) {
+    kokonaissumma = kokonaissumma.plus(new Decimal(tuntihinta.hinta_yhteensa));
+  }
+  for (const tarvike of tarvikkeet) {
+    kokonaissumma = kokonaissumma.plus(new Decimal(tarvike.hinta_yhteensa));
+  }
+
+  return kokonaissumma.toFixed(2);
 }
 
 /**
@@ -128,4 +187,4 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
   return result;
 }
 
-export {getTyosuoritukset, getTyoSuoritusById, getDataById};
+export {getTyosuoritukset, getTyosuoritus};

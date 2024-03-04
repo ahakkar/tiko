@@ -10,6 +10,16 @@ interface Asiakas extends QueryResultRow {
   puhelinnumero: string | null;
 }
 
+interface KokoTyosuoritus {
+  tyosuoritus: Tyosuoritus;
+  asiakas: Asiakas;
+  tyokohde: Tyokohde;
+  laskut: Lasku[];
+  tuntihinnat: Tuntihinta[];
+  tarvikkeet: Tarvike[];
+  kokonaissumma: string;
+}
+
 interface Lasku extends QueryResultRow {
   id: number;
   edellinen_lasku: number;
@@ -125,6 +135,7 @@ interface VarastoTarvike extends QueryResultRow {
 
 export {
   Asiakas,
+  KokoTyosuoritus,
   Lasku,
   NewWarehouseItems,
   Tarvike,

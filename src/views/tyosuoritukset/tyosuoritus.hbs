@@ -1,18 +1,18 @@
 <h1 class="font-medium text-3xl">Työsuoritus</h1>
 
 <div>
-  <div><span class="uppercase">{{tyosuoritus.tyyppi}}</span> kohteessa {{tyokohde.osoite}}</div>
-  <div>{{tyosuoritus.aloitus_pvm}}</div>
-  <div class="capitalize">{{tyosuoritus.tila}}</div>
+  <div><span class="uppercase">{{koko.tyosuoritus.tyyppi}}</span> kohteessa {{koko.tyokohde.osoite}}</div>
+  <div>{{koko.tyosuoritus.aloitus_pvm}}</div>
+  <div class="capitalize">{{koko.tyosuoritus.tila}}</div>
 </div>
 
 <div class="py-3"></div>
 
 <div>
   <h2 class="font-medium text-xl">Työkohde</h2>
-  <div>{{tyokohde.osoite}}</div>
-  <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
-  <div class="capitalize">{{tyokohde.tyyppi}}</div>
+  <div>{{koko.tyokohde.osoite}}</div>
+  <div>{{koko.tyokohde.postinumero}}, {{koko.tyokohde.postitoimipaikka}}</div>
+  <div class="capitalize">{{koko.tyokohde.tyyppi}}</div>
 </div>
 
 <div class="py-3"></div>
@@ -21,14 +21,14 @@
   <h2 class="font-medium text-xl">Asiakas</h2>
   <div class="flex">
     <div>
-      <div>{{asiakas.nimi}}</div>
-      <div>{{asiakas.sahkoposti}}</div>
-      <div>{{asiakas.puhelinnumero}}</div>
+      <div>{{koko.asiakas.nimi}}</div>
+      <div>{{koko.asiakas.sahkoposti}}</div>
+      <div>{{koko.asiakas.puhelinnumero}}</div>
     </div>
     <div class="px-10"></div>
     <div class="shrink-0">
-      <div>{{asiakas.osoite}}</div>
-      <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
+      <div>{{koko.asiakas.osoite}}</div>
+      <div>{{koko.asiakas.postinumero}}, {{koko.asiakas.postitoimipaikka}}</div>
     </div>
   </div>
 </div>
@@ -43,7 +43,7 @@
     Uusi lasku
   </button>
 
-  {{#each laskut}}
+  {{#each koko.laskut}}
   <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true"
     class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
     <div>
@@ -77,7 +77,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each tuntihinnat}}
+      {{#each koko.tuntihinnat}}
       <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
         <td class="whitespace-nowrap px-6 py-4 capitalize">{{tyyppi}}</td>
         <td class="whitespace-nowrap px-6 py-4">{{tuntihinta}} €</td>
@@ -108,7 +108,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each tarvikkeet}}
+      {{#each koko.tarvikkeet}}
       <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
         <td class="whitespace-nowrap px-6 py-4 capitalize">{{nimi}}</td>
         <td class="whitespace-nowrap px-6 py-4">{{maara}} {{yksikko}}</td>
@@ -124,4 +124,4 @@
 
 <div class="py-3"></div>
 
-<div class="font-medium text-xl">Kokonaissumma {{kokonaissumma}} €</div>
+<div class="font-medium text-xl">Kokonaissumma {{koko.kokonaissumma}} €</div>
