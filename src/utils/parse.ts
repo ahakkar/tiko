@@ -28,12 +28,14 @@ export const flatToNestedObject = (flatObject: FlatObject): NestedObject => {
     if (!Object.prototype.hasOwnProperty.call(flatObject, col)) {
       continue;
     }
-    const [key, nestedKey] = col.split('_');
-    if (key === undefined || nestedKey === undefined) {
+    const underscoreIndex = col.indexOf('_');
+    if (underscoreIndex === -1) {
       throw new Error(
         `Invalid column name ${col} doesn't contain an underscore.`
       );
     }
+    const key = col.slice(0, underscoreIndex);
+    const nestedKey = col.slice(underscoreIndex + 1);
     nestedObject[key] = nestedObject[key] ?? {};
     nestedObject[key]![nestedKey] = flatObject[col];
   }
