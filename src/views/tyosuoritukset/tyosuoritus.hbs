@@ -2,7 +2,7 @@
 
 <div>
   <div><span class="uppercase">{{tyosuoritus.tyyppi}}</span> kohteessa {{tyokohde.osoite}}</div>
-  <div>{{tyosuoritus.aloitus_pvm}}</div>
+  <div>{{formatDate tyosuoritus.aloitus_pvm}}</div>
   <div class="capitalize">{{tyosuoritus.tila}}</div>
 </div>
 
@@ -47,9 +47,9 @@
   <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true"
     class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
     <div>
-      <div class="font-medium">{{pvm}}</div>
+      <div class="font-medium">{{formatDate pvm}}</div>
       <div>{{summa}} €</div>
-      <div>Eräpäivä {{era_pvm}}</div>
+      <div>Eräpäivä {{formatDate era_pvm}}</div>
     </div>
     <div class="flex justify-between flex-col min-h-full">
       <div class="text-right font-medium">{{tila}}</div>
