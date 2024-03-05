@@ -1,6 +1,11 @@
-import {query} from './db';
+import {flatToNestedObject, NestedObject} from '../utils/parse';
+import {getQueryFromFile, query} from './db';
 import {Toimittaja} from './interfaces';
 
+/**
+ * Hakee kaikkien toimittajien tiedot
+ * @returns kaikkien toimittajien tiedot
+ */
 const retrieveSuppliers = async (): Promise<Toimittaja[]> => {
   const {rows: suppliers} = await query<Toimittaja>('SELECT * FROM toimittaja');
   return suppliers;
@@ -23,4 +28,14 @@ const retrieveSupplier = async (id: number): Promise<Toimittaja> => {
   return supplier;
 };
 
-export {retrieveSuppliers, retrieveSupplier};
+const retrieveUsedItemsBySupplier = async (
+  supplierId: number
+): Promise<NestedObject[]> => {
+  const queryStr = await getQueryFromFile(
+    'kaytetytTarvikkeetToimittajanMukaan.sql'
+  );
+  const {rows: result} = await query(queryStr, [supplierId]);
+  return result.map(flatToNestedObject);
+};
+
+export {retrieveSuppliers, retrieveSupplier, retrieveUsedItemsBySupplier};

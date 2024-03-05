@@ -1,0 +1,25 @@
+<h1 class="font-medium text-3xl">Toimittaja {{toimittaja.nimi}}</h1>
+<span class="text-lg">{{toimittaja.osoite}}</span>
+
+<h2 class="text-xl font-semibold mt-4">Tuotteiden käyttökohteet</h2>
+<div>
+    {{#each tavaraInfo}}
+    <div class="my-2 py-2 px-2 border rounded-md">
+        <div class="grid">
+            <span class="text-lg font-semibold">{{tarvike.maara}} {{tarvike.yksikko}} {{tarvike.nimi}}</span>
+            <div class="flex justify-between items-start">
+                <div class="grid">
+                    <span class="font-semibold">Asiakkaalle</span>
+                    <span>{{asiakas.nimi}}</span>
+                    <span>Puh. {{asiakas.puhelinnumero}}</span>
+                    <span>{{asiakas.sahkoposti}}</span>
+                </div>
+                <div class="grid">
+                    <span class="font-semibold">Kohteeseen</span>
+                    <span>{{kohde.osoite}}, {{kohde.postinumero}} {{kohde.postitoimipaikka}} ({{kohde.tyyppi}})</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

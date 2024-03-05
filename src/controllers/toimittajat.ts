@@ -1,5 +1,9 @@
 import {Router} from 'express';
-import {retrieveSuppliers} from '../models/toimittajat';
+import {
+  retrieveSupplier,
+  retrieveSuppliers,
+  retrieveUsedItemsBySupplier,
+} from '../models/toimittajat';
 
 const router = Router();
 
@@ -8,8 +12,14 @@ router.get('/', async (_req, res) => {
   res.render('toimittajat/toimittajat', {toimittajat: suppliers});
 });
 
-router.get('/:id', (req, res) => {
-  res.send(`<div>Toimittaja ${req.params.id}</div>`);
+router.get('/:id', async (req, res) => {
+  const supplier = await retrieveSupplier(parseInt(req.params.id));
+  // Retrieve used items by supplier
+  const itemInfo = await retrieveUsedItemsBySupplier(supplier.id);
+  res.render('toimittajat/toimittaja', {
+    toimittaja: supplier,
+    tavaraInfo: itemInfo,
+  });
 });
 
 export default router;
