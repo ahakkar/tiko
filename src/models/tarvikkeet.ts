@@ -48,23 +48,6 @@ const retrieveItem = async (id: number): Promise<Tarvike> => {
 };
 
 /**
- * Hakee yhden toimittajan tiedot
- * @param id toimittajan id
- * @returns yhden toimittajan tiedot
- */
-const retrieveSupplier = async (id: number): Promise<Toimittaja> => {
-  const result = await query<Toimittaja>(
-    `SELECT * FROM toimittaja WHERE id = ${id}`
-  );
-
-  const supplier = result.rows.at(0);
-  if (!supplier) {
-    throw new Error(`Toimittajaa id:llä ${id} ei löytynyt`);
-  }
-  return supplier;
-};
-
-/**
  * Lisää uudet varastotarvikkeet tietokantaan
  * @param newItems Uudet varastotarvikkeet
  */
@@ -192,7 +175,6 @@ export {
   retrieveWarehouseItems,
   retrieveWarehouseItem,
   retrieveItem,
-  retrieveSupplier,
   addNewWarehouseItems,
   validateNewWarehouseItems,
   getTarvikkeet,

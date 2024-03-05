@@ -2,12 +2,12 @@ import {Router} from 'express';
 import multer, {FileFilterCallback} from 'multer';
 import {XMLParser} from 'fast-xml-parser';
 import {
-  retrieveSupplier,
   retrieveWarehouseItem,
   retrieveWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
 } from '../models/tarvikkeet';
+import {retrieveSupplier} from '../models/toimittajat';
 import {StatusCode} from '../constants/statusCodes';
 import {Request} from 'express-serve-static-core';
 import {NewWarehouseItems} from '../models/interfaces';

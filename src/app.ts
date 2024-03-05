@@ -7,6 +7,7 @@ import asiakkaat from './controllers/asiakkaat';
 import tarvikkeet from './controllers/tarvikkeet';
 import tyosuoritukset from './controllers/tyosuoritukset';
 import tyokohteet from './controllers/tyokohteet';
+import toimittajat from './controllers/toimittajat';
 
 const app = express();
 config.configHandlebars(app);
@@ -21,6 +22,7 @@ app.use('/asiakkaat', asiakkaat);
 app.use('/tarvikkeet', tarvikkeet);
 app.use('/tyosuoritukset', tyosuoritukset);
 app.use('/tyokohteet', tyokohteet);
+app.use('/toimittajat', toimittajat);
 app.get('/', (_req, res) => res.redirect('/tyosuoritukset'));
 
 // Staattiset tiedostot
