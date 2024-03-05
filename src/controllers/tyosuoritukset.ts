@@ -8,15 +8,15 @@ router.get('/uusi', (_req, res) => {
 });
 
 router.get('/:id/laskut/uusi', (_req, res) => {
-  res.render('tyosuoritukset/id/laskut/uusi');
+  res.render('tyosuoritukset/id/laskut/uusi', {layout: 'modal'});
 });
 
 router.get('/:id/tyot/uusi', (_req, res) => {
-  res.render('tyosuoritukset/id/tyot/uusi');
+  res.render('tyosuoritukset/id/tyot/uusi', {layout: 'modal'});
 });
 
 router.get('/:id/tarvikkeet/uusi', (_req, res) => {
-  res.render('tyosuoritukset/id/tarvikkeet/uusi');
+  res.render('tyosuoritukset/id/tarvikkeet/uusi', {layout: 'modal'});
 });
 
 router.get('/:id', async (req, res) => {
