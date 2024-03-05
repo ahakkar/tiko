@@ -21,6 +21,7 @@ app.use('/asiakkaat', asiakkaat);
 app.use('/tarvikkeet', tarvikkeet);
 app.use('/tyosuoritukset', tyosuoritukset);
 app.use('/tyokohteet', tyokohteet);
+app.get('/empty', (_req, res) => res.status(200).send());
 app.get('/', (_req, res) => res.redirect('/tyosuoritukset'));
 
 // Staattiset tiedostot
