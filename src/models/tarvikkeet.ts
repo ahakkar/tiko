@@ -1,5 +1,5 @@
 import {PoolClient} from 'pg';
-import {query, getQueryFromFile, makeTransaction} from './db';
+import {query, getQueryFromFile} from './db';
 import {
   NewWarehouseItems,
   Tarvike,
