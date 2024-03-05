@@ -2,15 +2,17 @@ import {Router} from 'express';
 import multer, {FileFilterCallback} from 'multer';
 import {XMLParser} from 'fast-xml-parser';
 import {
-  retrieveSupplier,
   retrieveWarehouseItem,
   retrieveWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
 } from '../models/tarvikkeet';
+import {retrieveSupplier} from '../models/toimittajat';
 import {StatusCode} from '../constants/statusCodes';
 import {Request} from 'express-serve-static-core';
 import {NewWarehouseItems} from '../models/interfaces';
+import {makeTransaction} from '../models/db';
+import {PoolClient} from 'pg';
 
 const router = Router();
 
@@ -68,7 +70,9 @@ router.post('/lataa', upload.array('items-files'), async (req, res) => {
         throw new Error('Virheellinen XML-tiedosto');
       }
       // Lisätään uudet tarvikkeet tietokantaan
-      await addNewWarehouseItems(newItems);
+      await makeTransaction(async (client: PoolClient) => {
+        await addNewWarehouseItems(newItems, client);
+      });
     }
 
     const items = await retrieveWarehouseItems();

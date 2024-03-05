@@ -2,7 +2,7 @@ interface FlatObject {
   [key: string]: unknown;
 }
 
-interface NestedObject {
+export interface NestedObject {
   [key: string]: {
     [innerKey: string]: unknown;
   };
