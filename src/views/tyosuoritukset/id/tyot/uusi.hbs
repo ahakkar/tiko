@@ -23,25 +23,28 @@ tunnit --}}
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Aleprosentti</div>
-      <input name="aleprosentti" value="0" type="number" min="0" max="100"
+      <input hx-get="/tyosuoritukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta"
+        hx-include="input, select" name="aleprosentti" value="0" type="number" min="0" max="100" step="0.1"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        placeholder="0" required>
+        required>
     </label>
   </div>
 
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">ALV-prosentti</div>
-      <input name="alv_prosentti" value="24" type="number" min="0" max="100"
+      <input hx-get="/tyosuoritukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta"
+        hx-include="input, select" name="alv_prosentti" value="24" type="number" min="0" max="100" step="0.1"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        placeholder="24" required>
+        required>
     </label>
   </div>
 
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Tunnit</div>
-      <input name="tunnit" type="number" min="0" hx-get="/tyosuoritukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta" hx-include="input, select"
+      <input hx-get="/tyosuoritukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta"
+        hx-include="input, select" name="tunnit" type="number" min="0"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         required>
     </label>
