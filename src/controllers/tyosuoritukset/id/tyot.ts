@@ -3,6 +3,10 @@ const router = Router();
 
 router.get('/:id/tyot/hinta', (req, res) => {
   console.log(req.query);
+  if (!req.query['tuntihintatyyppi']) {
+    res.status(400).send();
+    return;
+  }
   // TODO: Hae req.query['tuntihintatyyppi'] vastaava hinta tietokannasta
   const tuntihintatyyppi = {
     tyyppi: 'Suunnittelu',
