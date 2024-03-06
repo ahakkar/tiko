@@ -23,7 +23,7 @@ app.use('/tarvikkeet', tarvikkeet);
 app.use('/tyosuoritukset', tyosuoritukset);
 app.use('/tyokohteet', tyokohteet);
 app.use('/toimittajat', toimittajat);
-app.get('/empty', (_req, res) => res.status(200).send());
+app.get('/tyhja', (_req, res) => res.status(200).send());
 app.get('/', (_req, res) => res.redirect('/tyosuoritukset'));
 
 // Staattiset tiedostot
