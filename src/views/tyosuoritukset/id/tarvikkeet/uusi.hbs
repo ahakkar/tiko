@@ -1,18 +1,33 @@
-<div>tarvike</div>
-varastotarvike_id
-maara
-hinta_ulos
-aleprosentti
-alv_prosentti
+<h2 class="font-medium text-xl">Uusi työ</h2>
 
-<div class="flex items-center">
-  <button hx-post="/tyosuoritukset/{{tyosuoritus.id}}/laskut" hx-target="#modal"
-    class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
-    Tallenna
-  </button>
-  <div class="p-1"></div>
-  <button hx-get="/tyhja" hx-target="#modal"
-    class="px-4 py-2 my-2 font-semibold bg-transparent rounded hover:text-white hover:border-transparent text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800">
-    Peruuta
-  </button>
-</div>
+<form hx-post="/tyosuoritukset/{{id}}/tyot" hx-target="#modal">
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium text-gray-900">Tarvike</div>
+      <select name="varastotarvike_id" required hx-get="/tyosuoritukset/{{id}}/tarvikkeet/" hx-params="none"
+        hx-target="#tarvike" hx-on::config-request="event.detail.path += this.value"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <option value="">Tarvike</option>
+        {{#each varastotarvikkeet}}
+        <option value="{{id}}">{{nimi}}, {{tyyppi}}, {{merkki}}, {{toimittaja_nimi}}, {{varastotilanne}} {{yksikko}}
+        </option>
+        {{/each}}
+      </select>
+    </label>
+  </div>
+
+  <div id="tarvike">
+  </div>
+
+  <div class="flex items-center">
+    <button type="submit"
+      class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+      Tallenna
+    </button>
+    <div class="p-1"></div>
+    <button hx-get="/tyhja" hx-target="#modal"
+      class="px-4 py-2 my-2 font-semibold bg-transparent rounded hover:text-white hover:border-transparent text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 ">
+      Peruuta
+    </button>
+  </div>
+</form>
