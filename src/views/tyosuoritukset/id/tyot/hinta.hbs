@@ -1,3 +1,10 @@
-<div>Hinta: {{hinta}} €</div>
+<div>
+  Hinta:
+  {{#if aleprosentti}}
+  <s>{{hinta}}</s> {{ale_hinta}} €
+  {{else}}
+  {{hinta}} €
+  {{/if}}
+</div>
 <div>ALV: {{alv}} €</div>
 <div>Yhteishinta: {{yht_hinta}} €</div>
