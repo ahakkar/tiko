@@ -52,9 +52,9 @@ router.get('/', async (_req, res) => {
   res.render('tyosuoritukset', {tyosuoritukset});
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body);
+router.post('/', (_req, res) => {
   // TODO: Tallenna tietokantaan
+  // console.log(req.body);
   const id = 1; // TODO: Korvaa luodun työsuorituksen id:llä
   res.set('hx-redirect', `/tyosuoritukset/${id}`);
   res.sendStatus(201);

@@ -4,11 +4,10 @@ const router = Router();
 
 router.get('/:id/laskut/uusi', (req, res) => {
   const id = Number(req.params.id);
-  const BACKEND_DATA = {
-    max_summa: 100, // tyosuoritus.summa - laskut.summa
-  };
+  // Hae tietokannasta tyosuoritus.summa - laskut.summa
+  const max_summa = 100;
   res.render('tyosuoritukset/id/laskut/uusi', {
-    ...BACKEND_DATA,
+    max_summa,
     id,
     today: DateTime.now().toFormat('yyyy-MM-dd'),
     default_era_pvm: DateTime.now().plus({months: 1}).toFormat('yyyy-MM-dd'),
@@ -16,9 +15,9 @@ router.get('/:id/laskut/uusi', (req, res) => {
   });
 });
 
-router.post('/:id/laskut', (req, res) => {
+router.post('/:id/laskut', (_req, res) => {
   // TODO: Tallenna tietokantaan
-  console.log(req.body);
+  // console.log(req.body);
   res.set('hx-refresh', 'true');
   res.sendStatus(201);
 });
