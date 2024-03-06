@@ -1,17 +1,12 @@
 import {Router} from 'express';
 import {createTyokohde, getTyokohteet} from '../models/tyokohteet';
-import {StatusCode} from '../constants/statusCodes';
 import multer, {Field} from 'multer';
 const router = Router();
 const upload = multer();
 
 router.get('/', async (_req, res) => {
-  try {
-    const tyokohteet = await getTyokohteet();
-    res.render('tyokohteet', {tyokohteet});
-  } catch (error) {
-    res.status(StatusCode.NotFound).send();
-  }
+  const tyokohteet = await getTyokohteet();
+  res.render('tyokohteet', {tyokohteet});
 });
 
 /* router.get('/:id', async (req, res) => {
