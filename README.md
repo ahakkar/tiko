@@ -23,10 +23,10 @@ docker compose up
 Edellinen komento myös lataa tarvittavat Node.js:n paketit kontin sisäiseen
 node_modules-kansioon, kun komentoa suoritetaan ensimmäistä kertaa.
 Kun Node.js:n paketteja muutetaan, kontin sisäinen node_modules-kansio on
-päivitettävä. Tämä onnistuu `--build app`-lipulla:
+päivitettävä. Tämä onnistuu ajamalla `npm i` -komento kontin sisällä:
 
 ```bash
-docker compose up --build app
+docker exec -it tiko_nodejs npm i
 ```
 
 Kontit pysäytetään CTRL+C -näppäinyhdistelmällä.
