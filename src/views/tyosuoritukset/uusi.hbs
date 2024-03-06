@@ -8,9 +8,9 @@
     <select name="tyokohde" required
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
       <option value="">Työkohde</option>
-      <option value="1">Koivukatu 1, 00100 Helsinki</option>
-      <option value="2">Koivukatu 2, 00100 Helsinki</option>
-      <option value="3">Koivukatu 3, 00100 Helsinki</option>
+      {{#each tyokohteet}}
+      <option value="{{id}}">#{{id}}. {{tyyppi}}, {{osoite}}, {{postinumero}} {{postitoimipaikka}}</option>
+      {{/each}}
     </select>
   </label>
   <button hx-get="/tyokohteet/uusi" hx-target="#main-content" hx-push-url="true"
@@ -25,9 +25,9 @@
     <select name="asiakas" required
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
       <option value="">Asiakas</option>
-      <option value="1">Riikka Klientti</option>
-      <option value="2">Matti Meikäläinen</option>
-      <option value="3">Liisa Länsimäki</option>
+      {{#each asiakkaat}}
+      <option value="{{id}}">#{{id}}. {{nimi}}</option>
+      {{/each}}
     </select>
   </label>
   <button hx-get="/asiakkaat/uusi" hx-target="#main-content" hx-push-url="true"

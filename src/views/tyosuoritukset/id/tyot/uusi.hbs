@@ -1,17 +1,64 @@
-<div>tyo</div>
+{{!-- <div>tyo</div>
 tuntihintatyyppi
 alv_prosentti
 aleprosentti
-tunnit
+tunnit --}}
 
-<div class="flex items-center">
-  <button hx-post="/tyosuoritukset/{{tyosuoritus.id}}/laskut" hx-target="#modal"
-    class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
-    Tallenna
-  </button>
-  <div class="p-1"></div>
-  <button hx-get="/empty" hx-target="#modal"
-    class="px-4 py-2 my-2 font-semibold bg-transparent rounded hover:text-white hover:border-transparent text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800">
-    Peruuta
-  </button>
-</div>
+<h2 class="font-medium text-xl">Uusi työ</h2>
+
+<form hx-post="/tyosuoritukset/{{id}}/tyot" hx-target="#modal">
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium text-gray-900">Tuntihintatyyppi</div>
+      <select name="tuntihintatyyppi" required
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        <option value="">Tuntihintatyyppi</option>
+        {{#each tuntihintatyypit}}
+        <option value="{{id}}">{{tyyppi}}, {{hinta}} €/h</option>
+        {{/each}}
+      </select>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium text-gray-900">Aleprosentti</div>
+      <input name="aleprosentti" value="0" type="number" min="0" max="100"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="0" required>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium text-gray-900">ALV-prosentti</div>
+      <input name="alv_prosentti" value="24" type="number" min="0" max="100"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="24" required>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium text-gray-900">Tunnit</div>
+      <input name="tunnit" type="number" min="0" hx-get="/tyosuoritukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta" hx-include="input, select"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        required>
+    </label>
+  </div>
+
+  <div class="mb-5" id="hinta">
+  </div>
+
+  <div class="flex items-center">
+    <button type="submit"
+      class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+      Tallenna
+    </button>
+    <div class="p-1"></div>
+    <button hx-get="/empty" hx-target="#modal"
+      class="px-4 py-2 my-2 font-semibold bg-transparent rounded hover:text-white hover:border-transparent text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 ">
+      Peruuta
+    </button>
+  </div>
+</form>

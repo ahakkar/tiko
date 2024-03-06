@@ -1,16 +1,33 @@
-<div>lasku</div>
-edellinen_lasku
-summa
-era_pvm
+<h2 class="font-medium text-xl">Uusi lasku</h2>
 
-<div class="flex items-center">
-  <button hx-post="/tyosuoritukset/{{tyosuoritus.id}}/laskut" hx-target="#modal"
-    class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
-    Tallenna
-  </button>
-  <div class="p-1"></div>
-  <button hx-get="/empty" hx-target="#modal"
-    class="px-4 py-2 my-2 font-semibold bg-transparent rounded hover:text-white hover:border-transparent text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800">
-    Peruuta
-  </button>
-</div>
+<form hx-post="/tyosuoritukset/{{id}}/laskut" hx-target="#modal">
+  <div class="mb-5">
+    <label>
+    <div class="mb-2 text-sm font-medium text-gray-900">Laskun summa (maksamatta: {{max_summa}} €)</div>
+      <input type="number" name="summa" min="0" max="{{max_summa}}" value="{{max_summa}}"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="name@flowbite.com" required>
+    </label>
+  </div>
+
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium text-gray-900">Eräpäivä</div>
+      <input type="date" name="era_pvm" min="{{today}}" value="{{default_era_pvm}}"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+        placeholder="name@flowbite.com" required>
+    </label>
+  </div>
+
+  <div class="flex items-center">
+    <button type="submit"
+      class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+      Tallenna
+    </button>
+    <div class="p-1"></div>
+    <button hx-get="/empty" hx-target="#modal"
+      class="px-4 py-2 my-2 font-semibold bg-transparent rounded hover:text-white hover:border-transparent text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 ">
+      Peruuta
+    </button>
+  </div>
+</form>
