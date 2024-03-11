@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
 
 /**
@@ -11,4 +12,33 @@ export const htmxChecker = (
 ) => {
   res.locals['htmx'] = req.headers['hx-request'] === 'true';
   next();
+};
+
+/**
+ * Tarkistaa, että käyttäjä on kirjautunut sisään.
+ *
+ * Jos käyttäjä ei ole kirjautunut, käyttäjä uudelleenohjataan
+ * kirjautumissivulle.
+ *
+ * Jos käyttäjä on kirjautunut, req.body['loggedUser']-muuttujaan
+ * asetetaan käyttäjän nimi.
+ */
+export const authRedirect = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // Hae käyttäjä tokenista
+    const user = jwt.verify(
+      req.cookies['login'],
+      process.env['JWT_SECRET']!
+    ) as jwt.JwtPayload;
+
+    req.body['loggedUser'] = user['nimi'];
+    next();
+  } catch (e) {
+    // console.log(e);
+    res.redirect('/kirjaudu');
+  }
 };

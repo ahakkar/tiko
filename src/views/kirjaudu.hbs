@@ -1,0 +1,26 @@
+<h1 class="font-medium text-3xl">Kirjaudu sisään</h1>
+
+<div class="py-4"></div>
+
+<form hx-post="/kirjaudu" hx hx-target="#notification">
+  <input type="" name="username"
+    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    placeholder="Käyttäjänimi" required>
+
+  <div class="py-2"></div>
+
+  <input type="password" name="password"
+    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+    placeholder="Salasana" required>
+
+  <div class="py-2"></div>
+
+  <button type="submit"
+    class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
+    Kirjaudu
+  </button>
+</form>
+
+<div class="py-2"></div>
+
+<div id="notification"></div>
