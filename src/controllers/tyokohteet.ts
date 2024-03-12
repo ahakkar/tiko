@@ -36,8 +36,8 @@ const fields: Field[] = [
 router.post('/', upload.fields(fields), async (req, res) => {
   const {tyyppi, osoite, postinumero, postitoimipaikka} = req.body;
   await createTyokohde(tyyppi, osoite, postinumero, postitoimipaikka);
-  const tyokohteet = await getTyokohteet();
-  res.status(200).render('tyokohteet', {tyokohteet});
+  res.set('hx-refresh', 'true');
+  res.sendStatus(200);
 });
 
 export default router;
