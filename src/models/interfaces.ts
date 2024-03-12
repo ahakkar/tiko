@@ -124,6 +124,7 @@ interface Urakka extends QueryResultRow {
 
 interface VarastoTarvike extends QueryResultRow {
   id: number;
+  toimittaja_nimi?: string;
   toimittaja_id: number;
   nimi: string;
   merkki: string;

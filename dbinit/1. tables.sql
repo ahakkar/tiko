@@ -103,6 +103,7 @@ CREATE TABLE varastotarvike (
     varastotilanne INT NOT NULL,
     yksikko TEXT NOT NULL,
     hinta_sisaan NUMERIC(10, 2) NOT NULL,
+    vanhentunut BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (toimittaja_id) REFERENCES toimittaja(id) 
 );
 

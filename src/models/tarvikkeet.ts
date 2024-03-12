@@ -12,7 +12,8 @@ import {
  * @returns varastotarvikkeet
  */
 const retrieveWarehouseItems = async (): Promise<VarastoTarvike[]> => {
-  const result = await query<VarastoTarvike>('SELECT * FROM varastotarvike');
+  const queryStr = await getQueryFromFile('varastotarvikkeet.sql');
+  const result = await query<VarastoTarvike>(queryStr);
   return result.rows;
 };
 
@@ -66,10 +67,10 @@ const addNewWarehouseItems = async (
     supplierId = resultRow.id;
   }
 
-  // Nollaa toimittajan tarvikkeiden varastotilanne, jos toimittaja on jo olemassa
+  // Muuta toimittajan aikaisemmat tavarat vanhentuneiksi, jos toimittaja on jo olemassa
   if (supplierId) {
     await client.query<VarastoTarvike>(
-      'UPDATE varastotarvike SET varastotilanne = 0 WHERE toimittaja_id = $1 RETURNING *',
+      'UPDATE varastotarvike SET vanhentunut = TRUE WHERE toimittaja_id = $1',
       [supplierId]
     );
   }
