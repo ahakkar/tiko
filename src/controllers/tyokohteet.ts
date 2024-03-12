@@ -21,7 +21,9 @@ router.get('/', async (_req, res) => {
 }); */
 
 router.get('/form', (_req, res) => {
-  res.render('tyokohteet/uusi');
+  res.render('tyokohteet/uusi', {
+    layout: 'modal',
+  });
 });
 
 const fields: Field[] = [
