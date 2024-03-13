@@ -10,6 +10,7 @@ import tyosopimukset from './controllers/tyosopimukset/tyosopimusController';
 import tyokohteet from './controllers/tyokohdeController';
 import toimittajat from './controllers/toimittajaController';
 import kirjaudu from './controllers/kirjauduController';
+import kirjauduUlos from './controllers/kirjauduUlosController';
 
 const app = express();
 config.configHandlebars(app);
@@ -25,6 +26,7 @@ app.use('/kirjaudu', kirjaudu);
 app.use(middleware.authRedirect);
 
 // Routerit
+app.use('/kirjaudu-ulos', kirjauduUlos);
 app.use('/asiakkaat', asiakkaat);
 app.use('/tarvikkeet', tarvikkeet);
 app.use('/tyosopimukset', tyosopimukset);

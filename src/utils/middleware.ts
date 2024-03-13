@@ -35,7 +35,8 @@ export const authRedirect = async (
       process.env['JWT_SECRET']!
     ) as jwt.JwtPayload;
 
-    req.body['loggedUser'] = user['nimi'];
+    // req.body['loggedUser'] = user['nimi'];
+    res.locals['loggedUser'] = user['nimi'];
     next();
   } catch (e) {
     // console.log(e);
