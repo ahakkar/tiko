@@ -1,43 +1,17 @@
 import {Router} from 'express';
-import {
-  getTyosuoritus,
-  getTyosuoritukset,
-} from '../../models/tyosuorituksetModel';
+import {getTyosuoritus, getTyosuoritukset} from '../../models/tyosuoritusModel';
 import tyot from './id/tyotController';
 import tarvikkeet from './id/tarvikkeetController';
 import laskut from './id/laskutController';
+import {getTyokohteet} from '../../models/tyokohdeModel';
+import {getAsiakkaat} from '../../models/asiakasModel';
 const router = Router();
 
-router.get('/uusiTyosuoritus', (_req, res) => {
-  const BACKEND_DATA = {
-    tyokohteet: [
-      {
-        id: 1,
-        tyyppi: 'Mökki',
-        osoite: 'Mökkitie 1',
-        postinumero: '12345',
-        postitoimipaikka: 'TAMPERE',
-      },
-      {
-        id: 2,
-        tyyppi: 'Omakotitalo',
-        osoite: 'Omakuja 2',
-        postinumero: '54321',
-        postitoimipaikka: 'TAMPERE',
-      },
-    ],
-    asiakkaat: [
-      {
-        id: 1,
-        nimi: 'Matti Meikäläinen',
-      },
-      {
-        id: 2,
-        nimi: 'Maija Meikäläinen',
-      },
-    ],
-  };
-  res.render('tyosuoritukset/uusiTyosuoritus', BACKEND_DATA);
+router.get('/uusiTyosuoritus', async (_req, res) => {
+  const tyokohteet = await getTyokohteet();
+  const asiakkaat = await getAsiakkaat();
+
+  res.render('tyosuoritukset/uusiTyosuoritus', {tyokohteet, asiakkaat});
 });
 
 router.get('/tyokohde/uusiTyokohde', (_req, res) => {

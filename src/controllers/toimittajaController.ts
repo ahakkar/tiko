@@ -3,7 +3,7 @@ import {
   retrieveSupplier,
   retrieveSuppliers,
   retrieveUsedItemsBySupplier,
-} from '../models/toimittajatModel';
+} from '../models/toimittajaModel';
 
 const router = Router();
 

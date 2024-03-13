@@ -6,8 +6,8 @@ import {
   retrieveWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
-} from '../models/tarvikkeetModel';
-import {retrieveSupplier} from '../models/toimittajatModel';
+} from '../models/tarvikeModel';
+import {retrieveSupplier} from '../models/toimittajaModel';
 import {Request} from 'express-serve-static-core';
 import {NewWarehouseItems} from '../models/interfaces';
 import {makeTransaction} from '../models/dbModel';

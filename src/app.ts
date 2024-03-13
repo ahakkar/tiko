@@ -4,11 +4,11 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import * as config from './utils/config';
 import * as middleware from './utils/middleware';
-import asiakkaat from './controllers/asiakkaatController';
-import tarvikkeet from './controllers/tarvikkeetController';
+import asiakkaat from './controllers/asiakasController';
+import tarvikkeet from './controllers/tarvikeController';
 import tyosuoritukset from './controllers/tyosuoritukset/tyosuoritusController';
-import tyokohteet from './controllers/tyokohteetController';
-import toimittajat from './controllers/toimittajatController';
+import tyokohteet from './controllers/tyokohdeController';
+import toimittajat from './controllers/toimittajaController';
 import kirjaudu from './controllers/kirjauduController';
 
 const app = express();

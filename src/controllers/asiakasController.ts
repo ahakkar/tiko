@@ -1,40 +1,42 @@
 import {Router} from 'express';
 import {
-  lisaaTyokohde,
-  validoiTyokohde,
-  getTyokohteet,
-} from '../models/tyokohteetModel';
-import {Tyokohde} from '../models/interfaces';
+  getAsiakkaat,
+  lisaaAsiakas,
+  validoiAsiakas,
+} from '../models/asiakasModel';
+import {Asiakas} from '../models/interfaces';
 import {StatusCode} from '../constants/statusCodes';
 const router = Router();
 
 router.get('/', async (_req, res) => {
-  const tyokohteet = await getTyokohteet();
-  res.render('tyokohteet', {tyokohteet});
+  const asiakkaat = await getAsiakkaat();
+  res.render('asiakkaat', {asiakkaat});
 });
 
 router.get('/uusi', (_req, res) => {
-  res.render('tyokohteet/uusiTyokohde', {
+  res.render('asiakkaat/uusiAsiakas', {
     layout: 'modal',
   });
 });
 
 router.post('/', async (req, res) => {
-  console.log('Lisätään uusi työkohde');
-  const a: Tyokohde = {
+  console.log('Lisätään uusi asiakas');
+  const a: Asiakas = {
     id: -1, // id generoidaan tietokannassa
-    tyyppi: req.body.tyyppi,
+    nimi: req.body.nimi,
     osoite: req.body.osoite,
     postinumero: req.body.postinumero,
     postitoimipaikka: req.body.postitoimipaikka,
+    sahkoposti: req.body.sahkoposti,
+    puhelinnumero: req.body.puhelinnumero,
   };
 
-  if (!validoiTyokohde(a)) {
+  if (!validoiAsiakas(a)) {
     res.sendStatus(400);
     return;
   }
 
-  if (await lisaaTyokohde(a)) {
+  if (await lisaaAsiakas(a)) {
     res.set('hx-refresh', 'true');
     res.sendStatus(StatusCode.OK);
     return;
