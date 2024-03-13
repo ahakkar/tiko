@@ -6,7 +6,7 @@ import {
   lisaaTyosopimus,
   luoUrakka,
 } from '../../models/tyosopimusModel';
-import tyot from './id/tyoController';
+import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';

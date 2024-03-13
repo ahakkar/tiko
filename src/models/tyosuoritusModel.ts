@@ -14,6 +14,25 @@ export const getTuntihintatyypit = async (): Promise<Tuntihintatyyppi[]> => {
 };
 
 /**
+ * Hakee tietokannasta yhden tuntihintatyypin
+ * @returns tuntihinta
+ */
+export const getTuntihintatyyppi = async (
+  tid: number
+): Promise<Tuntihintatyyppi> => {
+  const {rows} = await query<Tuntihintatyyppi>(
+    'SELECT * FROM tuntihintatyyppi WHERE id = $1',
+    [tid]
+  );
+
+  if (!rows[0]) {
+    throw new Error('Tuntihintatyyppiä ei löytynt.');
+  }
+
+  return rows[0];
+};
+
+/**
  * Tarkistaa onko työsuorituksen tiedot validit
  * @param a Tyokohde
  * @returns true jos tiedot ovat validit

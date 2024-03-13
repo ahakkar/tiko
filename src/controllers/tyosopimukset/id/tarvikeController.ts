@@ -1,5 +1,12 @@
 import {Router} from 'express';
-import {retrieveWarehouseItems} from '../../../models/tarvikeModel';
+import {
+  lisaaTarvike,
+  retrieveWarehouseItem,
+  retrieveWarehouseItems,
+  validoiTarvike,
+} from '../../../models/tarvikeModel';
+import {StatusCode} from '../../../constants/statusCode';
+import {Tarvike} from '../../../models/interfaces';
 const router = Router();
 
 router.get('/:id/tarvikkeet/hinta', (req, res) => {
@@ -38,31 +45,50 @@ router.get('/:id/tarvikkeet/uusiTarvike', async (req, res) => {
   });
 });
 
-router.get('/:id/tarvikkeet/:varastotarvike_id', (_req, res) => {
-  // const varastotarvike_id = Number(req.params.varastotarvike_id);
-  // Hae req.params.varastotarvike_id vastaava varastotarvike tietokannasta
-  // console.log(req.params.varastotarvike_id);
-  const varastotarvike = {
-    id: '1',
-    toimittaja_id: 'toimittaja_id',
-    nimi: 'nimi',
-    merkki: 'merkki',
-    tyyppi: 'tyyppi',
-    varastotilanne: 5,
-    yksikko: 'kpl',
-    hinta_sisaan: 5,
-  };
+router.get('/:id/tarvikkeet/:varastotarvike_id', async (req, res) => {
+  const vt = await retrieveWarehouseItem(Number(req.params.varastotarvike_id));
   res.render('tyosopimukset/id/tarvikkeet/id', {
-    ...varastotarvike,
-    default_hinta_ulos: varastotarvike.hinta_sisaan * 1.25,
+    vt,
+    default_hinta_ulos: vt.hinta_sisaan * 1.25,
   });
 });
 
-router.post('/:id/tarvikkeet', (_req, res) => {
-  // TODO: Tallenna tietokantaan
-  // console.log(req.body);
-  res.set('hx-refresh', 'true');
-  res.sendStatus(201);
+router.post('/:id/tarvike', async (req, res) => {
+  console.log('Lisätään uusi tarvike');
+  const id = Number(req.params.id);
+
+  const n: Tarvike = {
+    tyosuoritus_id: id,
+    varastotarvike_id: Number(req.body.varastotarvike_id),
+    maara: Number(req.body.maara),
+    hinta_ulos: Number(req.body.hinta_ulos),
+    aleprosentti: Number(req.body.aleprosentti) / 100,
+    alv_prosentti: Number(req.body.alv_prosentti) / 100,
+
+    // näitä ei tarvita, mutta interfacen takia pitää olla
+    id: -1,
+    nimi: '',
+    hinta: -1,
+    pvm: new Date(),
+    hinta_sisaan: -1,
+    hinta_yhteensa: -1,
+    alv: -1,
+  };
+
+  if (!validoiTarvike(n)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
+  console.log(n);
+
+  if (await lisaaTarvike(n)) {
+    res.set('hx-refresh', 'true');
+    res.sendStatus(StatusCode.OK);
+    return;
+  }
+
+  res.sendStatus(StatusCode.InternalServerError);
 });
 
 export default router;

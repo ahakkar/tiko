@@ -7,6 +7,56 @@ import {
   VarastoTarvike,
 } from './interfaces';
 
+// TODO hieno geneerinen funktio näille sadalle samanlaiselle validoi/lisää
+// funktiolle eri modeleissa
+
+/**
+ * Tarkistaa onko tyokohteen tiedot validit
+ * @param a Tyokohde
+ * @returns true jos tiedot ovat validit
+ */
+export const validoiTarvike = (n: Tarvike): Boolean => {
+  // TODO hienompi tarvikkeen tietojen validointi..
+  if (
+    Number.isNaN(n['tyosuoritus_id']) ||
+    Number.isNaN(n['varastotarvike_id']) ||
+    Number.isNaN(n['maara']) ||
+    Number.isNaN(n['hinta_ulos']) ||
+    // Ei validoida juuri controllerin luomaa päivää..
+    Number.isNaN(n['aleprosentti']) ||
+    Number.isNaN(n['alv_prosentti'])
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * Lisää uuden työkohteen tietokantaan
+ * @param a Työkohde
+ * @returns luodun työkohteen tiedot
+ */
+export const lisaaTarvike = async (n: Tarvike): Promise<Tarvike> => {
+  const result = await query<Tarvike>(
+    'INSERT INTO tarvike (tyosuoritus_id, varastotarvike_id, maara, hinta_ulos, aleprosentti, alv_prosentti) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [
+      n['tyosuoritus_id'],
+      n['varastotarvike_id'],
+      n['maara'],
+      n['hinta_ulos'],
+      n['aleprosentti'],
+      n['alv_prosentti'],
+    ]
+  );
+
+  if (!result.rows[0]) {
+    throw new Error('Tarviketta ei voitu lisätä.');
+  }
+
+  return result.rows[0];
+};
+
 /**
  * Hakee kaikki varastotarvikkeet
  * @returns varastotarvikkeet

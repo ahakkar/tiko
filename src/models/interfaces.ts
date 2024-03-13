@@ -10,6 +10,11 @@ interface Asiakas extends QueryResultRow {
   puhelinnumero: string | null;
 }
 
+export interface Kayttaja {
+  nimi: string;
+  salasanatiiviste: string;
+}
+
 interface KokoTyosuoritus {
   tyosuoritus: Tyosuoritus;
   urakka: Urakka | null;
@@ -143,11 +148,6 @@ interface VarastoTarvike extends QueryResultRow {
   hinta_sisaan: number;
 }
 
-interface Kayttaja {
-  nimi: string;
-  salasanatiiviste: string;
-}
-
 export {
   Asiakas,
   KokoTyosuoritus,
@@ -162,5 +162,4 @@ export {
   Tyosuoritus,
   Urakka,
   VarastoTarvike,
-  Kayttaja,
 };
