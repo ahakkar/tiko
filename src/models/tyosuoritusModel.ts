@@ -60,6 +60,55 @@ const getTyosuoritus = async (id: number): Promise<KokoTyosuoritus> => {
 };
 
 /**
+ * Tarkistaa onko työsuorituksen tiedot validit
+ * @param a Tyosuoritus
+ * @returns true jos tiedot ovat validit
+ */
+const validoiTyosuoritus = (t: Tyosuoritus): Boolean => {
+  // TODO hienompi työkohteen tietojen validointi
+  if (Number.isNaN(t['tyokohde_id']) || Number.isNaN(t['asiakas_id'])) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * Lisää uuden työsuorituksen tietokantaan
+ * @param ts Tyosuoritus
+ * @returns luodun työsuorituksen tiedot
+ */
+const lisaaTyosuoritus = async (ts: Tyosuoritus): Promise<Tyosuoritus> => {
+  const result = await query<Tyosuoritus>(
+    'INSERT INTO tyosuoritus (tyokohde_id, urakka_id, asiakas_id, tila) VALUES ($1, $2, $3, $4) RETURNING *',
+    [ts['tyokohde_id'], ts['urakka_id'], ts['asiakas_id'], ts['tila']]
+  );
+
+  if (!result.rows[0]) {
+    throw new Error('Työsuoritusta ei voitu luoda.');
+  }
+
+  return result.rows[0];
+};
+
+/**
+ * Lisää uuden urakan tietokantaan
+ * @returns luodun urakan tiedot
+ */
+const luoUrakka = async (): Promise<Urakka> => {
+  const result = await query<Urakka>(
+    'INSERT INTO urakka (lahtohinta, aleprosentti, alv_prosentti, korotusprosentti) VALUES ($1, $2, $3, $4) RETURNING *',
+    [0, 0, 0, 0]
+  );
+
+  if (!result.rows[0]) {
+    throw new Error('Urakkaa ei voitu luoda.');
+  }
+
+  return result.rows[0];
+};
+
+/**
  * Hakee tietokannasta kyselyn määrittelemät tiedot id:n perusteella
  * @param id tyosuorituksen id
  * @param queryFile kyselytiedoston nimi
@@ -182,4 +231,10 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
   return result;
 }
 
-export {getTyosuoritukset, getTyosuoritus};
+export {
+  getTyosuoritukset,
+  getTyosuoritus,
+  validoiTyosuoritus,
+  lisaaTyosuoritus,
+  luoUrakka,
+};

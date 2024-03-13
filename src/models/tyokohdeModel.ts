@@ -34,7 +34,7 @@ const getTyokohdeById = async (id: number): Promise<Tyokohde> => {
  * @returns true jos tiedot ovat validit
  */
 const validoiTyokohde = (t: Tyokohde): Boolean => {
-  // TODO hienompi asiakkaan tietojen validointi
+  // TODO hienompi työkohteen tietojen validointi
   if (
     t['tyyppi'] === '' ||
     t['osoite'] === '' ||

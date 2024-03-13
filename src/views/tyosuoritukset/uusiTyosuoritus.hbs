@@ -5,7 +5,7 @@
 <form hx-post="/tyosuoritukset" >
   <label>
     <h2 class="text-xl font-medium">Valitse työkohde</h2>
-    <select name="tyokohde" required
+    <select name="tyokohde_id" required
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
       <option value="">Työkohde</option>
       {{#each tyokohteet}}
@@ -29,7 +29,7 @@
 
   <label>
     <h2 class="text-xl font-medium">Valitse asiakas</h2>
-    <select name="asiakas" required
+    <select name="asiakas_id" required
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
       <option value="">Asiakas</option>
       {{#each asiakkaat}}

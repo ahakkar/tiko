@@ -23,7 +23,7 @@ router.get('/uusi', (_req, res) => {
 
 router.post('/', async (req, res) => {
   console.log('Lisätään uusi työkohde');
-  const a: Tyokohde = {
+  const t: Tyokohde = {
     id: -1, // id generoidaan tietokannassa
     tyyppi: req.body.tyyppi,
     osoite: req.body.osoite,
@@ -31,12 +31,12 @@ router.post('/', async (req, res) => {
     postitoimipaikka: req.body.postitoimipaikka,
   };
 
-  if (!validoiTyokohde(a)) {
+  if (!validoiTyokohde(t)) {
     res.sendStatus(400);
     return;
   }
 
-  if (await lisaaTyokohde(a)) {
+  if (await lisaaTyokohde(t)) {
     res.set('hx-refresh', 'true');
     res.sendStatus(StatusCode.OK);
     return;

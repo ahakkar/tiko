@@ -1,10 +1,20 @@
 import {Router} from 'express';
-import {getTyosuoritus, getTyosuoritukset} from '../../models/tyosuoritusModel';
+import {
+  getTyosuoritus,
+  getTyosuoritukset,
+  validoiTyosuoritus,
+  lisaaTyosuoritus,
+  luoUrakka,
+} from '../../models/tyosuoritusModel';
 import tyot from './id/tyoController';
 import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
+import {Tyosuoritus} from '../../models/interfaces';
+import {StatusCode} from '../../constants/statusCode';
+import {ContractState} from '../../constants/contractState';
+
 const router = Router();
 
 router.get('/uusiTyosuoritus', async (_req, res) => {
@@ -35,12 +45,36 @@ router.get('/', async (_req, res) => {
   res.render('tyosuoritukset', {tyosuoritukset});
 });
 
-router.post('/', (_req, res) => {
-  // TODO: Tallenna tietokantaan
-  // console.log(req.body);
-  const id = 1; // TODO: Korvaa luodun työsuorituksen id:llä
-  res.set('hx-redirect', `/tyosuoritukset/${id}`);
-  res.sendStatus(201);
+router.post('/', async (req, res) => {
+  console.log('Lisätään uusi työsuoritus');
+  const ts: Tyosuoritus = {
+    id: -1, // id generoidaan tietokannassa
+    urakka_id: -1, // id generoidaan tietokannassa
+    tyokohde_id: req.body.tyokohde_id,
+    asiakas_id: req.body.asiakas_id,
+    aloitus_pvm: new Date(),
+    tila: ContractState.InDesign,
+  };
+
+  if (!validoiTyosuoritus(ts)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
+  if (req.body.tyyppi === 'urakka') {
+    const uusiUrakka = await luoUrakka();
+    ts.urakka_id = uusiUrakka.id;
+  }
+
+  const result = await lisaaTyosuoritus(ts);
+  if (result) {
+    res.set('hx-redirect', `/tyosuoritukset/${result.id}`);
+    res.sendStatus(StatusCode.Created);
+    return;
+  }
+
+  // TODO tässä tapauksessa pitäisi yllä luotu urakka myös poistaa...
+  res.sendStatus(StatusCode.InternalServerError);
 });
 
 export default router;
