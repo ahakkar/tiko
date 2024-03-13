@@ -1,9 +1,11 @@
-<h1 class="font-medium text-3xl">Työsuoritus</h1>
+<h1 class="font-medium text-3xl">Työsopimus</h1>
+
+<br />
 
 <div>
-  <div><span class="uppercase">{{tyosuoritus.tyyppi}}</span> kohteessa {{tyokohde.osoite}}</div>
-  <div>{{formatDate tyosuoritus.aloitus_pvm}}</div>
-  <div class="capitalize">{{tyosuoritus.tila}}</div>
+  <div><span class="uppercase">{{tyosuoritus.tyyppi}}</span>Kohdeosoite: {{tyokohde.osoite}}</div>
+  <div>Aloituspäivämäärä: {{formatDate tyosuoritus.aloitus_pvm}}</div>
+  <div class="capitalize">Työsopimuksen tila: {{tyosuoritus.tila}}</div>
 </div>
 
 <div class="py-3"></div>
