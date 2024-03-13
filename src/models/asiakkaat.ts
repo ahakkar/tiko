@@ -28,4 +28,50 @@ const getAsiakasById = async (id: number): Promise<Asiakas> => {
   return asiakas;
 };
 
-export {getAsiakkaat, getAsiakasById};
+/**
+ * Tarkistaa onko asiakkaan tiedot validit
+ * @param a Asiakas
+ * @returns true jos tiedot ovat validit
+ */
+const validoiAsiakas = (a: Asiakas): Boolean => {
+  // TODO hienompi asiakkaan tietojen validointi
+  if (
+    a['nimi'] === '' ||
+    a['osoite'] === '' ||
+    a['postinumero'] === '' ||
+    a['postitoimipaikka'] === '' ||
+    a['sahkoposti'] === '' ||
+    a['puhelinnumero'] === ''
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+/**
+ * Lisää uuden asiakkaan tietokantaan
+ * @param a Asiakas
+ * @returns luodun asiakkaan tiedot
+ */
+const lisaaAsiakas = async (a: Asiakas): Promise<Asiakas> => {
+  const result = await query<Asiakas>(
+    'INSERT INTO asiakas (nimi, osoite, postinumero, postitoimipaikka, sahkoposti, puhelinnumero) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+    [
+      a['nimi'],
+      a['osoite'],
+      a['postinumero'],
+      a['postitoimipaikka'],
+      a['sahkoposti'],
+      a['puhelinnumero'],
+    ]
+  );
+
+  if (!result.rows[0]) {
+    throw new Error('Asiakasta ei voitu luoda.');
+  }
+
+  return result.rows[0];
+};
+
+export {getAsiakkaat, getAsiakasById, lisaaAsiakas, validoiAsiakas};

@@ -1,43 +1,46 @@
 import {Router} from 'express';
-import {createTyokohde, getTyokohteet} from '../models/tyokohteet';
-import multer, {Field} from 'multer';
+import {
+  lisaaTyokohde,
+  validoiTyokohde,
+  getTyokohteet,
+} from '../models/tyokohteet';
+import {Tyokohde} from '../models/interfaces';
+import {StatusCode} from '../constants/statusCodes';
 const router = Router();
-const upload = multer();
 
 router.get('/', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
   res.render('tyokohteet', {tyokohteet});
 });
 
-/* router.get('/:id', async (req, res) => {
-  try {
-    const item = await retrieveWarehouseItem(parseInt(req.params.id));
-    const toimittaja = await retrieveSupplier(item.toimittaja_id);
-
-    res.render('tarvike', {item, toimittaja});
-  } catch (error) {
-    res.status(StatusCode.NotFound).send();
-  }
-}); */
-
-router.get('/form', (_req, res) => {
+router.get('/uusi', (_req, res) => {
   res.render('tyokohteet/uusi', {
     layout: 'modal',
   });
 });
 
-const fields: Field[] = [
-  {name: 'tyyppi', maxCount: 1},
-  {name: 'osoite', maxCount: 1},
-  {name: 'postinumero', maxCount: 1},
-  {name: 'postitoimipaikka', maxCount: 1},
-];
+router.post('/', async (req, res) => {
+  console.log('Lisätään uusi työkohde');
+  const a: Tyokohde = {
+    id: -1, // id generoidaan tietokannassa
+    tyyppi: req.body.tyyppi,
+    osoite: req.body.osoite,
+    postinumero: req.body.postinumero,
+    postitoimipaikka: req.body.postitoimipaikka,
+  };
 
-router.post('/', upload.fields(fields), async (req, res) => {
-  const {tyyppi, osoite, postinumero, postitoimipaikka} = req.body;
-  await createTyokohde(tyyppi, osoite, postinumero, postitoimipaikka);
-  res.set('hx-refresh', 'true');
-  res.sendStatus(200);
+  if (!validoiTyokohde(a)) {
+    res.sendStatus(400);
+    return;
+  }
+
+  if (await lisaaTyokohde(a)) {
+    res.set('hx-refresh', 'true');
+    res.sendStatus(StatusCode.OK);
+    return;
+  }
+
+  res.sendStatus(StatusCode.InternalServerError);
 });
 
 export default router;

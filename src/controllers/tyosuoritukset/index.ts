@@ -37,6 +37,12 @@ router.get('/uusi', (_req, res) => {
   res.render('tyosuoritukset/uusi', BACKEND_DATA);
 });
 
+router.get('/tyokohde/uusi', (_req, res) => {
+  res.render('tyokohteet/uusi', {
+    layout: 'modal',
+  });
+});
+
 router.use(tyot);
 router.use(tarvikkeet);
 router.use(laskut);
