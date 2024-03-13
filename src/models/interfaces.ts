@@ -78,8 +78,8 @@ interface Tuntihinta extends QueryResultRow {
   tyosuoritus_id: number;
   tuntihintatyyppi_id: number;
   pvm: Date;
-  alv_prosentti: string;
-  aleprosentti: string;
+  alv_prosentti: number;
+  aleprosentti: number;
   tunnit: number;
   tyyppi: string;
   tuntihinta: string;

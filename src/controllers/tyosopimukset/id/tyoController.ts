@@ -1,5 +1,11 @@
 import {Router} from 'express';
-import {getTuntihintatyypit} from '../../../models/tyoModel';
+import {
+  getTuntihintatyypit,
+  lisaaTyosuoritus,
+  validoiTyosuoritus,
+} from '../../../models/tyoModel';
+import {StatusCode} from '../../../constants/statusCode';
+import {Tuntihinta} from '../../../models/interfaces';
 const router = Router();
 
 router.get('/:id/tyot/hinta', (req, res) => {
@@ -42,11 +48,39 @@ router.get('/:id/tyot/uusiTyo', async (req, res) => {
   });
 });
 
-router.post('/:id/tyot', (_req, res) => {
-  // TODO: Tallenna tietokantaan
-  // console.log(req.body);
-  res.set('hx-refresh', 'true');
-  res.sendStatus(201);
+router.post('/:id/tyot', async (req, res) => {
+  console.log('Lisätään uusi työsuoritus');
+
+  const n: Tuntihinta = {
+    tyosuoritus_id: Number(req.params.id),
+    tuntihintatyyppi_id: Number(req.body.tuntihintatyyppi),
+    alv_prosentti: Number(req.body.alv_prosentti) / 100,
+    aleprosentti: Number(req.body.aleprosentti) / 100,
+    tunnit: Number(req.body.tunnit),
+    // näitä ei tarvita, mutta interfacen takia pitää olla
+    tuntihinta_id: -1,
+    tyyppi: '',
+    pvm: new Date(),
+    tuntihinta: '',
+    hinta: '',
+    alv: '',
+    hinta_yhteensa: '',
+  };
+
+  if (!validoiTyosuoritus(n)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
+  console.log(n);
+
+  if (await lisaaTyosuoritus(n)) {
+    res.set('hx-refresh', 'true');
+    res.sendStatus(StatusCode.OK);
+    return;
+  }
+
+  res.sendStatus(StatusCode.InternalServerError);
 });
 
 export default router;

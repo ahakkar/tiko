@@ -33,13 +33,13 @@ const getTyokohdeById = async (id: number): Promise<Tyokohde> => {
  * @param a Tyokohde
  * @returns true jos tiedot ovat validit
  */
-const validoiTyokohde = (t: Tyokohde): Boolean => {
+const validoiTyokohde = (n: Tyokohde): Boolean => {
   // TODO hienompi työkohteen tietojen validointi
   if (
-    t['tyyppi'] === '' ||
-    t['osoite'] === '' ||
-    t['postinumero'] === '' ||
-    t['postitoimipaikka'] === ''
+    n['tyyppi'] === '' ||
+    n['osoite'] === '' ||
+    n['postinumero'] === '' ||
+    n['postitoimipaikka'] === ''
   ) {
     return false;
   }
@@ -52,10 +52,10 @@ const validoiTyokohde = (t: Tyokohde): Boolean => {
  * @param a Työkohde
  * @returns luodun työkohteen tiedot
  */
-const lisaaTyokohde = async (a: Tyokohde): Promise<Tyokohde> => {
+const lisaaTyokohde = async (n: Tyokohde): Promise<Tyokohde> => {
   const result = await query<Tyokohde>(
     'INSERT INTO tyokohde (tyyppi, osoite, postinumero, postitoimipaikka) VALUES ($1, $2, $3, $4) RETURNING *',
-    [a['tyyppi'], a['osoite'], a['postinumero'], a['postitoimipaikka']]
+    [n['tyyppi'], n['osoite'], n['postinumero'], n['postitoimipaikka']]
   );
 
   if (!result.rows[0]) {

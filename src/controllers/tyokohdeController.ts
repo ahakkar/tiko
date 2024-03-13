@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
   };
 
   if (!validoiTyokohde(t)) {
-    res.sendStatus(400);
+    res.sendStatus(StatusCode.BadRequest);
     return;
   }
 

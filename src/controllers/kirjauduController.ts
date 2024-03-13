@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
   // console.log(token);
   res
     .cookie('login', token)
-    .set('hx-redirect', '/tyosuoritukset')
+    .set('hx-redirect', '/tyosopimukset')
     .status(200)
     .send();
 });

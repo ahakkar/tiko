@@ -16,6 +16,9 @@ import {StatusCode} from '../../constants/statusCode';
 import {ContractState} from '../../constants/contractState';
 
 const router = Router();
+router.use(tyot);
+router.use(tarvikkeet);
+router.use(laskut);
 
 router.get('/uusiTyosopimus', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
@@ -29,10 +32,6 @@ router.get('/tyokohde/uusiTyokohde', (_req, res) => {
     layout: 'modal',
   });
 });
-
-router.use(tyot);
-router.use(tarvikkeet);
-router.use(laskut);
 
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
