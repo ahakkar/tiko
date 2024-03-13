@@ -47,6 +47,15 @@ const getTyosopimus = async (id: number): Promise<KokoTyosuoritus> => {
     id,
     'tyosuoritusTarvikkeet.sql'
   );
+  if (tyosuoritus[0]?.tyosuoritus.urakka_id) {
+    const urakka_result = await getDataById<Urakka>(
+      tyosuoritus[0].tyosuoritus.urakka_id,
+      'urakka.sql'
+    );
+    if (urakka_result[0] !== undefined) {
+      result.urakka = urakka_result[0];
+    }
+  }
 
   result.tyosuoritus = tyosuoritus[0]?.tyosuoritus;
   result.asiakas = tyosuoritus[0]?.asiakas;

@@ -12,6 +12,7 @@ interface Asiakas extends QueryResultRow {
 
 interface KokoTyosuoritus {
   tyosuoritus: Tyosuoritus;
+  urakka: Urakka | null;
   asiakas: Asiakas;
   tyokohde: Tyokohde;
   laskut: Lasku[];
