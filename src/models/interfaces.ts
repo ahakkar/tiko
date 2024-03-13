@@ -86,6 +86,12 @@ interface Tuntihinta extends QueryResultRow {
   hinta_yhteensa: string;
 }
 
+interface Tuntihintatyyppi extends QueryResultRow {
+  id: number;
+  tyyppi: string;
+  hinta: number;
+}
+
 interface Tyokohde extends QueryResultRow {
   id: number;
   tyyppi: string;
@@ -147,6 +153,7 @@ export {
   Tarvike,
   Toimittaja,
   Tuntihinta,
+  Tuntihintatyyppi,
   Tyokohde,
   Tyosuoritukset,
   Tyosuoritus,

@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import {getTuntihintatyypit} from '../../../models/tyoModel';
 const router = Router();
 
 router.get('/:id/tyot/hinta', (req, res) => {
@@ -30,24 +31,12 @@ router.get('/:id/tyot/hinta', (req, res) => {
   });
 });
 
-router.get('/:id/tyot/uusiTyo', (req, res) => {
+router.get('/:id/tyot/uusiTyo', async (req, res) => {
   const id = Number(req.params.id);
-  const BACKEND_DATA = {
-    tuntihintatyypit: [
-      {
-        id: 1,
-        tyyppi: 'Suunnittelu',
-        hinta: 24,
-      },
-      {
-        id: 2,
-        tyyppi: 'Aputyö',
-        hinta: 28,
-      },
-    ],
-  };
+  const tht = await getTuntihintatyypit();
+  console.log(tht);
   res.render('tyosopimukset/id/tyot/uusiTyo', {
-    ...BACKEND_DATA,
+    tht,
     id,
     layout: 'modal',
   });
