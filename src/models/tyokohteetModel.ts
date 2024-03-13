@@ -1,5 +1,5 @@
 import {Tyokohde} from './interfaces';
-import {query} from './db';
+import {query} from './dbModel';
 
 /**
  *

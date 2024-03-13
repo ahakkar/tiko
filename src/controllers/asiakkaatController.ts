@@ -1,5 +1,9 @@
 import {Router} from 'express';
-import {getAsiakkaat, lisaaAsiakas, validoiAsiakas} from '../models/asiakkaat';
+import {
+  getAsiakkaat,
+  lisaaAsiakas,
+  validoiAsiakas,
+} from '../models/asiakkaatModel';
 import {Asiakas} from '../models/interfaces';
 import {StatusCode} from '../constants/statusCodes';
 const router = Router();
@@ -10,7 +14,7 @@ router.get('/', async (_req, res) => {
 });
 
 router.get('/uusi', (_req, res) => {
-  res.render('asiakkaat/uusi', {
+  res.render('asiakkaat/uusiAsiakas', {
     layout: 'modal',
   });
 });

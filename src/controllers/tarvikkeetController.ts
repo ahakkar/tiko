@@ -6,11 +6,11 @@ import {
   retrieveWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
-} from '../models/tarvikkeet';
-import {retrieveSupplier} from '../models/toimittajat';
+} from '../models/tarvikkeetModel';
+import {retrieveSupplier} from '../models/toimittajatModel';
 import {Request} from 'express-serve-static-core';
 import {NewWarehouseItems} from '../models/interfaces';
-import {makeTransaction} from '../models/db';
+import {makeTransaction} from '../models/dbModel';
 import {PoolClient} from 'pg';
 
 const router = Router();

@@ -1,11 +1,14 @@
 import {Router} from 'express';
-import {getTyosuoritus, getTyosuoritukset} from '../../models/tyosuoritukset';
-import tyot from './id/tyot';
-import tarvikkeet from './id/tarvikkeet';
-import laskut from './id/laskut';
+import {
+  getTyosuoritus,
+  getTyosuoritukset,
+} from '../../models/tyosuorituksetModel';
+import tyot from './id/tyotController';
+import tarvikkeet from './id/tarvikkeetController';
+import laskut from './id/laskutController';
 const router = Router();
 
-router.get('/uusi', (_req, res) => {
+router.get('/uusiTyosuoritus', (_req, res) => {
   const BACKEND_DATA = {
     tyokohteet: [
       {
@@ -34,11 +37,11 @@ router.get('/uusi', (_req, res) => {
       },
     ],
   };
-  res.render('tyosuoritukset/uusi', BACKEND_DATA);
+  res.render('tyosuoritukset/uusiTyosuoritus', BACKEND_DATA);
 });
 
-router.get('/tyokohde/uusi', (_req, res) => {
-  res.render('tyokohteet/uusi', {
+router.get('/tyokohde/uusiTyokohde', (_req, res) => {
+  res.render('tyokohteet/uusiTyokohde', {
     layout: 'modal',
   });
 });

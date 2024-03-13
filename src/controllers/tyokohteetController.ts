@@ -3,7 +3,7 @@ import {
   lisaaTyokohde,
   validoiTyokohde,
   getTyokohteet,
-} from '../models/tyokohteet';
+} from '../models/tyokohteetModel';
 import {Tyokohde} from '../models/interfaces';
 import {StatusCode} from '../constants/statusCodes';
 const router = Router();
@@ -14,7 +14,7 @@ router.get('/', async (_req, res) => {
 });
 
 router.get('/uusi', (_req, res) => {
-  res.render('tyokohteet/uusi', {
+  res.render('tyokohteet/uusiTyokohde', {
     layout: 'modal',
   });
 });

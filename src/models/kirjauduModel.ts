@@ -1,4 +1,4 @@
-import {query} from './db';
+import {query} from './dbModel';
 import {Kayttaja} from './interfaces';
 
 export const getKayttaja = async (nimi: string): Promise<Kayttaja | null> => {

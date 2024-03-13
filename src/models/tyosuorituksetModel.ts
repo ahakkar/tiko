@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import {QueryResultRow} from 'pg';
-import {query, getQueryFromFile} from './db';
+import {query, getQueryFromFile} from './dbModel';
 import {
   KokoTyosuoritus,
   Tyosuoritukset,

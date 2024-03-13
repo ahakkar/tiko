@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {getKayttaja} from '../models/kirjaudu';
+import {getKayttaja} from '../models/kirjauduModel';
 const router = Router();
 
 router.get('/', async (_req, res) => {

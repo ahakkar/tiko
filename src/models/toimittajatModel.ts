@@ -1,5 +1,5 @@
 import {flatToNestedObject, NestedObject} from '../utils/parse';
-import {getQueryFromFile, query} from './db';
+import {getQueryFromFile, query} from './dbModel';
 import {Toimittaja} from './interfaces';
 
 /**
