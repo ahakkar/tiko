@@ -13,6 +13,17 @@
       {{/each}}
     </select>
   </label>
+  <!-- 
+    TODOongelma: miten ketussa samaa uusi tyokohde/asiakas modaali-ikkunaa voi
+   käyttää niin, että käyttäjä päätyy kuitenkin takaisin TÄLLE sivulle?
+
+   Samaa modaali-ikkunaa voidaan kutsua N:stä eri paikasta.
+
+  <button hx-get="/tyokohteet/uusi" hx-target="#modal-content" hx-push-url="true"
+    class="px-4 py-2 my-2 font-semibold text-blue-700 bg-transparent border border-blue-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
+    Uusi työkohde
+  </button>
+  -->
 
   <div class="py-3"></div>
 
@@ -26,7 +37,13 @@
       {{/each}}
     </select>
   </label>
-  
+  <!--
+  <button hx-get="/asiakkaat/uusi" hx-target="#modal-content" hx-push-url="true"
+    class="px-4 py-2 my-2 font-semibold text-blue-700 bg-transparent border border-blue-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
+    Uusi asiakas
+  </button>
+  -->
+
   <div class="py-3"></div>
 
   <h2 class="text-xl font-medium">Työsuorituksen tyyppi</h2>
