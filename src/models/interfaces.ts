@@ -18,6 +18,8 @@ interface KokoTyosuoritus {
   tuntihinnat: Tuntihinta[];
   tarvikkeet: Tarvike[];
   kokonaissumma: string;
+  is_urakka: boolean;
+  is_tuntihinta: boolean;
 }
 
 interface Lasku extends QueryResultRow {
@@ -110,7 +112,7 @@ interface Tyosuoritukset {
 interface Tyosuoritus extends QueryResultRow {
   id: number;
   tyokohde_id: number;
-  urakka_id: number;
+  urakka_id: number | null;
   aloitus_pvm: Date;
   asiakas_id: number;
   tila: string;

@@ -55,6 +55,8 @@ const getTyosopimus = async (id: number): Promise<KokoTyosuoritus> => {
   result.tuntihinnat = tuntihinnat;
   result.tarvikkeet = tarvikkeet;
   result.kokonaissumma = sumKokonaissumma(tyosuoritus, tuntihinnat, tarvikkeet);
+  result.is_urakka = !!result.tyosuoritus.urakka_id;
+  result.is_tuntihinta = !result.tyosuoritus.urakka_id;
 
   return result;
 };

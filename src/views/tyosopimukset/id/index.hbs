@@ -65,7 +65,9 @@
 <div class="py-3"></div>
 
 <div>
-  <h2 class="font-medium text-xl">Työ</h2>
+    {{#if is_urakka}}<h2 class="font-medium text-xl">Urakkahinnan peruste</h2>{{/if}}
+    {{#if is_tuntihinta}}<h2 class="font-medium text-xl">Tuntihintaerittely</h2>{{/if}}
+  
 
   <table class="min-w-full text-left text-sm">
     <thead class="border-b font-medium dark:border-neutral-500">
