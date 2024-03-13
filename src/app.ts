@@ -5,8 +5,8 @@ import cookieParser from 'cookie-parser';
 import * as config from './utils/config';
 import * as middleware from './utils/middleware';
 import asiakkaat from './controllers/asiakasController';
-import tarvikkeet from './controllers/tarvikeController';
-import tyosuoritukset from './controllers/tyosuoritukset/tyosuoritusController';
+import tarvikkeet from './controllers/tarvikkeetController';
+import tyosopimukset from './controllers/tyosopimukset/tyosopimusController';
 import tyokohteet from './controllers/tyokohdeController';
 import toimittajat from './controllers/toimittajaController';
 import kirjaudu from './controllers/kirjauduController';
@@ -27,11 +27,11 @@ app.use(middleware.authRedirect);
 // Routerit
 app.use('/asiakkaat', asiakkaat);
 app.use('/tarvikkeet', tarvikkeet);
-app.use('/tyosuoritukset', tyosuoritukset);
+app.use('/tyosopimukset', tyosopimukset);
 app.use('/tyokohteet', tyokohteet);
 app.use('/toimittajat', toimittajat);
 app.get('/tyhja', (_req, res) => res.status(200).send());
-app.get('/', (_req, res) => res.redirect('/tyosuoritukset'));
+app.get('/', (_req, res) => res.redirect('/tyosopimukset'));
 
 // Staattiset tiedostot
 app.use('/', express.static('public'));

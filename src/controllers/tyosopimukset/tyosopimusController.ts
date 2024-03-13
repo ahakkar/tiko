@@ -1,11 +1,11 @@
 import {Router} from 'express';
 import {
-  getTyosuoritus,
-  getTyosuoritukset,
-  validoiTyosuoritus,
-  lisaaTyosuoritus,
+  getTyosopimus,
+  getTyosopimukset,
+  validoiTyosopimus,
+  lisaaTyosopimus,
   luoUrakka,
-} from '../../models/tyosuoritusModel';
+} from '../../models/tyosopimusModel';
 import tyot from './id/tyoController';
 import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
@@ -17,11 +17,11 @@ import {ContractState} from '../../constants/contractState';
 
 const router = Router();
 
-router.get('/uusiTyosuoritus', async (_req, res) => {
+router.get('/uusiTyosopimus', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
   const asiakkaat = await getAsiakkaat();
 
-  res.render('tyosuoritukset/uusiTyosuoritus', {tyokohteet, asiakkaat});
+  res.render('tyosopimukset/uusiTyosopimus', {tyokohteet, asiakkaat});
 });
 
 router.get('/tyokohde/uusiTyokohde', (_req, res) => {
@@ -36,17 +36,16 @@ router.use(laskut);
 
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
-  const koko = await getTyosuoritus(id);
-  res.render('tyosuoritukset/id', koko);
+  const koko = await getTyosopimus(id);
+  res.render('tyosopimukset/id', koko);
 });
 
 router.get('/', async (_req, res) => {
-  const tyosuoritukset = await getTyosuoritukset();
-  res.render('tyosuoritukset', {tyosuoritukset});
+  const tyosopimukset = await getTyosopimukset();
+  res.render('tyosopimukset', {tyosopimukset});
 });
 
 router.post('/', async (req, res) => {
-  console.log('Lisätään uusi työsuoritus');
   const ts: Tyosuoritus = {
     id: -1, // id generoidaan tietokannassa
     urakka_id: -1, // id generoidaan tietokannassa
@@ -56,7 +55,7 @@ router.post('/', async (req, res) => {
     tila: ContractState.InDesign,
   };
 
-  if (!validoiTyosuoritus(ts)) {
+  if (!validoiTyosopimus(ts)) {
     res.sendStatus(StatusCode.BadRequest);
     return;
   }
@@ -66,9 +65,9 @@ router.post('/', async (req, res) => {
     ts.urakka_id = uusiUrakka.id;
   }
 
-  const result = await lisaaTyosuoritus(ts);
+  const result = await lisaaTyosopimus(ts);
   if (result) {
-    res.set('hx-redirect', `/tyosuoritukset/${result.id}`);
+    res.set('hx-redirect', `/tyosopimukset/${result.id}`);
     res.sendStatus(StatusCode.Created);
     return;
   }

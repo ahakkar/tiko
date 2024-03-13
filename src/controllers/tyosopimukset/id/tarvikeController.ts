@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import {retrieveWarehouseItems} from '../../../models/tarvikeModel';
 const router = Router();
 
 router.get('/:id/tarvikkeet/hinta', (req, res) => {
@@ -17,7 +18,7 @@ router.get('/:id/tarvikkeet/hinta', (req, res) => {
   const ale_hinta = hinta * (1 - query.aleprosentti / 100);
   const alv = ale_hinta * (query.alv_prosentti / 100);
   const yht_hinta = ale_hinta + alv;
-  res.render('tyosuoritukset/id/tarvikkeet/hinta', {
+  res.render('tyosopimukset/id/tarvikkeet/hinta', {
     aleprosentti: query.aleprosentti,
     ale_hinta: ale_hinta.toFixed(2),
     hinta: hinta.toFixed(2),
@@ -26,33 +27,12 @@ router.get('/:id/tarvikkeet/hinta', (req, res) => {
   });
 });
 
-router.get('/:id/tarvikkeet/uusi', (req, res) => {
+router.get('/:id/tarvikkeet/uusiTarvike', async (req, res) => {
   const id = Number(req.params.id);
-  // TODO: Hae varastotarvikkeet tietokannasta
-  const varastotarvikkeet = [
-    {
-      id: 1,
-      toimittaja_nimi: 'toimittaja_nimi',
-      nimi: 'nimi',
-      merkki: 'merkki',
-      tyyppi: 'tyyppi',
-      varastotilanne: 5,
-      yksikko: 'kpl',
-      hinta_sisaan: 5,
-    },
-    {
-      id: 2,
-      toimittaja_nimi: 'toimittaja_nimi',
-      nimi: 'nimi',
-      merkki: 'merkki',
-      tyyppi: 'tyyppi',
-      varastotilanne: 6,
-      yksikko: 'kpl',
-      hinta_sisaan: 6,
-    },
-  ];
-  res.render('tyosuoritukset/id/tarvikkeet/uusi', {
-    varastotarvikkeet,
+  console.log('Hae varastotarvikkeet tietokannasta');
+  const vt = await retrieveWarehouseItems();
+  res.render('tyosopimukset/id/tarvikkeet/uusiTarvike', {
+    vt,
     id,
     layout: 'modal',
   });
@@ -72,7 +52,7 @@ router.get('/:id/tarvikkeet/:varastotarvike_id', (_req, res) => {
     yksikko: 'kpl',
     hinta_sisaan: 5,
   };
-  res.render('tyosuoritukset/id/tarvikkeet/id', {
+  res.render('tyosopimukset/id/tarvikkeet/id', {
     ...varastotarvike,
     default_hinta_ulos: varastotarvike.hinta_sisaan * 1.25,
   });

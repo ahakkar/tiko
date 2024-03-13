@@ -42,6 +42,13 @@ router.get('/:id', async (req, res) => {
   res.render('tarvikkeet/tarvike', {item, toimittaja});
 });
 
+router.get('/:id/tarvikkeet/uusiTarvike', (_req, res) => {
+  console.log('Rendataan uusi tarvike');
+  res.render('tarvikkeet/uusiTarvike', {
+    layout: 'modal',
+  });
+});
+
 router.post('/lataa', upload.array('items-files'), async (req, res) => {
   if (!req.files || !(req.files instanceof Array)) {
     throw new Error('Tiedostoa ei löytynyt');

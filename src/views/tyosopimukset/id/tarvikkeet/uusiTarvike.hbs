@@ -1,14 +1,14 @@
 <h2 class="font-medium text-xl">Uusi työ</h2>
 
-<form hx-post="/tyosuoritukset/{{id}}/tyot" hx-target="#modal-content">
+<form hx-post="/tyosopimukset/{{id}}/tyot" hx-target="#modal-content">
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Tarvike</div>
-      <select name="varastotarvike_id" required hx-get="/tyosuoritukset/{{id}}/tarvikkeet/" hx-params="none"
+      <select name="varastotarvike_id" required hx-get="/tyosopimukset/{{id}}/tarvikkeet/" hx-params="none"
         hx-target="#tarvike" hx-on::config-request="event.detail.path += this.value"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
         <option value="">Tarvike</option>
-        {{#each varastotarvikkeet}}
+        {{#each vt}}
         <option value="{{id}}">{{nimi}}, {{tyyppi}}, {{merkki}}, {{toimittaja_nimi}}, {{varastotilanne}} {{yksikko}}
         </option>
         {{/each}}

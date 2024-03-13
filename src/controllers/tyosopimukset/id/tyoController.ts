@@ -21,7 +21,7 @@ router.get('/:id/tyot/hinta', (req, res) => {
   const ale_hinta = hinta * (1 - query.aleprosentti / 100);
   const alv = ale_hinta * (query.alv_prosentti / 100);
   const yht_hinta = ale_hinta + alv;
-  res.render('tyosuoritukset/id/tyot/hinta', {
+  res.render('tyosopimukset/id/tyot/hinta', {
     aleprosentti: query.aleprosentti,
     ale_hinta: ale_hinta.toFixed(2),
     hinta: hinta.toFixed(2),
@@ -30,7 +30,7 @@ router.get('/:id/tyot/hinta', (req, res) => {
   });
 });
 
-router.get('/:id/tyot/uusi', (req, res) => {
+router.get('/:id/tyot/uusiTyo', (req, res) => {
   const id = Number(req.params.id);
   const BACKEND_DATA = {
     tuntihintatyypit: [
@@ -46,7 +46,7 @@ router.get('/:id/tyot/uusi', (req, res) => {
       },
     ],
   };
-  res.render('tyosuoritukset/id/tyot/uusi', {
+  res.render('tyosopimukset/id/tyot/uusiTyo', {
     ...BACKEND_DATA,
     id,
     layout: 'modal',

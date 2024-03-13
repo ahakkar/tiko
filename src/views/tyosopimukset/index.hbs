@@ -1,13 +1,13 @@
 <h1 class="font-medium text-3xl">Työsopimukset</h1>
 
-<button hx-get="/tyosuoritukset/uusiTyosuoritus" hx-target="#main-content" hx-push-url="true"
+<button hx-get="/tyosopimukset/uusiTyosopimus" hx-target="#main-content" hx-push-url="true"
   class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
   Uusi työsopimus
 </button>
 
 <div>
-  {{#each tyosuoritukset}}
-  <div hx-get="/tyosuoritukset/{{tyosuoritus.id}}" hx-target="#main-content" hx-push-url="true"
+  {{#each tyosopimukset}}
+  <div hx-get="/tyosopimukset/{{tyosuoritus.id}}" hx-target="#main-content" hx-push-url="true"
     class="flex justify-between p-2 hover:bg-neutral-200 rounded cursor-pointer">
     <div>
       <div>

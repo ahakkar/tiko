@@ -17,7 +17,7 @@ import {
  * Hakee tietokannasta työsuorituksien perustiedot
  * @returns tyosuorituksien tiedot
  */
-const getTyosuoritukset = async (): Promise<Tyosuoritukset[]> => {
+const getTyosopimukset = async (): Promise<Tyosuoritukset[]> => {
   const queryStr = await getQueryFromFile('tyosuoritukset.sql');
   const {rows} = await query(queryStr);
 
@@ -25,7 +25,7 @@ const getTyosuoritukset = async (): Promise<Tyosuoritukset[]> => {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
 
-  return mapRowsToTyosuoritukset(rows);
+  return mapRowsToTyosopimukset(rows);
 };
 
 /**
@@ -33,9 +33,9 @@ const getTyosuoritukset = async (): Promise<Tyosuoritukset[]> => {
  * @param id tyosuorituksen id
  * @returns tyosuoritukseen liittyvät tiedot
  */
-const getTyosuoritus = async (id: number): Promise<KokoTyosuoritus> => {
+const getTyosopimus = async (id: number): Promise<KokoTyosuoritus> => {
   const result: KokoTyosuoritus = {} as KokoTyosuoritus;
-  const tyosuoritus = await getTyoSuoritusData(id);
+  const tyosuoritus = await getTyoSopimusData(id);
   if (tyosuoritus[0] === undefined) {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
@@ -64,7 +64,7 @@ const getTyosuoritus = async (id: number): Promise<KokoTyosuoritus> => {
  * @param a Tyosuoritus
  * @returns true jos tiedot ovat validit
  */
-const validoiTyosuoritus = (t: Tyosuoritus): Boolean => {
+const validoiTyosopimus = (t: Tyosuoritus): Boolean => {
   // TODO hienompi työkohteen tietojen validointi
   if (Number.isNaN(t['tyokohde_id']) || Number.isNaN(t['asiakas_id'])) {
     return false;
@@ -78,7 +78,7 @@ const validoiTyosuoritus = (t: Tyosuoritus): Boolean => {
  * @param ts Tyosuoritus
  * @returns luodun työsuorituksen tiedot
  */
-const lisaaTyosuoritus = async (ts: Tyosuoritus): Promise<Tyosuoritus> => {
+const lisaaTyosopimus = async (ts: Tyosuoritus): Promise<Tyosuoritus> => {
   const result = await query<Tyosuoritus>(
     'INSERT INTO tyosuoritus (tyokohde_id, urakka_id, asiakas_id, tila) VALUES ($1, $2, $3, $4) RETURNING *',
     [ts['tyokohde_id'], ts['urakka_id'], ts['asiakas_id'], ts['tila']]
@@ -129,7 +129,7 @@ const getDataById = async <T extends QueryResultRow>(
   }
 };
 
-const getTyoSuoritusData = async (id: number): Promise<Tyosuoritukset[]> => {
+const getTyoSopimusData = async (id: number): Promise<Tyosuoritukset[]> => {
   const queryStr = await getQueryFromFile('tyosuoritus.sql');
   const {rows} = await query(queryStr, [id]);
 
@@ -137,13 +137,13 @@ const getTyoSuoritusData = async (id: number): Promise<Tyosuoritukset[]> => {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
 
-  const tyosuoritus = mapRowsToTyosuoritukset(rows);
+  const ts = mapRowsToTyosopimukset(rows);
 
-  if (tyosuoritus[0] === undefined) {
+  if (ts[0] === undefined) {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
 
-  return tyosuoritus;
+  return ts;
 };
 
 /**
@@ -178,7 +178,7 @@ const sumKokonaissumma = (
  * @param rows tietokannasta tulleet rivit
  * @returns Tyosuoritus-olioiden taulukko
  */
-function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
+function mapRowsToTyosopimukset(rows: QueryResultRow[]): Tyosuoritukset[] {
   const result: Tyosuoritukset[] = [];
 
   for (const row of rows) {
@@ -232,9 +232,9 @@ function mapRowsToTyosuoritukset(rows: QueryResultRow[]): Tyosuoritukset[] {
 }
 
 export {
-  getTyosuoritukset,
-  getTyosuoritus,
-  validoiTyosuoritus,
-  lisaaTyosuoritus,
+  getTyosopimukset,
+  getTyosopimus,
+  validoiTyosopimus,
+  lisaaTyosopimus,
   luoUrakka,
 };
