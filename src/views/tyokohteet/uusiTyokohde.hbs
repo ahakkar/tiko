@@ -1,11 +1,18 @@
 <h2 class="font-medium text-xl">Uusi työkohde</h2>
 
+<br />
+
 <form id="uusi-tyokohde-form" hx-post="/tyokohteet" hx-target="#modal-content">
-  <div class="mb-5">
+  <label>
     <label class="block font-medium text-gray-900 text-sm mb-2" for="tyyppi">Kohteen tyyppi</label>
-    <input type="text" name="tyyppi" id="tyyppi" placeholder="Kohteen tyyppi" required
+    <select name="tyyppi" required
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-  </div>
+      <option value="">Työkohteen tyyppi</option>
+        {{#each WorkSiteType as |type key|}}
+            <option value="{{key}}">{{type}}</option>
+        {{/each}}
+    </select>
+  </label>
 
   <div class="mb-5">
     <label class="block font-medium text-gray-900 text-sm mb-2" for="osoite">Osoite</label>

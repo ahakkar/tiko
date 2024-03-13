@@ -5,7 +5,8 @@ import {
   getTyokohteet,
 } from '../models/tyokohdeModel';
 import {Tyokohde} from '../models/interfaces';
-import {StatusCode} from '../constants/statusCodes';
+import {StatusCode} from '../constants/statusCode';
+import {WorkSiteType} from '../constants/workSiteType';
 const router = Router();
 
 router.get('/', async (_req, res) => {
@@ -16,6 +17,7 @@ router.get('/', async (_req, res) => {
 router.get('/uusi', (_req, res) => {
   res.render('tyokohteet/uusiTyokohde', {
     layout: 'modal',
+    WorkSiteType: WorkSiteType,
   });
 });
 

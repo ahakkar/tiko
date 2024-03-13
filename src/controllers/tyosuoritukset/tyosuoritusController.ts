@@ -1,8 +1,8 @@
 import {Router} from 'express';
 import {getTyosuoritus, getTyosuoritukset} from '../../models/tyosuoritusModel';
-import tyot from './id/tyotController';
-import tarvikkeet from './id/tarvikkeetController';
-import laskut from './id/laskutController';
+import tyot from './id/tyoController';
+import tarvikkeet from './id/tarvikeController';
+import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 const router = Router();
