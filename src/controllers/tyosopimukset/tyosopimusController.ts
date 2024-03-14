@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {
-  getTyosopimus,
+  getTyosopimusJaLaskut,
   getTyosopimukset,
   validoiTyosopimus,
   lisaaTyosopimus,
@@ -35,8 +35,9 @@ router.get('/tyokohde/uusiTyokohde', (_req, res) => {
 
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
-  const koko = await getTyosopimus(id);
-  res.render('tyosopimukset/id', koko);
+  const kjl = await getTyosopimusJaLaskut(id);
+  console.log(kjl);
+  res.render('tyosopimukset/id', kjl);
 });
 
 router.get('/', async (_req, res) => {

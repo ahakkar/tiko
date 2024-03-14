@@ -17,7 +17,7 @@ import {
  * Hakee tietokannasta työsuorituksien perustiedot
  * @returns tyosuorituksien tiedot
  */
-const getTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
+export const getTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
   const queryStr = await getQueryFromFile('kaikkiTyosopimukset.sql');
   const {rows} = await query(queryStr);
 
@@ -33,7 +33,9 @@ const getTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
  * @param id tyosuorituksen id
  * @returns tyosuoritukseen liittyvät tiedot
  */
-const getTyosopimus = async (id: number): Promise<TyosopimusJaLaskut> => {
+export const getTyosopimusJaLaskut = async (
+  id: number
+): Promise<TyosopimusJaLaskut> => {
   const result: TyosopimusJaLaskut = {} as TyosopimusJaLaskut;
   const tyosopimus = await getTyoSopimusData(id);
   if (tyosopimus[0] === undefined) {
@@ -41,7 +43,7 @@ const getTyosopimus = async (id: number): Promise<TyosopimusJaLaskut> => {
   }
   const tyosuoritukset = await getDataById<KokoTyosuoritus>(
     id,
-    'kokoTyosuoritus.sql'
+    'kokoTyosopimus.sql'
   );
   const tarvikkeet = await getDataById<Tarvike>(id, 'tyosopimusTarvikkeet.sql');
   if (tyosopimus[0]?.tyosopimus.urakka_id) {
@@ -243,10 +245,4 @@ function mapRowsToTyosopimukset(rows: QueryResultRow[]): KokoTyosopimus[] {
   return result;
 }
 
-export {
-  getTyosopimukset,
-  getTyosopimus,
-  validoiTyosopimus,
-  lisaaTyosopimus,
-  luoUrakka,
-};
+export {validoiTyosopimus, lisaaTyosopimus, luoUrakka};
