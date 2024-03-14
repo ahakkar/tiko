@@ -6,7 +6,7 @@ import {
   validoiTyosuoritus,
 } from '../../../models/tyosuoritusModel';
 import {StatusCode} from '../../../constants/statusCode';
-import {Tuntihinta} from '../../../models/interfaces';
+import {Tyosuoritus} from '../../../models/interfaces';
 const router = Router();
 
 router.get('/:id/tyot/hinta', async (req, res) => {
@@ -52,7 +52,7 @@ router.get('/:id/tyot/uusiTyosuoritus', async (req, res) => {
 router.post('/:id/tyosuoritus', async (req, res) => {
   console.log('Lisätään uusi työsuoritus');
 
-  const n: Tuntihinta = {
+  const n: Tyosuoritus = {
     tyosuoritus_id: Number(req.params.id),
     tuntihintatyyppi_id: Number(req.body.tuntihintatyyppi_id),
     alv_prosentti: Number(req.body.alv_prosentti) / 100,
@@ -60,12 +60,7 @@ router.post('/:id/tyosuoritus', async (req, res) => {
     tunnit: Number(req.body.tunnit),
     // näitä ei tarvita, mutta interfacen takia pitää olla
     tuntihinta_id: -1,
-    tyyppi: '',
     pvm: new Date(),
-    tuntihinta: '',
-    hinta: '',
-    alv: '',
-    hinta_yhteensa: '',
   };
 
   console.log(n);

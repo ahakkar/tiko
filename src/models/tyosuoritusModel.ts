@@ -1,5 +1,5 @@
 import {query} from './dbModel';
-import {Tuntihinta, Tuntihintatyyppi} from './interfaces';
+import {Tyosuoritus, Tuntihintatyyppi} from './interfaces';
 
 /**
  * Hakee tietokannasta tuntihintatyypit
@@ -37,7 +37,7 @@ export const getTuntihintatyyppi = async (
  * @param a Tyokohde
  * @returns true jos tiedot ovat validit
  */
-export const validoiTyosuoritus = (n: Tuntihinta): Boolean => {
+export const validoiTyosuoritus = (n: Tyosuoritus): Boolean => {
   // TODO hienompi työkohteen tietojen validointi
   if (
     Number.isNaN(n['tyosuoritus_id']) ||
@@ -52,8 +52,10 @@ export const validoiTyosuoritus = (n: Tuntihinta): Boolean => {
   return true;
 };
 
-export const lisaaTyosuoritus = async (n: Tuntihinta): Promise<Tuntihinta> => {
-  const result = await query<Tuntihinta>(
+export const lisaaTyosuoritus = async (
+  n: Tyosuoritus
+): Promise<Tyosuoritus> => {
+  const result = await query<Tyosuoritus>(
     'INSERT INTO tuntihinta (tyosuoritus_id, tuntihintatyyppi_id, alv_prosentti, aleprosentti, tunnit) VALUES ($1, $2, $3, $4, $5) RETURNING *',
     [
       n['tyosuoritus_id'],

@@ -1,6 +1,6 @@
 import {QueryResultRow} from 'pg';
 
-interface Asiakas extends QueryResultRow {
+export interface Asiakas extends QueryResultRow {
   id: number;
   nimi: string;
   osoite: string;
@@ -15,20 +15,29 @@ export interface Kayttaja {
   salasanatiiviste: string;
 }
 
-interface KokoTyosuoritus {
-  tyosuoritus: Tyosuoritus;
-  urakka: Urakka | null;
+export interface KokoTyosopimus {
   asiakas: Asiakas;
   tyokohde: Tyokohde;
-  laskut: Lasku[];
-  tuntihinnat: Tuntihinta[];
-  tarvikkeet: Tarvike[];
-  kokonaissumma: string;
-  is_urakka: boolean;
-  is_tuntihinta: boolean;
+  tyosopimus: Tyosopimus;
+  urakka: Urakka;
 }
 
-interface Lasku extends QueryResultRow {
+export interface KokoTyosuoritus extends QueryResultRow {
+  tuntihinta_id: number;
+  tyosuoritus_id: number;
+  tuntihintatyyppi_id: number;
+  pvm: Date;
+  alv_prosentti: number;
+  aleprosentti: number;
+  tunnit: number;
+  tyyppi: string;
+  tuntihinta: string;
+  hinta: string;
+  alv: string;
+  hinta_yhteensa: string;
+}
+
+export interface Lasku extends QueryResultRow {
   id: number;
   edellinen_lasku: number;
   tyosuoritus_id: number;
@@ -39,7 +48,7 @@ interface Lasku extends QueryResultRow {
   jarjestysluku: number;
 }
 
-interface NewWarehouseItems {
+export interface NewWarehouseItems {
   tarvikkeet: {
     toimittaja: {
       toim_nimi: string;
@@ -57,7 +66,7 @@ interface NewWarehouseItems {
   };
 }
 
-interface Tarvike extends QueryResultRow {
+export interface Tarvike extends QueryResultRow {
   id: number;
   nimi: string;
   tyosuoritus_id: number;
@@ -73,13 +82,26 @@ interface Tarvike extends QueryResultRow {
   alv: number;
 }
 
-interface Toimittaja extends QueryResultRow {
+export interface Toimittaja extends QueryResultRow {
   id: number;
   nimi: string;
   osoite: string;
 }
 
-interface Tuntihinta extends QueryResultRow {
+export interface Tuntihintatyyppi extends QueryResultRow {
+  id: number;
+  tyyppi: string;
+  hinta: number;
+}
+
+export interface Tyokohde extends QueryResultRow {
+  id: number;
+  tyyppi: string;
+  osoite: string;
+  postinumero: string;
+  postitoimipaikka: string;
+}
+export interface Tyosuoritus extends QueryResultRow {
   tuntihinta_id: number;
   tyosuoritus_id: number;
   tuntihintatyyppi_id: number;
@@ -87,35 +109,9 @@ interface Tuntihinta extends QueryResultRow {
   alv_prosentti: number;
   aleprosentti: number;
   tunnit: number;
-  tyyppi: string;
-  tuntihinta: string;
-  hinta: string;
-  alv: string;
-  hinta_yhteensa: string;
 }
 
-interface Tuntihintatyyppi extends QueryResultRow {
-  id: number;
-  tyyppi: string;
-  hinta: number;
-}
-
-interface Tyokohde extends QueryResultRow {
-  id: number;
-  tyyppi: string;
-  osoite: string;
-  postinumero: string;
-  postitoimipaikka: string;
-}
-
-interface Tyosuoritukset {
-  asiakas: Asiakas;
-  tyokohde: Tyokohde;
-  tyosuoritus: Tyosuoritus;
-  urakka: Urakka;
-}
-
-interface Tyosuoritus extends QueryResultRow {
+export interface Tyosopimus extends QueryResultRow {
   id: number;
   tyokohde_id: number;
   urakka_id: number | null;
@@ -124,7 +120,20 @@ interface Tyosuoritus extends QueryResultRow {
   tila: string;
 }
 
-interface Urakka extends QueryResultRow {
+export interface TyosopimusJaLaskut {
+  tyosopimus: Tyosopimus;
+  urakka: Urakka | null;
+  asiakas: Asiakas;
+  tyokohde: Tyokohde;
+  laskut: Lasku[];
+  tyosuoritukset: Tyosuoritus[];
+  tarvikkeet: Tarvike[];
+  kokonaissumma: string;
+  is_urakka: boolean;
+  is_tuntihinta: boolean;
+}
+
+export interface Urakka extends QueryResultRow {
   id: number;
   lahtohinta: number;
   aleprosentti: number;
@@ -136,7 +145,7 @@ interface Urakka extends QueryResultRow {
   kotitalousvahennys: number;
 }
 
-interface VarastoTarvike extends QueryResultRow {
+export interface VarastoTarvike extends QueryResultRow {
   id: number;
   toimittaja_nimi?: string;
   toimittaja_id: number;
@@ -147,19 +156,3 @@ interface VarastoTarvike extends QueryResultRow {
   yksikko: string;
   hinta_sisaan: number;
 }
-
-export {
-  Asiakas,
-  KokoTyosuoritus,
-  Lasku,
-  NewWarehouseItems,
-  Tarvike,
-  Toimittaja,
-  Tuntihinta,
-  Tuntihintatyyppi,
-  Tyokohde,
-  Tyosuoritukset,
-  Tyosuoritus,
-  Urakka,
-  VarastoTarvike,
-};

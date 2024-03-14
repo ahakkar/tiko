@@ -11,7 +11,7 @@ import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
-import {Tyosuoritus} from '../../models/interfaces';
+import {Tyosopimus} from '../../models/interfaces';
 import {StatusCode} from '../../constants/statusCode';
 import {ContractState} from '../../constants/contractState';
 
@@ -45,7 +45,7 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const ts: Tyosuoritus = {
+  const ts: Tyosopimus = {
     id: -1, // id generoidaan tietokannassa
     urakka_id: -1, // id generoidaan tietokannassa
     tyokohde_id: req.body.tyokohde_id,

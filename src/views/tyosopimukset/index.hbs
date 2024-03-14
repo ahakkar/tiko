@@ -7,7 +7,7 @@
 
 <div>
   {{#each tyosopimukset}}
-  <div hx-get="/tyosopimukset/{{tyosuoritus.id}}" hx-target="#main-content" hx-push-url="true"
+  <div hx-get="/tyosopimukset/{{tyosopimus.id}}" hx-target="#main-content" hx-push-url="true"
     class="flex justify-between p-2 hover:bg-neutral-200 rounded cursor-pointer">
     <div>
       <div>
@@ -15,15 +15,15 @@
           {{tyokohde.osoite}}, {{tyokohde.postitoimipaikka}}
         </span>
         <span class="uppercase text-xl">
-          {{tyosuoritus.tyyppi}}
+          {{tyosopimus.tyyppi}}
         </span>
       </div>
-      <div>{{formatDate tyosuoritus.aloitus_pvm}}</div>
+      <div>{{formatDate tyosopimus.aloitus_pvm}}</div>
       <div>{{asiakas.nimi}}</div>
       <div>{{tyokohde.nimi}}</div>
     </div>
     <div class="capitalize">
-      {{tyosuoritus.tila}}
+      {{tyosopimus.tila}}
     </div>
   </div>
   {{/each}}
