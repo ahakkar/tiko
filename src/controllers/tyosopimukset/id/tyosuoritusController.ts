@@ -41,7 +41,7 @@ router.get('/:id/tyot/hinta', async (req, res) => {
 router.get('/:id/tyot/uusiTyosuoritus', async (req, res) => {
   const id = Number(req.params.id);
   const tht = await getTuntihintatyypit();
-  console.log(tht);
+
   res.render('tyosopimukset/id/tyot/uusiTyosuoritus', {
     tht,
     id,
@@ -50,8 +50,6 @@ router.get('/:id/tyot/uusiTyosuoritus', async (req, res) => {
 });
 
 router.post('/:id/tyosuoritus', async (req, res) => {
-  console.log('Lisätään uusi työsuoritus');
-
   const n: Tyosuoritus = {
     tyosuoritus_id: Number(req.params.id),
     tuntihintatyyppi_id: Number(req.body.tuntihintatyyppi_id),
@@ -63,14 +61,10 @@ router.post('/:id/tyosuoritus', async (req, res) => {
     pvm: new Date(),
   };
 
-  console.log(n);
-
   if (!validoiTyosuoritus(n)) {
     res.sendStatus(StatusCode.BadRequest);
     return;
   }
-
-  console.log(n);
 
   if (await lisaaTyosuoritus(n)) {
     res.set('hx-refresh', 'true');

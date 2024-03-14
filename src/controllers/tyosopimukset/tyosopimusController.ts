@@ -36,7 +36,6 @@ router.get('/tyokohde/uusiTyokohde', (_req, res) => {
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   const kjl = await getTyosopimusJaLaskut(id);
-  console.log(kjl);
   res.render('tyosopimukset/id', kjl);
 });
 

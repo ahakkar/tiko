@@ -22,7 +22,6 @@ router.get('/uusi', (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log('Lisätään uusi työkohde');
   const t: Tyokohde = {
     id: -1, // id generoidaan tietokannassa
     tyyppi: req.body.tyyppi,

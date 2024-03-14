@@ -36,7 +36,6 @@ router.get('/:id/tarvikkeet/hinta', (req, res) => {
 
 router.get('/:id/tarvikkeet/uusiTarvike', async (req, res) => {
   const id = Number(req.params.id);
-  console.log('Hae varastotarvikkeet tietokannasta');
   const vt = await retrieveWarehouseItems();
   res.render('tyosopimukset/id/tarvikkeet/uusiTarvike', {
     vt,
@@ -54,7 +53,6 @@ router.get('/:id/tarvikkeet/:varastotarvike_id', async (req, res) => {
 });
 
 router.post('/:id/tarvike', async (req, res) => {
-  console.log('Lisätään uusi tarvike');
   const id = Number(req.params.id);
 
   const n: Tarvike = {
@@ -79,8 +77,6 @@ router.post('/:id/tarvike', async (req, res) => {
     res.sendStatus(StatusCode.BadRequest);
     return;
   }
-
-  console.log(n);
 
   if (await lisaaTarvike(n)) {
     res.set('hx-refresh', 'true');

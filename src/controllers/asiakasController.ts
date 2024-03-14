@@ -20,7 +20,6 @@ router.get('/uusiAsiakas', (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  console.log('Lisätään uusi asiakas');
   const a: Asiakas = {
     id: -1, // id generoidaan tietokannassa
     nimi: req.body.nimi,

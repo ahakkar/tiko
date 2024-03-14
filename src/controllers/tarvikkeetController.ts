@@ -43,7 +43,6 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/:id/tarvikkeet/uusiTarvike', (_req, res) => {
-  console.log('Rendataan uusi tarvike');
   res.render('tarvikkeet/uusiTarvike', {
     layout: 'modal',
   });
