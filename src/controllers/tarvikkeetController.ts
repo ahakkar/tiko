@@ -42,7 +42,7 @@ router.get('/:id', async (req, res) => {
   res.render('tarvikkeet/tarvike', {item, toimittaja});
 });
 
-router.get('/:id/tarvikkeet/uusiTarvike', (_req, res) => {
+router.get('/:id/tarvikkeet/uusi', (_req, res) => {
   res.render('tarvikkeet/uusiTarvike', {
     layout: 'modal',
   });
