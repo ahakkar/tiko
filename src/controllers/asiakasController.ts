@@ -13,7 +13,7 @@ router.get('/', async (_req, res) => {
   res.render('asiakkaat', {asiakkaat});
 });
 
-router.get('/uusiAsiakas', (_req, res) => {
+router.get('/uusi', (_req, res) => {
   res.render('asiakkaat/uusiAsiakas', {
     layout: 'modal',
   });

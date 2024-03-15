@@ -20,14 +20,14 @@ router.use(tyot);
 router.use(tarvikkeet);
 router.use(laskut);
 
-router.get('/uusiTyosopimus', async (_req, res) => {
+router.get('/uusi', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
   const asiakkaat = await getAsiakkaat();
 
   res.render('tyosopimukset/uusiTyosopimus', {tyokohteet, asiakkaat});
 });
 
-router.get('/tyokohde/uusiTyokohde', (_req, res) => {
+router.get('/tyokohde/uusi', (_req, res) => {
   res.render('tyokohteet/uusiTyokohde', {
     layout: 'modal',
   });

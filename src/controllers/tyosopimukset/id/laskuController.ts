@@ -5,7 +5,7 @@ const router = Router();
 router.get('/:id/laskut/uusi', (req, res) => {
   const id = Number(req.params.id);
   const max_summa = 100;
-  res.render('tyosopimukset/id/laskut/uusi', {
+  res.render('tyosopimukset/id/laskut/uusiLasku', {
     max_summa,
     id,
     today: DateTime.now().toFormat('yyyy-MM-dd'),

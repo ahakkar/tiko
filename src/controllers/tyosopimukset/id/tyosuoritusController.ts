@@ -38,7 +38,7 @@ router.get('/:id/tyot/hinta', async (req, res) => {
   });
 });
 
-router.get('/:id/tyot/uusiTyosuoritus', async (req, res) => {
+router.get('/:id/tyot/uusi', async (req, res) => {
   const id = Number(req.params.id);
   const tht = await getTuntihintatyypit();
 
