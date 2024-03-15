@@ -3,6 +3,8 @@ import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
 
 const router = Router();
 
+// TODO refaktoroi välittämään modelille vain laskun id, jolla se
+// hakee ensin laskun, ja sitä kautta myös työsopimuksen tiedot
 router.get('/', async (req, res) => {
   const laskuId = Number(req.query['laskuId']);
   const tyosopimusId = Number(req.query['tyosopimusId']);

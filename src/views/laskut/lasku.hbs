@@ -45,11 +45,111 @@
     <div>Viitenumero: </div>
 
     <div class="pt-4">Asiakastunnus: {{asiakas.id}}</div>
+    <div>Työsopimus: {{tyosopimus.id}}</div>
 
     <div class="pt-4">Legalese</div>
   </div>
 
 </div>
 
-<!-- Laskuerittely -->
+<!-- Muikkari/karhu -->
+{{#if lasku.is_muistutuslasku}}
+<div>Muistutuslasku, laskutuslisä 5€</div>
+{{/if}}
+
+{{#if lasku.is_karhulasku}}
+<div>Karhulasku, laskutuslisä 5€</div>
+<div>Viivästyskorko 16 %</div>
+{{/if}}
+
+<!-- Laskuerittely tuntihintalaskulle -->
+{{#if is_tuntihinta}}
+<div class="py-4 font-bold">Tuntityöerittely koko työsopimuksesta</div>
+<div class="text-sm">
+  <div class="grid grid-cols-6 pb-4 font-bold">  
+    <div>Nimi</div>
+    <div>Määrä</div>
+    <div>Veroton a-hinta</div>
+    <div>Yhteensä ALV 0</div>
+    <div>ALV</div>
+    <div>Yhteensä</div>
+  </div>
+
+  <div class="grid grid-cols-6 pb-4"> 
+    {{#each tyosuoritukset}}
+    <div>{{tyyppi}} €</div>
+    <div>{{tuntihinta}}</div>
+    <div>{{tunnit}}</div>
+    <div>{{hinta}} €</div>
+    <div>{{alv}} €</div>
+    <div>{{hinta_yhteensa}} €</div>
+    {{/each}}
+  </div>
+</div>
+
+<div class="py-4 font-bold">Tarvike-erittely koko työsopimuksesta</div>
+<div class="text-sm">
+  <div class="grid grid-cols-6 pb-4 font-bold">  
+    <div>Nimi</div>
+    <div>Määrä</div>
+    <div>Veroton a-hinta</div>
+    <div>Yhteensä ALV 0</div>
+    <div>ALV</div>
+    <div>Yhteensä</div>
+  </div>
+
+  <div class="grid grid-cols-6 pb-4"> 
+    {{#each tarvikkeet}}
+    <div>{{nimi}}</div>
+    <div>{{maara}} {{yksikko}}</div>
+    <div>{{hinta_ulos}} €</div>
+    <div>{{hinta}} €</div>
+    <div>{{alv}} €</div>
+    <div>{{hinta_yhteensa}} €</div>
+    {{/each}}
+  </div>
+</div>
+{{/if}}
+
+<div class="grid grid-cols-8">
+  <div class="col-start-6 col-span-2">Alkuperäinen hinta:</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2">Alennusprosentti:</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2 mb-4">Hinta alennuksen jälkeen:</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2 mb-4 font-bold">LASKU YHTEENSÄ:</div>
+  <div class="col-start-8 font-bold">XXX €</div>
+</div>
+
+<div class="grid grid-cols-8 text-sm">
+  <div class="col-start-6 col-span-2">ALV-erittely:</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2">Veroton määrä:</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2">ALV 0 %:</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2">ALV 10 %</div>
+  <div class="col-start-8">XXX €</div>
+
+  <div class="col-start-6 col-span-2">ALV 24 %:</div>
+  <div class="col-start-8">XXX €</div>
+
+
+</div>
+
+<div class="pt-4">
+  <div>Tällä laskulla laskutetaan X % työsopimuksen summasta.</div>
+  <div class="pt-4">Työn osuus laskulla, yhteensä: XXX €</div>
+  <div>Tarvikkeiden osuus laskulla, yhteensä: XXX €</div>
+  <div>Laskun summasta kotitalousvähennyskelpoinen osuus: XXX €</div>
+</div>
+
+<!-- Työn ja tarvikkeiden ja kotitalousvähennyksen erittely -->
 
