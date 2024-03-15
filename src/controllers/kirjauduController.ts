@@ -15,20 +15,18 @@ router.post('/', async (req, res) => {
 
   const kayttaja = await getKayttaja(username);
   // console.log(kayttaja);
-  if (!kayttaja) {
+  if (
+    !kayttaja ||
+    !(await bcrypt.compare(password, kayttaja.salasanatiiviste))
+  ) {
     // Täytyy palauttaa 200, koska muuten HTMX ei toimi
-    res.status(200).send(`Käyttäjää ${username} ei ole olemassa!`);
-    return;
-  }
-  if (!(await bcrypt.compare(password, kayttaja.salasanatiiviste))) {
-    // Täytyy palauttaa 200, koska muuten HTMX ei toimi
-    res.status(200).send('Väärä salasana!');
+    res.status(200).send('Väärä käyttäjänimi tai salasana!');
     return;
   }
 
   // Kirjautuminen onnistui
   const token = jwt.sign(kayttaja, process.env['JWT_SECRET']!, {
-    expiresIn: '2h',
+    expiresIn: process.env['JWT_EXPIRE']!,
   });
   // console.log(token);
   res
