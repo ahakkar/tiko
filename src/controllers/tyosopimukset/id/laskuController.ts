@@ -1,24 +1,58 @@
 import {Router} from 'express';
 import {DateTime} from 'luxon';
+import {StatusCode} from '../../../constants/statusCode';
+import {lisaaLasku, validoiLasku} from '../../../models/laskuModel';
+import {Lasku} from '../../../models/interfaces';
 const router = Router();
 
+/**
+ * Näyttää työsopimuksen {id} laskut
+ */
 router.get('/:id/laskut/uusi', (req, res) => {
   const id = Number(req.params.id);
-  const max_summa = 100;
+
+  // TODO hae max summa tietokannasta
+  const max_summa = 9999999;
+
   res.render('tyosopimukset/id/laskut/uusiLasku', {
     max_summa,
     id,
     today: DateTime.now().toFormat('yyyy-MM-dd'),
-    default_era_pvm: DateTime.now().plus({months: 1}).toFormat('yyyy-MM-dd'),
+    default_era_pvm: DateTime.now().plus({days: 14}).toFormat('yyyy-MM-dd'),
     layout: 'modal',
   });
 });
 
-router.post('/:id/laskut', (_req, res) => {
-  // TODO: Tallenna tietokantaan
-  // console.log(req.body);
-  res.set('hx-refresh', 'true');
-  res.sendStatus(201);
+/**
+ * Tallentaa työsopimukseen {id} viittaavan laskun
+ * tietokantaan
+ */
+router.post('/:id/laskut', async (_req, res) => {
+  console.log('tallennetaan lasku');
+  const l: Lasku = {
+    tyosuoritus_id: Number(_req.params.id),
+    summa: Number(_req.body.summa),
+    pvm: new Date(),
+    era_pvm: new Date(_req.body.era_pvm),
+    // ei tarvita tässä
+    id: -1,
+    edellinen_lasku: -1,
+    maksettu_pvm: new Date(),
+    jarjestysluku: -1,
+  };
+
+  if (!validoiLasku(l)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
+  if (await lisaaLasku(l)) {
+    res.set('hx-refresh', 'true');
+    res.sendStatus(StatusCode.OK);
+    return;
+  }
+
+  res.sendStatus(StatusCode.InternalServerError);
 });
 
 export default router;

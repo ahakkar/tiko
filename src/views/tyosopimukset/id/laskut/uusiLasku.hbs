@@ -1,10 +1,12 @@
 <h2 class="font-medium text-xl">Uusi lasku</h2>
 
-<form hx-post="/tyosuoritukset/{{id}}/laskut" hx-target="#modal-content">
+<br />
+
+<form hx-post="/tyosopimukset/{{id}}/laskut" hx-target="#modal-content">
   <div class="mb-5">
     <label>
-      <div class="mb-2 text-sm font-medium text-gray-900">Laskun summa (maksamatta: {{max_summa}} €)</div>
-      <input type="number" name="summa" min="0" max="{{max_summa}}" value="{{max_summa}}" step="0.01"
+      <div class="mb-2 text-sm font-medium text-gray-900">Laskun summa €:</div>
+      <input type="number" name="summa" min="0" max="{{max_summa}}" value="0" step="0.01"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         placeholder="name@flowbite.com" required>
     </label>
