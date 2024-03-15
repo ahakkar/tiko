@@ -1,0 +1,28 @@
+<div class="py-4 font-bold text-3xl">Laskut</div>
+<div class="text-sm">
+  <div class="grid grid-cols-7 pb-4 font-bold">  
+    <div>Tunnus</div>
+    <div>Asiakas</div>
+    <div>Kohde</div>
+    <div>Pvm</div>
+    <div>Eräpvm</div>
+    <div>Yhteensä</div>
+    <div>Maksettu</div>
+  </div>
+
+
+  {{#each laskut}}
+  <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true">
+    <div class="grid grid-cols-7 pb-4">       
+      <div>{{id}}</div>
+      <div>{{asiakas_nimi}}</div>
+      <div>{{tyokohde_osoite}} {{tyokohde.postitoimipaikka}}</div>
+      <div>{{formatDate pvm}}</div>
+      <div>{{formatDate era_pvm}}</div>
+      <div>{{summa}} €</div>
+      <div>{{is_maksettu}}</div>
+    </div>
+  </div>
+  {{/each}}
+
+</div>

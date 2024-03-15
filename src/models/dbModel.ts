@@ -94,4 +94,44 @@ const getQueryFromFile = async (fileName: string): Promise<string> => {
   return fs.readFile(filePath, {encoding: 'utf-8'});
 };
 
+/**
+ * Hakee tietokannasta kyselyn määrittelemät tiedot
+ * @param queryFile kyselytiedoston nimi
+ * @returns tietokannasta haetut rivit
+ */
+export const getData = async <T extends QueryResultRow>(
+  queryFile: string
+): Promise<T[]> => {
+  try {
+    const queryStr = await getQueryFromFile(queryFile);
+    const {rows} = await query<T>(queryStr);
+    return rows;
+  } catch (e) {
+    throw new Error(
+      `Virhe haettasessa tietoja. \nKysely: ${queryFile}\nvirheilmoitus: ${e}`
+    );
+  }
+};
+
+/**
+ * Hakee tietokannasta kyselyn määrittelemät tiedot id:n perusteella
+ * @param id id
+ * @param queryFile kyselytiedoston nimi
+ * @returns tietokannasta haetut rivit
+ */
+export const getDataById = async <T extends QueryResultRow>(
+  id: number,
+  queryFile: string
+): Promise<T[]> => {
+  try {
+    const queryStr = await getQueryFromFile(queryFile);
+    const {rows} = await query<T>(queryStr, [id]);
+    return rows;
+  } catch (e) {
+    throw new Error(
+      `Virhe haettasessa tietoja id:llä: ${id}\nkysely: ${queryFile}\nvirheilmoitus: ${e}`
+    );
+  }
+};
+
 export {query, getClient, makeTransaction, getQueryFromFile};

@@ -1,5 +1,5 @@
-import {query} from './dbModel';
-import {Lasku} from './interfaces';
+import {getData, query} from './dbModel';
+import {Lasku, LaskuAsiakasKohde} from './interfaces';
 
 /**
  * Tarkistaa onko tyokohteen tiedot validit
@@ -48,4 +48,15 @@ export const lisaaLasku = async (n: Lasku): Promise<Lasku> => {
   }
 
   return result.rows[0];
+};
+
+/**
+ * Hakee custom-määrän tietoja joka laskusta kaikki laskut-näkymää varten
+ * @returns lista laskuista
+ */
+export const getLaskuAsiakasKohde = async (): Promise<LaskuAsiakasKohde[]> => {
+  const data: LaskuAsiakasKohde[] = await getData<LaskuAsiakasKohde>(
+    'laskutAsiakasKohde.sql'
+  );
+  return data;
 };

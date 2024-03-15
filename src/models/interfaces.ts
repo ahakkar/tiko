@@ -48,6 +48,18 @@ export interface Lasku extends QueryResultRow {
   jarjestysluku?: number;
 }
 
+export interface LaskuAsiakasKohde extends QueryResultRow {
+  id: number;
+  tyosuoritus_id: number;
+  asiakas_nimi: string;
+  tyokohde_osoite: string;
+  tyokohde_postitoimipaikka: string;
+  pvm: Date;
+  era_pvm: Date;
+  summa: number;
+  is_maksettu: boolean;
+}
+
 export interface NewWarehouseItems {
   tarvikkeet: {
     toimittaja: {

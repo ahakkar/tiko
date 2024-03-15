@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js';
 import {QueryResultRow} from 'pg';
-import {query, getQueryFromFile} from './dbModel';
+import {query, getQueryFromFile, getDataById} from './dbModel';
 import {
   KokoTyosuoritus,
   Asiakas,
@@ -173,27 +173,6 @@ const luoUrakka = async (): Promise<Urakka> => {
   }
 
   return result.rows[0];
-};
-
-/**
- * Hakee tietokannasta kyselyn määrittelemät tiedot id:n perusteella
- * @param id tyosuorituksen id
- * @param queryFile kyselytiedoston nimi
- * @returns tietokannasta haetut rivit
- */
-const getDataById = async <T extends QueryResultRow>(
-  id: number,
-  queryFile: string
-): Promise<T[]> => {
-  try {
-    const queryStr = await getQueryFromFile(queryFile);
-    const {rows} = await query<T>(queryStr, [id]);
-    return rows;
-  } catch (e) {
-    throw new Error(
-      `Virhe haettasessa työsuorituksen tietoja id:llä: ${id}\nkysely: ${queryFile}\nvirheilmoitus: ${e}`
-    );
-  }
 };
 
 const getTyoSopimusData = async (id: number): Promise<KokoTyosopimus[]> => {

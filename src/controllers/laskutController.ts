@@ -1,5 +1,7 @@
 import {Router} from 'express';
 import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
+import {getLaskuAsiakasKohde} from '../models/laskuModel';
+import {LaskuAsiakasKohde} from '../models/interfaces';
 
 const router = Router();
 
@@ -11,13 +13,14 @@ router.get('/', async (req, res) => {
 
   if (laskuId && tyosopimusId) {
     const tjl = await getTyosopimusJaLasku(tyosopimusId, laskuId);
-    console.log(tjl);
     res.render('laskut/lasku', tjl);
     return;
   }
   // Render all invoices
   else {
-    res.render('laskut');
+    const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
+    console.log(laskut);
+    res.render('laskut', {laskut: laskut});
   }
 });
 

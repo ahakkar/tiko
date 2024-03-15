@@ -77,7 +77,7 @@
 
   <div class="grid grid-cols-6 pb-4"> 
     {{#each tyosuoritukset}}
-    <div>{{tyyppi}} €</div>
+    <div class="capitalize">{{tyyppi}}</div>
     <div>{{tuntihinta}}</div>
     <div>{{tunnit}}</div>
     <div>{{hinta}} €</div>
@@ -122,7 +122,7 @@
   <div class="col-start-8">XXX €</div>
 
   <div class="col-start-6 col-span-2 mb-4 font-bold">LASKU YHTEENSÄ:</div>
-  <div class="col-start-8 font-bold">XXX €</div>
+  <div class="col-start-8 font-bold">{{lasku.summa}} €</div>
 </div>
 
 <div class="grid grid-cols-8 text-sm">
