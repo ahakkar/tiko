@@ -3,6 +3,7 @@ SELECT
     maara AS tarvike_maara,
     yksikko AS tarvike_yksikko,
     t.pvm AS tarvike_pvm,
+    a.id AS asiakas_id,
     a.nimi AS asiakas_nimi,
     a.puhelinnumero AS asiakas_puhelinnumero,
     a.sahkoposti AS asiakas_sahkoposti,

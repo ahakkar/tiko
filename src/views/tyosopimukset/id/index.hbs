@@ -43,8 +43,10 @@
 <div>
   <h2 class="font-medium text-xl">Laskut</h2>
 
+  <p>sopparin id: {{tyosopimus.id}}</p>
+
   {{#each laskut}}
-  <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true"
+  <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true"
     class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
     <div>
       <div class="font-medium">{{formatDate pvm}}</div>

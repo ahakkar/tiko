@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import * as config from './utils/config';
 import * as middleware from './utils/middleware';
 import asiakkaat from './controllers/asiakasController';
+import laskut from './controllers/laskutController';
 import tarvikkeet from './controllers/tarvikkeetController';
 import tyosopimukset from './controllers/tyosopimukset/tyosopimusController';
 import tyokohteet from './controllers/tyokohdeController';
@@ -28,6 +29,7 @@ app.use(middleware.authRedirect);
 // Routerit
 app.use('/kirjaudu-ulos', kirjauduUlos);
 app.use('/asiakkaat', asiakkaat);
+app.use('/laskut', laskut);
 app.use('/tarvikkeet', tarvikkeet);
 app.use('/tyosopimukset', tyosopimukset);
 app.use('/tyokohteet', tyokohteet);

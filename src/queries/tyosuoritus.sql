@@ -4,6 +4,7 @@ SELECT
     t.aloitus_pvm AS tyosuoritus_aloituspvm,
     t.tila AS tyosuoritus_tila,
     a.id AS tyosuoritus_asiakasid,
+    a.id AS asiakas_id,
     a.nimi AS asiakas_nimi,
     a.osoite AS asiakas_osoite,
     a.postinumero AS asiakas_postinumero,

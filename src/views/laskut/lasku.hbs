@@ -1,0 +1,55 @@
+<!-- Laskun perustiedot -->
+<div class="grid grid-cols-2 gap-4">
+
+  <!-- Vasen palsta -->
+  <div class="col-start-1">
+    <div class="text-sm">
+      <div>Lähettäjä:</div>
+      <div>Sähkötärsky</div>
+      <div>Voimatie 1</div>
+      <div>33100 Tampere</div>
+    </div>
+
+    <div class="pt-4 text-sm">
+      <div>{{asiakas.nimi}}</div>
+      <div>{{asiakas.osoite}}</div>
+      <div>{{asiakas.postinumero}} {{asiakas.postitoimipaikka}}</div>
+    </div>
+
+    <div class="pt-4 text-sm">
+      <div class="font-bold">Myyjä:</div>
+      <div>Y-tunnus 1589563-3</div>
+      <div>Sähkötärsky</div>
+      <div>Voimatie 1</div>
+      <div>33100 Tampere</div>
+      <div class="font-bold">Ostaja:</div>
+      <div>{{asiakas.nimi}}</div>
+      <div>{{asiakas.osoite}}</div>
+      <div>{{asiakas.postinumero}} {{asiakas.postitoimipaikka}}</div>
+    </div>
+  </div>
+
+  <!-- Oikea palsta -->
+  <div class="col-start-2 text-sm">
+    <div class="text-xl">LASKU</div>
+
+    <div class="pt-4">Laskun päiväys: {{formatDate lasku.pvm}}</div>
+    <div>Laskun numero: {{lasku.id}}</div>
+
+    <div>Laskun eräpäivä: {{formatDate lasku.era_pvm}}</div>
+    <div>Laskun määrä: {{lasku.summa}}</div>
+    <div>Saajan pankkitili: </div>
+    <div>Pankin BIC-tunnus: </div>
+    <div>Maksun saajan nimi: </div>
+    <div>Saajan pankki: Njuurdea</div>
+    <div>Viitenumero: </div>
+
+    <div class="pt-4">Asiakastunnus: {{asiakas.id}}</div>
+
+    <div class="pt-4">Legalese</div>
+  </div>
+
+</div>
+
+<!-- Laskuerittely -->
+

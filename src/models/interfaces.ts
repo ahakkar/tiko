@@ -120,6 +120,19 @@ export interface Tyosopimus extends QueryResultRow {
   tila: string;
 }
 
+export interface TyosopimusJaLasku {
+  tyosopimus: Tyosopimus;
+  urakka: Urakka | null;
+  asiakas: Asiakas;
+  tyokohde: Tyokohde;
+  lasku: Lasku | undefined;
+  tyosuoritukset: Tyosuoritus[];
+  tarvikkeet: Tarvike[];
+  kokonaissumma: string;
+  is_urakka: boolean;
+  is_tuntihinta: boolean;
+}
+
 export interface TyosopimusJaLaskut {
   tyosopimus: Tyosopimus;
   urakka: Urakka | null;

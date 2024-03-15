@@ -11,6 +11,7 @@ import {
   TyosopimusJaLaskut,
   Tyosopimus,
   KokoTyosopimus,
+  TyosopimusJaLasku,
 } from './interfaces';
 
 /**
@@ -60,6 +61,58 @@ export const getTyosopimusJaLaskut = async (
   result.asiakas = tyosopimus[0]?.asiakas;
   result.tyokohde = tyosopimus[0]?.tyokohde;
   result.laskut = await getDataById<Lasku>(id, 'tyosopimusLaskut.sql');
+  result.tyosuoritukset = tyosuoritukset;
+  result.tarvikkeet = tarvikkeet;
+  result.kokonaissumma = sumKokonaissumma(
+    tyosopimus,
+    tyosuoritukset,
+    tarvikkeet
+  );
+  result.is_urakka = !!result.tyosopimus.urakka_id;
+  result.is_tuntihinta = !result.tyosopimus.urakka_id;
+
+  return result;
+};
+
+/**
+ * Hakee työsuorituksen ja laskun
+ * @param id tyosuorituksen id
+ * @returns tyosuoritukseen liittyvät tiedot
+ */
+export const getTyosopimusJaLasku = async (
+  tyosuoritusId: number,
+  laskuId: number
+): Promise<TyosopimusJaLasku> => {
+  const result: TyosopimusJaLasku = {} as TyosopimusJaLasku;
+  const tyosopimus = await getTyoSopimusData(tyosuoritusId);
+
+  if (tyosopimus[0] === undefined) {
+    throw new Error('Työsopimuksia ei löytynyt.');
+  }
+  const tyosuoritukset = await getDataById<KokoTyosuoritus>(
+    tyosuoritusId,
+    'kokoTyosopimus.sql'
+  );
+  const tarvikkeet = await getDataById<Tarvike>(
+    tyosuoritusId,
+    'tyosopimusTarvikkeet.sql'
+  );
+  if (tyosopimus[0]?.tyosopimus.urakka_id) {
+    const urakka_result = await getDataById<Urakka>(
+      tyosopimus[0].tyosopimus.urakka_id,
+      'urakka.sql'
+    );
+    if (urakka_result[0] !== undefined) {
+      result.urakka = urakka_result[0];
+    }
+  }
+
+  const lasku = await getDataById<Lasku>(laskuId, 'tyosopimusLasku.sql');
+
+  result.tyosopimus = tyosopimus[0]?.tyosopimus;
+  result.asiakas = tyosopimus[0]?.asiakas;
+  result.tyokohde = tyosopimus[0]?.tyokohde;
+  result.lasku = lasku[0] ? lasku[0] : undefined;
   result.tyosuoritukset = tyosuoritukset;
   result.tarvikkeet = tarvikkeet;
   result.kokonaissumma = sumKokonaissumma(

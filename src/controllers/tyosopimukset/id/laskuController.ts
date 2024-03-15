@@ -6,7 +6,7 @@ import {Lasku} from '../../../models/interfaces';
 const router = Router();
 
 /**
- * Näyttää työsopimuksen {id} laskut
+ * Näyttää modaalikkunan uuden laskun lisäämistä varten
  */
 router.get('/:id/laskut/uusi', (req, res) => {
   const id = Number(req.params.id);
