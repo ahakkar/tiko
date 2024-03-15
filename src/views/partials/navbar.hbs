@@ -1,27 +1,36 @@
 <nav class="bg-white border-gray-200">
   <div class="max-w-screen-lg mx-auto">
-    <div class="flex flex-wrap items-center justify-between pt-4">
-      <a href="#" hx-get="/tyosuoritukset" hx-target="#main-content" hx-push-url="true" class="flex items-center">
-        <span class="self-center text-3xl font-semibold whitespace-nowrap">
-          Sähkötärsky
-        </span>
-      </a>
-      {{#if loggedUser}}
-      <div hx-post="/kirjaudu-ulos" class="flex items-center cursor-pointer font-medium">
-        {{loggedUser}}
-        <svg class="ml-3" fill="#000000" height="20px" width="20px" version="1.1" id="Capa_1"
-          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384.971 384.971"
-          xml:space="preserve">
-          <path d="M180.455,360.91H24.061V24.061h156.394c6.641,0,12.03-5.39,12.03-12.03s-5.39-12.03-12.03-12.03H12.03
-            C5.39,0.001,0,5.39,0,12.031V372.94c0,6.641,5.39,12.03,12.03,12.03h168.424c6.641,0,12.03-5.39,12.03-12.03
-            C192.485,366.299,187.095,360.91,180.455,360.91z" />
-          <path d="M381.481,184.088l-83.009-84.2c-4.704-4.752-12.319-4.74-17.011,0c-4.704,4.74-4.704,12.439,0,17.179l62.558,63.46H96.279
-            c-6.641,0-12.03,5.438-12.03,12.151c0,6.713,5.39,12.151,12.03,12.151h247.74l-62.558,63.46c-4.704,4.752-4.704,12.439,0,17.179
-            c4.704,4.752,12.319,4.752,17.011,0l82.997-84.2C386.113,196.588,386.161,188.756,381.481,184.088z" />
-        </svg>
+
+    <div class="flex items-start px-4">
+      <div class="pt-4">
+        <img src="/img/logo.webp" alt="Sähkötärsky" class="h-10 w-10 mr-4 border border-black" /> 
       </div>
-      {{/if}}
+
+      <div class="flex-grow items-center pt-4">
+        <a href="#" hx-get="/tyosuoritukset" hx-target="#main-content" hx-push-url="true">
+          <span class="text-3xl font-semibold whitespace-nowrap">Sähkötärsky</span>
+        </a>
+      </div>
+
+      <div class="pt-4">
+        {{#if loggedUser}}
+        <div hx-post="/kirjaudu-ulos" class="cursor-pointer font-medium">
+          {{loggedUser}}
+          <svg class="ml-3" fill="#000000" height="20px" width="20px" version="1.1" id="Capa_1"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384.971 384.971"
+            xml:space="preserve">
+            <path d="M180.455,360.91H24.061V24.061h156.394c6.641,0,12.03-5.39,12.03-12.03s-5.39-12.03-12.03-12.03H12.03
+              C5.39,0.001,0,5.39,0,12.031V372.94c0,6.641,5.39,12.03,12.03,12.03h168.424c6.641,0,12.03-5.39,12.03-12.03
+              C192.485,366.299,187.095,360.91,180.455,360.91z" />
+            <path d="M381.481,184.088l-83.009-84.2c-4.704-4.752-12.319-4.74-17.011,0c-4.704,4.74-4.704,12.439,0,17.179l62.558,63.46H96.279
+              c-6.641,0-12.03,5.438-12.03,12.151c0,6.713,5.39,12.151,12.03,12.151h247.74l-62.558,63.46c-4.704,4.752-4.704,12.439,0,17.179
+              c4.704,4.752,12.319,4.752,17.011,0l82.997-84.2C386.113,196.588,386.161,188.756,381.481,184.088z" />
+          </svg>
+        </div>
+        {{/if}}
+      </div>
     </div>
+
     <div class="flex flex-wrap items-center justify-between p-4">
       <div class="w-full md:block md:w-auto" id="navbar-default">
         <ul
@@ -48,6 +57,12 @@
             <a href="#" hx-get="/asiakkaat" hx-target="#main-content" hx-push-url="true"
               class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
               Asiakkaat
+            </a>
+          </li>
+          <li>
+            <a href="#" hx-get="/laskut" hx-target="#main-content" hx-push-url="true"
+              class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+              Laskut
             </a>
           </li>
           <li>

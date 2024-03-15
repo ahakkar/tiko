@@ -34,11 +34,6 @@ router.post('/:id/laskut', async (_req, res) => {
     summa: Number(_req.body.summa),
     pvm: new Date(),
     era_pvm: new Date(_req.body.era_pvm),
-    // ei tarvita tässä
-    id: -1,
-    edellinen_lasku: -1,
-    maksettu_pvm: new Date(),
-    jarjestysluku: -1,
   };
 
   if (!validoiLasku(l)) {
