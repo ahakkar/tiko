@@ -19,7 +19,6 @@ router.get('/', async (req, res) => {
   // Render all invoices
   else {
     const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
-    console.log(laskut);
     res.render('laskut', {laskut: laskut});
   }
 });
