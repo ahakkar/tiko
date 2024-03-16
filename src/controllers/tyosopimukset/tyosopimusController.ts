@@ -36,7 +36,19 @@ router.get('/tyokohde/uusi', (_req, res) => {
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   const tjl = await getTyosopimusJaLaskut(id);
-  res.render('tyosopimukset/id', tjl);
+  const tyosopimus = {
+    ...tjl,
+    laskut: tjl.laskut.map(lasku => ({
+      ...lasku,
+      // TODO: Lisää expired-muuttuja laskuille backendiin, joka
+      // kertoo, onko lasku erääntynyt
+      expired: lasku.era_pvm < new Date(),
+      // TODO: Laita arvoksi true, jos lasku on erääntynyt ja siitä ei
+      // ole vielä luotu muistutuslaskua
+      showExpiredButton: true,
+    })),
+  };
+  res.render('tyosopimukset/id', tyosopimus);
 });
 
 router.get('/', async (_req, res) => {
