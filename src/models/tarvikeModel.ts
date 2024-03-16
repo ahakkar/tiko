@@ -58,12 +58,22 @@ export const lisaaTarvike = async (n: Tarvike): Promise<Tarvike> => {
 };
 
 /**
- * Hakee kaikki varastotarvikkeet
+ * Hakee kaikki ei-vanhentuneet varastotarvikkeet
  * @returns varastotarvikkeet
  */
 const retrieveWarehouseItems = async (): Promise<VarastoTarvike[]> => {
   const queryStr = await getQueryFromFile('varastotarvikkeet.sql');
-  const result = await query<VarastoTarvike>(queryStr);
+  const result = await query<VarastoTarvike>(queryStr, ['FALSE']);
+  return result.rows;
+};
+
+/**
+ * Hakee kaikki arkistoidut eli vanhentuneet varastotarvikkeet
+ * @returns arkistoidut varastotarvikkeet
+ */
+const retrieveArchivedWarehouseItems = async (): Promise<VarastoTarvike[]> => {
+  const queryStr = await getQueryFromFile('varastotarvikkeet.sql');
+  const result = await query<VarastoTarvike>(queryStr, ['TRUE']);
   return result.rows;
 };
 
@@ -74,7 +84,8 @@ const retrieveWarehouseItems = async (): Promise<VarastoTarvike[]> => {
  */
 const retrieveWarehouseItem = async (id: number): Promise<VarastoTarvike> => {
   const result = await query<VarastoTarvike>(
-    `SELECT * FROM varastotarvike WHERE id = ${id}`
+    'SELECT * FROM varastotarvike WHERE id = $1',
+    [id]
   );
 
   const item = result.rows.at(0);
@@ -224,6 +235,7 @@ const getTarvikkeet = async (tyosuoritus_id: number) => {
 
 export {
   retrieveWarehouseItems,
+  retrieveArchivedWarehouseItems,
   retrieveWarehouseItem,
   retrieveItem,
   addNewWarehouseItems,

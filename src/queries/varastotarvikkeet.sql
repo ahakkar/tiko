@@ -4,4 +4,4 @@ SELECT
 FROM varastotarvike
 JOIN toimittaja
     ON varastotarvike.toimittaja_id = toimittaja.id
-WHERE vanhentunut = FALSE;
+WHERE vanhentunut = $1;

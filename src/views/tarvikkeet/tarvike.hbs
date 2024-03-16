@@ -1,5 +1,10 @@
 <h1 class="font-medium text-3xl">{{item.nimi}}</h1>
-<span>{{item.tyyppi}}</span>
+<div class="grid">  
+  <span class="capitalize">{{item.tyyppi}}</span>
+  {{#if item.vanhentunut}}
+  <span class="text-red-600">Arkistossa</span>
+  {{/if}}
+</div>
 <div class="grid m-4">
   <span>Merkki: {{item.merkki}}</span>
   <span>Hinta sisään: {{item.hinta_sisaan}}€</span>
