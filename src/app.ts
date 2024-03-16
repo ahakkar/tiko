@@ -16,14 +16,14 @@ import kirjauduUlos from './controllers/kirjauduUlosController';
 const app = express();
 config.configHandlebars(app);
 
+// Staattiset tiedostot
+app.use('/', express.static('public'));
+
 // Middlewaret
 app.use(morgan('dev')); // Logger
 app.use(express.urlencoded({extended: true})); // Parse POST data
 app.use(cookieParser());
 app.use(middleware.htmxChecker);
-
-// Staattiset tiedostot
-app.use('/', express.static('public'));
 
 // Kirjautuminen
 app.use('/kirjaudu', kirjaudu);
