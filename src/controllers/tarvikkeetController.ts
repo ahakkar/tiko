@@ -6,6 +6,7 @@ import {
   retrieveWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
+  retrieveArchivedWarehouseItems,
 } from '../models/tarvikeModel';
 import {retrieveSupplier} from '../models/toimittajaModel';
 import {Request} from 'express-serve-static-core';
@@ -33,6 +34,11 @@ const upload = multer({fileFilter});
 router.get('/', async (_req, res) => {
   const warehouseItems = await retrieveWarehouseItems();
   res.render('tarvikkeet/tarvikkeet', {warehouseItems});
+});
+
+router.get('/arkisto', async (_req, res) => {
+  const warehouseItems = await retrieveArchivedWarehouseItems();
+  res.render('tarvikkeet/arkisto', {warehouseItems});
 });
 
 router.get('/:id', async (req, res) => {

@@ -180,4 +180,5 @@ export interface VarastoTarvike extends QueryResultRow {
   varastotilanne: number;
   yksikko: string;
   hinta_sisaan: number;
+  vanhentunut: boolean;
 }
