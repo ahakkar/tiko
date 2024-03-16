@@ -22,6 +22,9 @@ app.use(express.urlencoded({extended: true})); // Parse POST data
 app.use(cookieParser());
 app.use(middleware.htmxChecker);
 
+// Staattiset tiedostot
+app.use('/', express.static('public'));
+
 // Kirjautuminen
 app.use('/kirjaudu', kirjaudu);
 app.use(middleware.authRedirect);
@@ -36,8 +39,5 @@ app.use('/tyokohteet', tyokohteet);
 app.use('/toimittajat', toimittajat);
 app.get('/tyhja', (_req, res) => res.status(200).send());
 app.get('/', (_req, res) => res.redirect('/tyosopimukset'));
-
-// Staattiset tiedostot
-app.use('/', express.static('public'));
 
 export default app;
