@@ -7,8 +7,8 @@ VALUES
 ('Tärsky Pub', 'Kullervontie 24 33500 Tampere');
 
 INSERT INTO varastotarvike
-(toimittaja_id, nimi, merkki, tyyppi, varastotilanne, yksikko, hinta_sisaan) 
-VALUES 
+(toimittaja_id, nimi, merkki, tyyppi, varastotilanne, yksikko, hinta_sisaan)
+VALUES
 (1, 'USB-Kaapeli', 'Xiangling Shenzhen Specialty Co.', 'johto', 40, 'kpl', 4.00),       --1
 (1, 'Ethernet CAT6 suojattu', 'ASDF', 'johto', 1000, 'm', 0.50),
 (1, 'HDMI 10m', 'Xianling Shenzhen Specialty Co.', 'johto', 30, 'kpl', 1.00),
@@ -53,11 +53,11 @@ VALUES
 
 INSERT INTO tyosuoritus (tyokohde_id, urakka_id, asiakas_id, aloitus_pvm, tila)
 VALUES
-(1,    1, 1, '2023-09-05', 'valmis'), -- susimetsä      - 1
-(6, NULL, 2, '2024-01-15', 'valmis'), -- nurmitie       - 2
-(3, NULL, 3, '2024-01-16', 'valmis'), -- puotonkorpi    - 3
-(4,    2, 2, '2024-02-17', 'valmis'), -- huitsinneva    - 4
-(5, NULL, 3, '2024-02-14', 'valmis'); -- masalantie     - 5
+(1,    1, 1, '2023-09-05', 'Valmis'), -- susimetsä      - 1
+(6, NULL, 2, '2024-01-15', 'Valmis'), -- nurmitie       - 2
+(3, NULL, 3, '2024-01-16', 'Valmis'), -- puotonkorpi    - 3
+(4,    2, 2, '2024-02-17', 'Valmis'), -- huitsinneva    - 4
+(5, NULL, 3, '2024-02-14', 'Valmis'); -- masalantie     - 5
 
 INSERT INTO tuntihinta (tyosuoritus_id, tuntihintatyyppi_id, pvm, alv_prosentti, aleprosentti, tunnit)
 VALUES
@@ -69,8 +69,8 @@ VALUES
 (3, 1, '2024-01-14', 0.24, 0.2, 9),
 (3, 2, '2024-01-15', 0.24, 0.1, 7),
 (3, 3, '2024-01-16', 0.24, 0, 3), --
-(5, 1, '2024-02-11', 0.24, 0, 3), 
-(5, 2, '2024-02-12', 0.24, 0, 8), 
+(5, 1, '2024-02-11', 0.24, 0, 3),
+(5, 2, '2024-02-12', 0.24, 0, 8),
 (5, 2, '2024-02-13', 0.24, 0, 4);
 
 INSERT INTO tarvike (tyosuoritus_id, varastotarvike_id, maara, hinta_ulos, pvm, aleprosentti, alv_prosentti)
