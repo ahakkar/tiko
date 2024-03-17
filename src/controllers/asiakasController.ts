@@ -5,7 +5,7 @@ import {
   validoiAsiakas,
 } from '../models/asiakasModel';
 import {Asiakas} from '../models/interfaces';
-import {StatusCode} from '../constants/statusCode';
+import {StatusCode} from '../constants';
 const router = Router();
 
 router.get('/', async (_req, res) => {

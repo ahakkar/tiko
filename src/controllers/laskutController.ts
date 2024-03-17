@@ -2,7 +2,7 @@ import {Router} from 'express';
 import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
 import {getLaskuAsiakasKohde} from '../models/laskuModel';
 import {LaskuAsiakasKohde} from '../models/interfaces';
-import {StatusCode} from '../constants/statusCode';
+import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
 import {Lasku} from '../models/interfaces';
 

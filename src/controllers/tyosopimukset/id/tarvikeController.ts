@@ -5,7 +5,7 @@ import {
   retrieveWarehouseItems,
   validoiTarvike,
 } from '../../../models/tarvikeModel';
-import {StatusCode} from '../../../constants/statusCode';
+import {StatusCode} from '../../../constants';
 import {Tarvike} from '../../../models/interfaces';
 const router = Router();
 

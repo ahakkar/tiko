@@ -12,8 +12,7 @@ import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 import {Tyosopimus} from '../../models/interfaces';
-import {StatusCode} from '../../constants/statusCode';
-import {ContractState} from '../../constants/contractState';
+import {CONTRACT_STATES, StatusCode} from '../../constants';
 
 const router = Router();
 router.use(tyot);
@@ -63,7 +62,7 @@ router.post('/', async (req, res) => {
     tyokohde_id: req.body.tyokohde_id,
     asiakas_id: req.body.asiakas_id,
     aloitus_pvm: new Date(),
-    tila: ContractState.InDesign,
+    tila: CONTRACT_STATES[0]!,
   };
 
   if (!validoiTyosopimus(ts)) {

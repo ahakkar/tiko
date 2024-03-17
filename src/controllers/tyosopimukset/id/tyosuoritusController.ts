@@ -5,7 +5,7 @@ import {
   lisaaTyosuoritus,
   validoiTyosuoritus,
 } from '../../../models/tyosuoritusModel';
-import {StatusCode} from '../../../constants/statusCode';
+import {StatusCode} from '../../../constants';
 import {Tyosuoritus} from '../../../models/interfaces';
 const router = Router();
 
