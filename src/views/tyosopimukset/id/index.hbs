@@ -3,159 +3,168 @@
 <br />
 
 <div>
-  <div>
-    {{#if is_urakka}}<p>Sopimustyyppi: Urakkasopimus</p>{{/if}}
-    {{#if is_tuntihinta}}<p>Sopimustyyppi: Tuntityösopimus</p>{{/if}}
-    <p></p>Kohdeosoite: {{tyokohde.osoite}}</p>
-    <div>Aloituspäivämäärä: {{formatDate tyosopimus.aloitus_pvm}}</div>
-    <p>Työsopimuksen tila: {{tyosopimus.tila}}</p>
+  {{#if is_urakka}}<div>Sopimustyyppi: Urakkasopimus</div>{{/if}}
+  {{#if is_tuntihinta}}<div>Sopimustyyppi: Tuntityösopimus</div>{{/if}}
+  <div>Kohdeosoite: {{tyokohde.osoite}}</div>
+  <div>Aloituspäivämäärä: {{formatDate tyosopimus.aloitus_pvm}}</div>
+  <div class="flex items-center">
+    <span>Työsopimuksen tila:</span>
+    <select name="tila" hx-patch="/tyosopimukset/{{tyosopimus.id}}"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+      <option value="">{{tyosopimus.tila}}</option>
+      <option value="">---------------</option>
+      {{#each tilat}}
+      <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
   </div>
+</div>
 
-  <div class="py-3"></div>
+<div class="py-3"></div>
 
-  <div>
-    <h2 class="font-medium text-xl">Työkohde</h2>
-    <div>{{tyokohde.osoite}}</div>
-    <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
-    <div class="capitalize">{{tyokohde.tyyppi}}</div>
+<div>
+  <h2 class="font-medium text-xl">Työkohde</h2>
+  <div>{{tyokohde.osoite}}</div>
+  <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
+  <div class="capitalize">{{tyokohde.tyyppi}}</div>
+</div>
+
+<div class="py-3"></div>
+
+<div>
+  <h2 class="font-medium text-xl">Asiakas</h2>
+  <div class="flex">
+    <div>
+      <div>{{asiakas.nimi}}</div>
+      <div>{{asiakas.sahkoposti}}</div>
+      <div>{{asiakas.puhelinnumero}}</div>
+    </div>
+    <div class="px-10"></div>
+    <div class="shrink-0">
+      <div>{{asiakas.osoite}}</div>
+      <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
+    </div>
   </div>
+</div>
 
-  <div class="py-3"></div>
+<div class="py-3"></div>
 
-  <div>
-    <h2 class="font-medium text-xl">Asiakas</h2>
+<div>
+  <h2 class="font-medium text-xl">Laskut</h2>
+
+  {{#each laskut}}
+  <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true"
+    class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
     <div class="flex">
       <div>
-        <div>{{asiakas.nimi}}</div>
-        <div>{{asiakas.sahkoposti}}</div>
-        <div>{{asiakas.puhelinnumero}}</div>
-      </div>
-      <div class="px-10"></div>
-      <div class="shrink-0">
-        <div>{{asiakas.osoite}}</div>
-        <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="py-3"></div>
-
-  <div>
-    <h2 class="font-medium text-xl">Laskut</h2>
-
-    {{#each laskut}}
-    <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true"
-      class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
-      <div class="flex">
-        <div>
-          <div class="font-medium">{{formatDate pvm}}</div>
-          <div>{{summa}} €</div>
-          <div {{#if expired}}class="px-2 -left-2 relative rounded-full bg-red-500 text-white" {{/if}}>
-            Eräpäivä {{formatDate era_pvm}}
-          </div>
+        <div class="font-medium">{{formatDate pvm}}</div>
+        <div>{{summa}} €</div>
+        <div {{#if expired}}class="px-2 -left-2 relative rounded-full bg-red-500 text-white" {{/if}}>
+          Eräpäivä {{formatDate era_pvm}}
         </div>
       </div>
-      <div class="flex justify-between flex-col min-h-full">
-        <div class="text-right font-medium">{{tila}}</div>
-        {{#if is_muistutuslasku}}<div class="px-3 rounded-full bg-yellow-500 text-white">Muistutuslasku</div>{{/if}}
-        {{#if is_karhulasku}}<div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>
-        {{/if}}
-      </div>
     </div>
-    {{#if showExpiredButton}}
-    <div class="relative h-0 left-44 bottom-12">
-      <button hx-get="/tyosopimukset/{{../tyosopimus.id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content"
-        class="px-4 py-2 font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">
-        Luo muistutuslasku
-      </button>
+    <div class="flex justify-between flex-col min-h-full">
+      <div class="text-right font-medium">{{tila}}</div>
+      {{#if is_muistutuslasku}}<div class="px-3 rounded-full bg-yellow-500 text-white">Muistutuslasku</div>{{/if}}
+      {{#if is_karhulasku}}<div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>
+      {{/if}}
     </div>
-    {{/if}}
-    {{/each}}
-
-    <button hx-get="/tyosopimukset/{{tyosopimus.id}}/laskut" hx-target="#modal-content"
-      class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
-      Uusi lasku
+  </div>
+  {{#if showExpiredButton}}
+  <div class="relative h-0 left-44 bottom-12">
+    <button hx-get="/tyosopimukset/{{../tyosopimus.id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content"
+      class="px-4 py-2 font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">
+      Luo muistutuslasku
     </button>
   </div>
+  {{/if}}
+  {{/each}}
 
-  <div class="py-3"></div>
+  <button hx-get="/tyosopimukset/{{tyosopimus.id}}/laskut" hx-target="#modal-content"
+    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+    Uusi lasku
+  </button>
+</div>
 
-  <div>
-    {{#if is_urakka}}<h2 class="font-medium text-xl">Urakkahinnan peruste</h2>{{/if}}
-    {{#if is_tuntihinta}}<h2 class="font-medium text-xl">Tuntihintaerittely</h2>{{/if}}
+<div class="py-3"></div>
 
-    <table class="min-w-full text-left text-sm">
-      <thead class="border-b font-medium dark:border-neutral-500">
-        <tr>
-          <th scope="col" class="px-6 py-4">Työn tyyppi</th>
-          <th scope="col" class="px-6 py-4">Tuntihinta</th>
-          <th scope="col" class="px-6 py-4">Tunnit</th>
-          <th scope="col" class="px-6 py-4">Hinta</th>
-          <th scope="col" class="px-6 py-4">ALV</th>
-          <th scope="col" class="px-6 py-4">Hinta yhteensä</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each tyosuoritukset}}
-        <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
-          <td class="whitespace-nowrap px-6 py-4 capitalize">{{tyyppi}}</td>
-          <td class="whitespace-nowrap px-6 py-4">{{tuntihinta}} €</td>
-          <td class="whitespace-nowrap px-6 py-4">{{tunnit}}</td>
-          <td class="whitespace-nowrap px-6 py-4">{{hinta}} €</td>
-          <td class="whitespace-nowrap px-6 py-4">{{alv}} €</td>
-          <td class="whitespace-nowrap px-6 py-4">{{hinta_yhteensa}} €</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+<div>
+  {{#if is_urakka}}<h2 class="font-medium text-xl">Urakkahinnan peruste</h2>{{/if}}
+  {{#if is_tuntihinta}}<h2 class="font-medium text-xl">Tuntihintaerittely</h2>{{/if}}
 
-    {{#if is_urakka}}
-    <p>Urakan aleprosentti: {{urakka.aleprosentti}}</p>
-    <p>Urakan korotusprosentti: {{urakka.korotusprosentti}}</p>
-    {{/if}}
+  <table class="min-w-full text-left text-sm">
+    <thead class="border-b font-medium dark:border-neutral-500">
+      <tr>
+        <th scope="col" class="px-6 py-4">Työn tyyppi</th>
+        <th scope="col" class="px-6 py-4">Tuntihinta</th>
+        <th scope="col" class="px-6 py-4">Tunnit</th>
+        <th scope="col" class="px-6 py-4">Hinta</th>
+        <th scope="col" class="px-6 py-4">ALV</th>
+        <th scope="col" class="px-6 py-4">Hinta yhteensä</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tyosuoritukset}}
+      <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
+        <td class="whitespace-nowrap px-6 py-4 capitalize">{{tyyppi}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{tuntihinta}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{tunnit}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{alv}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta_yhteensa}} €</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
-    <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tyot/uusi" hx-target="#modal-content"
-      class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
-      Uusi työsuoritus
-    </button>
-  </div>
+  {{#if is_urakka}}
+  <p>Urakan aleprosentti: {{urakka.aleprosentti}}</p>
+  <p>Urakan korotusprosentti: {{urakka.korotusprosentti}}</p>
+  {{/if}}
 
-  <div class="py-3"></div>
+  <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tyot/uusi" hx-target="#modal-content"
+    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+    Uusi työsuoritus
+  </button>
+</div>
 
-  <div>
-    <h2 class="font-medium text-xl">Tarvikkeet</h2>
+<div class="py-3"></div>
 
-    <table class="min-w-full text-left text-sm">
-      <thead class="border-b font-medium dark:border-neutral-500">
-        <tr>
-          <th scope="col" class="px-6 py-4">Nimi</th>
-          <th scope="col" class="px-6 py-4">Määrä</th>
-          <th scope="col" class="px-6 py-4">Yksikön hinta</th>
-          <th scope="col" class="px-6 py-4">Hinta</th>
-          <th scope="col" class="px-6 py-4">ALV</th>
-          <th scope="col" class="px-6 py-4">Hinta yhteensä</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each tarvikkeet}}
-        <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
-          <td class="whitespace-nowrap px-6 py-4 capitalize">{{nimi}}</td>
-          <td class="whitespace-nowrap px-6 py-4">{{maara}} {{yksikko}}</td>
-          <td class="whitespace-nowrap px-6 py-4">{{hinta_ulos}} €</td>
-          <td class="whitespace-nowrap px-6 py-4">{{hinta}} €</td>
-          <td class="whitespace-nowrap px-6 py-4">{{alv}} €</td>
-          <td class="whitespace-nowrap px-6 py-4">{{hinta_yhteensa}} €</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+<div>
+  <h2 class="font-medium text-xl">Tarvikkeet</h2>
 
-    <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tarvikkeet/uusi" hx-target="#modal-content"
-      class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
-      Uusi tarvike
-    </button>
-  </div>
+  <table class="min-w-full text-left text-sm">
+    <thead class="border-b font-medium dark:border-neutral-500">
+      <tr>
+        <th scope="col" class="px-6 py-4">Nimi</th>
+        <th scope="col" class="px-6 py-4">Määrä</th>
+        <th scope="col" class="px-6 py-4">Yksikön hinta</th>
+        <th scope="col" class="px-6 py-4">Hinta</th>
+        <th scope="col" class="px-6 py-4">ALV</th>
+        <th scope="col" class="px-6 py-4">Hinta yhteensä</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tarvikkeet}}
+      <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
+        <td class="whitespace-nowrap px-6 py-4 capitalize">{{nimi}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{maara}} {{yksikko}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta_ulos}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{alv}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta_yhteensa}} €</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
-  <div class="py-3"></div>
+  <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tarvikkeet/uusi" hx-target="#modal-content"
+    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+    Uusi tarvike
+  </button>
+</div>
 
-  <div class="font-medium text-xl">Kokonaissumma {{kokonaissumma}} €</div>
+<div class="py-3"></div>
+
+<div class="font-medium text-xl">Kokonaissumma {{kokonaissumma}} €</div>

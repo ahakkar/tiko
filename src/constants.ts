@@ -1,4 +1,4 @@
-export const CONTRACT_STATES = ['Suunnitellaan', 'Tehdään', 'Tehty', 'Valmis'];
+export const CONTRACT_STATES = ['suunnitellaan', 'tehdään', 'tehty', 'valmis'];
 
 // Define HTTP status codes in a human readable format
 // More codes over at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status

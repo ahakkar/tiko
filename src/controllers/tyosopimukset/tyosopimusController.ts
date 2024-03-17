@@ -32,10 +32,25 @@ router.get('/tyokohde/uusi', (_req, res) => {
   });
 });
 
+/**
+ * TODO: Käsittele PATCH-pyyntö
+ * Tällä hetkellä PATCH-pyyntöä käytetään vain tilan päivittämiseen
+ */
+router.patch('/:id', async (req, res) => {
+  console.log(req.body); // Sisältää {tila: 'valmis'}
+  // Täytyy palauttaa virhekoodi, jotta HTMX ei muuta listaa
+  if (!req.body.tila) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+  res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
+});
+
 router.get('/:id', async (req, res) => {
   const id = Number(req.params.id);
   const tjl = await getTyosopimusJaLaskut(id);
-  const tyosopimus = {
+
+  const new_tjl = {
     ...tjl,
     laskut: tjl.laskut.map(lasku => ({
       ...lasku,
@@ -46,8 +61,9 @@ router.get('/:id', async (req, res) => {
       // ole vielä luotu muistutuslaskua
       showExpiredButton: true,
     })),
+    tilat: CONTRACT_STATES,
   };
-  res.render('tyosopimukset/id', tyosopimus);
+  res.render('tyosopimukset/id', new_tjl);
 });
 
 router.get('/', async (_req, res) => {
