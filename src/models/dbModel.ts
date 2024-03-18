@@ -31,15 +31,6 @@ const query = async <T extends QueryResultRow>(
 };
 
 /**
- * Palauttaa yhteyden tietokantaan monivaiheisia transaktioita varten
- * @returns Promise, joka sisältää yhteyden tietokantaan
- * @deprecated Käytä mieluummin makeTransaction-funktiota
- */
-const getClient = async (): Promise<PoolClient> => {
-  return pool.connect();
-};
-
-/**
  * Kutsuu callback-funktion tietokantatransaktion sisällä. Funktiolla
  * pääsee käsiksi client-olioon, jolla voi suorittaa kyselyitä.
  *
@@ -134,4 +125,4 @@ export const getDataById = async <T extends QueryResultRow>(
   }
 };
 
-export {query, getClient, makeTransaction, getQueryFromFile};
+export {query, makeTransaction, getQueryFromFile};
