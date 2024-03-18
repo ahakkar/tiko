@@ -12,7 +12,6 @@
     <select name="tila" hx-patch="/tyosopimukset/{{tyosopimus.id}}"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
       <option value="">{{tyosopimus.tila}}</option>
-      <option value="">---------------</option>
       {{#each tilat}}
       <option value="{{this}}">{{this}}</option>
       {{/each}}

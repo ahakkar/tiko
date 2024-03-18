@@ -13,6 +13,7 @@ import {
   TyosopimusJaLasku,
   KokoLasku,
 } from './interfaces';
+import {CONTRACT_STATES} from '../constants';
 
 /**
  * Hakee tietokannasta työsuorituksien perustiedot
@@ -283,5 +284,15 @@ function mapRowsToTyosopimukset(rows: QueryResultRow[]): KokoTyosopimus[] {
   }
   return result;
 }
+
+export const updateTyosopimusState = async (id: number, state: string) => {
+  if (!CONTRACT_STATES.includes(state)) {
+    throw new Error('Invalid contract state.');
+  }
+  await query<Tyosopimus>('UPDATE tyosuoritus SET tila = $1 WHERE id = $2', [
+    state,
+    id,
+  ]);
+};
 
 export {validoiTyosopimus, lisaaTyosopimus, luoUrakka};

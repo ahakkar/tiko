@@ -5,6 +5,7 @@ import {
   validoiTyosopimus,
   lisaaTyosopimus,
   luoUrakka,
+  updateTyosopimusState,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
@@ -32,17 +33,9 @@ router.get('/tyokohde/uusi', (_req, res) => {
   });
 });
 
-/**
- * TODO: Käsittele PATCH-pyyntö
- * Tällä hetkellä PATCH-pyyntöä käytetään vain tilan päivittämiseen
- */
 router.patch('/:id', async (req, res) => {
-  console.log(req.body); // Sisältää {tila: 'valmis'}
-  // Täytyy palauttaa virhekoodi, jotta HTMX ei muuta listaa
-  if (!req.body.tila) {
-    res.sendStatus(StatusCode.BadRequest);
-    return;
-  }
+  console.log(req.body);
+  await updateTyosopimusState(parseInt(req.params.id), req.body.tila);
   res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
 });
 
