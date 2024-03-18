@@ -37,7 +37,7 @@
     <div>Laskun numero: {{lasku.id}}</div>
 
     <div>Laskun eräpäivä: {{formatDate lasku.era_pvm}}</div>
-    <div>Laskun määrä: {{lasku.summa}}</div>
+    <div>Laskun määrä: {{lasku.yhteissumma}}</div>
     <div>Saajan pankkitili: </div>
     <div>Pankin BIC-tunnus: </div>
     <div>Maksun saajan nimi: </div>
@@ -129,7 +129,7 @@
   <div class="col-start-8 text-right">XXX €</div>
 
   <div class="col-start-6 col-span-2 mb-4 font-bold border-b-2 border-black">LASKU YHTEENSÄ:</div>
-  <div class="col-start-8 mb-4 font-bold text-right border-b-2 border-black">{{lasku.summa}} €</div>
+  <div class="col-start-8 mb-4 font-bold text-right border-b-2 border-black">{{lasku.yhteissumma}} €</div>
 </div>
 
 <div class="grid grid-cols-8 text-sm">

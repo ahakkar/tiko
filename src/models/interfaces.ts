@@ -137,7 +137,7 @@ export interface TyosopimusJaLasku {
   urakka: Urakka | null;
   asiakas: Asiakas;
   tyokohde: Tyokohde;
-  lasku: Lasku | undefined;
+  lasku: KokoLasku | undefined;
   tyosuoritukset: Tyosuoritus[];
   tarvikkeet: Tarvike[];
   kokonaissumma: string;
@@ -150,7 +150,7 @@ export interface TyosopimusJaLaskut {
   urakka: Urakka | null;
   asiakas: Asiakas;
   tyokohde: Tyokohde;
-  laskut: Lasku[];
+  laskut: KokoLasku[];
   tyosuoritukset: Tyosuoritus[];
   tarvikkeet: Tarvike[];
   kokonaissumma: string;
@@ -181,4 +181,23 @@ export interface VarastoTarvike extends QueryResultRow {
   yksikko: string;
   hinta_sisaan: number;
   vanhentunut: boolean;
+}
+
+export interface KokoLasku extends QueryResultRow {
+  id: number;
+  tyosuoritus_id: number;
+  summa: number;
+  era_pvm: Date;
+  pvm: Date;
+  maksettu_pvm: Date;
+  yhteissumma: number;
+  jarjestysluku: number;
+  laskutuslisä: number;
+  viivastyskorko: number;
+  tarvike_hinta: number;
+  tarvike_alv: number;
+  tyo_hinta: number;
+  tyo_alv: number;
+  kotitalousvahennys: number;
+  kokonaissumma: number;
 }

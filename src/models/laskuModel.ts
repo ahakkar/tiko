@@ -50,6 +50,27 @@ export const lisaaLasku = async (n: Lasku): Promise<Lasku> => {
   return result.rows[0];
 };
 
+export const addMuistutusLasku = async (
+  eraPvm: string,
+  edellinenId: number
+) => {
+  const {rows} = await query<Lasku>(
+    'SELECT tyosuoritus_id, summa FROM lasku WHERE id = $1',
+    [edellinenId]
+  );
+
+  const edellinen = rows.at(0);
+  if (!edellinen) {
+    throw new Error('Edellistä laskua ei löydetty!');
+  }
+  console.log(edellinen);
+  const {rows: newLasku} = await query<Lasku>(
+    'INSERT INTO lasku (tyosuoritus_id, edellinen_lasku, summa, era_pvm) VALUES ($1, $2, $3, $4) RETURNING *',
+    [edellinen.tyosuoritus_id, edellinenId, edellinen.summa, eraPvm]
+  );
+  return newLasku;
+};
+
 /**
  * Hakee custom-määrän tietoja joka laskusta kaikki laskut-näkymää varten
  * @returns lista laskuista

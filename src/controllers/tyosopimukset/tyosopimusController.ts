@@ -56,7 +56,7 @@ router.get('/:id', async (req, res) => {
       ...lasku,
       // TODO: expired-muuttuja on true, jos lasku erääntynyt ja
       // sitä ei ole maksettu
-      expired: lasku.era_pvm < new Date() && !lasku.maksettu_pvm,
+      expired: lasku['era_pvm'] < new Date() && !lasku['maksettu_pvm'],
       // TODO: Laita arvoksi true, jos lasku on erääntynyt ja siitä ei
       // ole vielä luotu muistutuslaskua
       showExpiredButton: true,

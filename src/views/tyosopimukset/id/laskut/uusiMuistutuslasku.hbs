@@ -2,21 +2,7 @@
 
 <div class="p-2"></div>
 
-<form hx-post="/laskut" hx-target="#modal-content" hx-vals='{"edellinen_lasku": "{{edellinen_lasku}}"}'>
-  <div class="mb-5">
-    <label>
-      <div class="text-sm font-medium text-gray-900">Laskun summa €</div>
-      <div class="text-sm text-gray-900">
-        Edellinen lasku + Muistutusmaksu {{#if viivastyskorko}}+ Viivästyskorko{{/if}}
-      </div>
-      <div class="mb-2 text-sm text-gray-900">
-        {{old_summa}} + {{muistutusmaksu}} {{#if viivastyskorko}}+ {{viivastyskorko}}{{/if}}
-      </div>
-      <input value="{{total}}"
-        class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed"
-        disabled>
-    </label>
-  </div>
+<form hx-post="/laskut/muistutus" hx-target="#modal-content" hx-vals='{"edellinen_lasku": "{{edellinen_lasku}}"}'>
 
   <div class="mb-5">
     <label>

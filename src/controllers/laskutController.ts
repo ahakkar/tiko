@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
-import {getLaskuAsiakasKohde} from '../models/laskuModel';
+import {addMuistutusLasku, getLaskuAsiakasKohde} from '../models/laskuModel';
 import {LaskuAsiakasKohde} from '../models/interfaces';
 import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
@@ -35,6 +35,12 @@ router.post('/', async (req, res) => {
     return;
   }
 
+  res.set('hx-refresh', 'true');
+  res.sendStatus(StatusCode.OK);
+});
+
+router.post('/muistutus', async (req, res) => {
+  await addMuistutusLasku(req.body.era_pvm, req.body.edellinen_lasku);
   res.set('hx-refresh', 'true');
   res.sendStatus(StatusCode.OK);
 });
