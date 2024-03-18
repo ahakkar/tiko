@@ -23,6 +23,7 @@
   <table class="table-auto w-full text-left text-sm">
     <thead class="w-full border-b font-medium dark:border-neutral-500">
       <tr>
+        <th scope="col" class="px-6 py-4">Siirrä arkistoon</th>
         <th scope="col" class="px-6 py-4">Nimi</th>
         <th scope="col" class="px-6 py-4">Merkki</th>
         <th scope="col" class="px-6 py-4">Tyyppi</th>
@@ -34,8 +35,15 @@
     </thead>
     <tbody>
       {{#each warehouseItems}}
+
       <tr hx-get="/tarvikkeet/{{this.id}}" hx-target="#main-content" hx-push-url="true"
         class="cursor-pointer border-b transition duration-300 ease-in-out hover:bg-neutral-200">
+        <td class="flex-row px-6 py-4">
+          <button hx-patch="tarvikkeet/{{this.id}}" hx-vals='{"vanhentunut": "{{not this.vanhentunut}}"}' hx-trigger="click consume"
+            class="border rounded p-2 hover:border-blue-700">
+            &#10060
+          </button>
+        </td>
         <td class="px-6 py-4">{{this.nimi}}</td>
         <td class="px-6 py-4">{{this.merkki}}</td>
         <td class="px-6 py-4">{{this.tyyppi}}</td>

@@ -109,6 +109,13 @@ const retrieveItem = async (id: number): Promise<Tarvike> => {
   return item;
 };
 
+const updateWarehouseItem = async (id: number, vanhentunut: boolean) => {
+  await query<VarastoTarvike>(
+    'UPDATE varastotarvike SET vanhentunut = $1 WHERE id = $2',
+    [vanhentunut, id]
+  );
+};
+
 /**
  * Lisää uudet varastotarvikkeet tietokantaan
  * @param newItems Uudet varastotarvikkeet
@@ -238,6 +245,7 @@ export {
   retrieveArchivedWarehouseItems,
   retrieveWarehouseItem,
   retrieveItem,
+  updateWarehouseItem,
   addNewWarehouseItems,
   validateNewWarehouseItems,
   getTarvikkeet,

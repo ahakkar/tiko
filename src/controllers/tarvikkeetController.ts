@@ -7,6 +7,7 @@ import {
   validateNewWarehouseItems,
   addNewWarehouseItems,
   retrieveArchivedWarehouseItems,
+  updateWarehouseItem,
 } from '../models/tarvikeModel';
 import {retrieveSupplier} from '../models/toimittajaModel';
 import {Request} from 'express-serve-static-core';
@@ -80,6 +81,13 @@ router.post('/lataa', upload.array('items-files'), async (req, res) => {
   const items = await retrieveWarehouseItems();
 
   res.render('tarvikkeet/tarvikkeet', {warehouseItems: items});
+});
+
+router.patch('/:id', async (req, res) => {
+  const id = parseInt(req.params.id);
+  const {vanhentunut} = req.body;
+  await updateWarehouseItem(id, vanhentunut);
+  res.set('hx-refresh', 'true').send();
 });
 
 export default router;
