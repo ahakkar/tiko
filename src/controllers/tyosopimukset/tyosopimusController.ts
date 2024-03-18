@@ -54,9 +54,9 @@ router.get('/:id', async (req, res) => {
     ...tjl,
     laskut: tjl.laskut.map(lasku => ({
       ...lasku,
-      // TODO: Lisää expired-muuttuja laskuille backendiin, joka
-      // kertoo, onko lasku erääntynyt
-      expired: lasku.era_pvm < new Date(),
+      // TODO: expired-muuttuja on true, jos lasku erääntynyt ja
+      // sitä ei ole maksettu
+      expired: lasku.era_pvm < new Date() && !lasku.maksettu_pvm,
       // TODO: Laita arvoksi true, jos lasku on erääntynyt ja siitä ei
       // ole vielä luotu muistutuslaskua
       showExpiredButton: true,
