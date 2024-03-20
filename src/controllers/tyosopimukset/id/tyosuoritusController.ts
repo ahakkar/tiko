@@ -50,6 +50,11 @@ router.get('/:id/tyot/uusi', async (req, res) => {
 });
 
 router.post('/:id/tyosuoritus', async (req, res) => {
+  if (!res.locals['writeAccess']) {
+    res.sendStatus(StatusCode.Unauthorized);
+    return;
+  }
+
   const n: Tyosuoritus = {
     tyosuoritus_id: Number(req.params.id),
     tuntihintatyyppi_id: Number(req.body.tuntihintatyyppi_id),

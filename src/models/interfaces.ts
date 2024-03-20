@@ -13,6 +13,7 @@ export interface Asiakas extends QueryResultRow {
 export interface Kayttaja {
   nimi: string;
   salasanatiiviste: string;
+  rooli: 'read' | 'write';
 }
 
 export interface KokoTyosopimus {

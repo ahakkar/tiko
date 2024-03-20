@@ -14,6 +14,7 @@ import {Request} from 'express-serve-static-core';
 import {NewWarehouseItems} from '../models/interfaces';
 import {makeTransaction} from '../models/dbModel';
 import {PoolClient} from 'pg';
+import {StatusCode} from '../constants';
 
 const router = Router();
 
@@ -56,6 +57,11 @@ router.get('/:id/tarvikkeet/uusi', (_req, res) => {
 });
 
 router.post('/lataa', upload.array('items-files'), async (req, res) => {
+  if (!res.locals['writeAccess']) {
+    res.sendStatus(StatusCode.Unauthorized);
+    return;
+  }
+
   if (!req.files || !(req.files instanceof Array)) {
     throw new Error('Tiedostoa ei löytynyt');
   }
@@ -84,6 +90,11 @@ router.post('/lataa', upload.array('items-files'), async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
+  if (!res.locals['writeAccess']) {
+    res.sendStatus(StatusCode.Unauthorized);
+    return;
+  }
+
   const id = parseInt(req.params.id);
   const {vanhentunut} = req.body;
   await updateWarehouseItem(id, vanhentunut);

@@ -53,6 +53,11 @@ router.get('/:id/tarvikkeet/:varastotarvike_id', async (req, res) => {
 });
 
 router.post('/:id/tarvike', async (req, res) => {
+  if (!res.locals['writeAccess']) {
+    res.sendStatus(StatusCode.Unauthorized);
+    return;
+  }
+
   const id = Number(req.params.id);
 
   const n: Tarvike = {

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
+import {Kayttaja} from '../models/interfaces';
 
 /**
  * Asettaa näkymien muuttujan htmx:n arvoksi true, jos pyyntö tulee HTMX:ltä.
@@ -33,10 +34,11 @@ export const authRedirect = async (
     const user = jwt.verify(
       req.cookies['login'],
       process.env['JWT_SECRET']!
-    ) as jwt.JwtPayload;
+    ) as Kayttaja;
 
-    // req.body['loggedUser'] = user['nimi'];
-    res.locals['loggedUser'] = user['nimi'];
+    // Tallenna käyttäjä
+    res.locals['writeAccess'] = user.rooli === 'write';
+    res.locals['loggedUser'] = user.nimi;
     next();
   } catch (e) {
     // console.log(e);
