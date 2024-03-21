@@ -34,11 +34,6 @@ router.get('/tyokohde/uusi', (_req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  if (!res.locals['writeAccess']) {
-    res.sendStatus(StatusCode.Unauthorized);
-    return;
-  }
-
   console.log(req.body);
   await updateTyosopimusState(parseInt(req.params.id), req.body.tila);
   res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
@@ -70,11 +65,6 @@ router.get('/', async (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  if (!res.locals['writeAccess']) {
-    res.sendStatus(StatusCode.Unauthorized);
-    return;
-  }
-
   const ts: Tyosopimus = {
     id: -1, // id generoidaan tietokannassa
     urakka_id: -1, // id generoidaan tietokannassa

@@ -20,11 +20,6 @@ router.get('/uusi', (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  if (!res.locals['writeAccess']) {
-    res.sendStatus(StatusCode.Unauthorized);
-    return;
-  }
-
   const a: Asiakas = {
     id: -1, // id generoidaan tietokannassa
     nimi: req.body.nimi,

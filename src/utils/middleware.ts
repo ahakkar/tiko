@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express';
 import {Kayttaja} from '../models/interfaces';
+import {StatusCode} from '../constants';
 
 /**
  * Asettaa näkymien muuttujan htmx:n arvoksi true, jos pyyntö tulee HTMX:ltä.
@@ -44,4 +45,20 @@ export const authRedirect = async (
     // console.log(e);
     res.redirect('/kirjaudu');
   }
+};
+
+/**
+ * Tarkistaa, että muokkaavat pyynnöt onnistuvat vain, jos käyttäjällä on
+ * muokkausoikeus.
+ */
+export const unauthorizedCheck = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.method === 'GET' || res.locals['writeAccess']) {
+    next();
+    return;
+  }
+  res.sendStatus(StatusCode.Unauthorized);
 };

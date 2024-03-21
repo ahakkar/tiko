@@ -21,10 +21,6 @@ router.get('/uusi', (_req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  if (!res.locals['writeAccess']) {
-    res.sendStatus(StatusCode.Unauthorized);
-    return;
-  }
   const t: Tyokohde = {
     id: -1, // id generoidaan tietokannassa
     tyyppi: req.body.tyyppi,

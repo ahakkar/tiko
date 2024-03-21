@@ -13,10 +13,6 @@ const router = Router();
  * tietokantaan
  */
 router.post('/', async (req, res) => {
-  if (!res.locals['writeAccess']) {
-    res.sendStatus(StatusCode.Unauthorized);
-    return;
-  }
   // TODO: Tee muistutuslasku/karhulasku
   // Jos bodysta puuttuu summa ja sisältää edellinen_lasku-kentän:
   // {era_pvm: '2024-03-30', edellinen_lasku: '1'},
@@ -47,11 +43,6 @@ router.post('/', async (req, res) => {
 // eikä /laskut/muistutus alle. Endpoint /laskut/muistutus
 // tarkoittaa, että jokaisen laskun alla on 1 kpl oma muistutuksensa.
 router.post('/muistutus', async (req, res) => {
-  if (!res.locals['writeAccess']) {
-    res.sendStatus(StatusCode.Unauthorized);
-    return;
-  }
-
   await addMuistutusLasku(req.body.era_pvm, req.body.edellinen_lasku);
   res.set('hx-refresh', 'true');
   res.sendStatus(StatusCode.OK);
