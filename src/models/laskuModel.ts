@@ -1,5 +1,5 @@
 import {getData, query} from './dbModel';
-import {Lasku, LaskuAsiakasKohde} from './interfaces';
+import {KokoLasku, Lasku, LaskuAsiakasKohde} from './interfaces';
 
 /**
  * Tarkistaa onko tyokohteen tiedot validit
@@ -80,4 +80,28 @@ export const getLaskuAsiakasKohde = async (): Promise<LaskuAsiakasKohde[]> => {
     'laskutAsiakasKohde.sql'
   );
   return data;
+};
+
+export const getKokoLasku = async (id: number): Promise<KokoLasku> => {
+  const {rows} = await query<KokoLasku>(
+    'SELECT * FROM koko_lasku WHERE id = $1',
+    [id]
+  );
+  const lasku = rows.at(0);
+  if (lasku) {
+    return lasku;
+  } else {
+    throw new Error('Laskua ei löydetty.');
+  }
+};
+
+export const hasMuistutusLasku = async (id: number): Promise<boolean> => {
+  const {rows} = await query(
+    'SELECT DISTINCT id FROM lasku WHERE edellinen_lasku = $1',
+    [id]
+  );
+  if (rows.length > 0) {
+    return true;
+  }
+  return false;
 };

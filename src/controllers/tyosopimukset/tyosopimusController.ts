@@ -14,6 +14,7 @@ import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 import {Tyosopimus} from '../../models/interfaces';
 import {CONTRACT_STATES, StatusCode} from '../../constants';
+import {hasMuistutusLasku} from '../../models/laskuModel';
 
 const router = Router();
 router.use(tyot);
@@ -45,15 +46,16 @@ router.get('/:id', async (req, res) => {
 
   const new_tjl = {
     ...tjl,
-    laskut: tjl.laskut.map(lasku => ({
-      ...lasku,
-      // TODO: expired-muuttuja on true, jos lasku erääntynyt ja
-      // sitä ei ole maksettu
-      expired: lasku['era_pvm'] < new Date() && !lasku['maksettu_pvm'],
-      // TODO: Laita arvoksi true, jos lasku on erääntynyt ja siitä ei
-      // ole vielä luotu muistutuslaskua
-      showExpiredButton: true,
-    })),
+    laskut: await Promise.all(
+      tjl.laskut.map(async lasku => {
+        const expired = lasku['era_pvm'] < new Date() && !lasku['maksettu_pvm'];
+        return {
+          ...lasku,
+          expired,
+          showExpiredButton: !(await hasMuistutusLasku(lasku.id)) && expired,
+        };
+      })
+    ),
     tilat: CONTRACT_STATES,
   };
   res.render('tyosopimukset/id', new_tjl);
