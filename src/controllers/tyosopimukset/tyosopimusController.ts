@@ -35,7 +35,6 @@ router.get('/tyokohde/uusi', (_req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  console.log(req.body);
   await updateTyosopimusState(parseInt(req.params.id), req.body.tila);
   res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
 });
@@ -48,11 +47,16 @@ router.get('/:id', async (req, res) => {
     ...tjl,
     laskut: await Promise.all(
       tjl.laskut.map(async lasku => {
-        const expired = lasku['era_pvm'] < new Date() && !lasku['maksettu_pvm'];
+        const expired =
+          lasku['era_pvm'] < new Date() && lasku['maksettu_pvm'] === null;
+        const hasReminder = await hasMuistutusLasku(lasku.id);
         return {
           ...lasku,
           expired,
-          showExpiredButton: !(await hasMuistutusLasku(lasku.id)) && expired,
+          is_muistutuslasku: lasku.jarjestysluku === 2,
+          is_karhulasku: lasku.jarjestysluku > 2,
+          karhuluku: lasku.jarjestysluku - 2,
+          showExpiredButton: !hasReminder && expired,
         };
       })
     ),
