@@ -2,6 +2,7 @@ SELECT
     t.id,
     t.tyosuoritus_id,
     t.varastotarvike_id,
+    v.yksikko,
     t.maara,
     t.hinta_ulos,
     t.pvm,

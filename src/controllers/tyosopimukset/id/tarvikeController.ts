@@ -71,6 +71,7 @@ router.post('/:id/tarvike', async (req, res) => {
     hinta_sisaan: '',
     hinta_yhteensa: '',
     alv: '',
+    yksikko: '',
   };
 
   if (!validoiTarvike(n)) {

@@ -115,6 +115,7 @@ export interface Tarvike extends QueryResultRow {
   nimi: string;
   tyosuoritus_id: number;
   varastotarvike_id: number;
+  yksikko: string;
   maara: number;
   hinta_sisaan: string;
   hinta_ulos: string;
