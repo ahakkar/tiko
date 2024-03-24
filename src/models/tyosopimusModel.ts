@@ -12,6 +12,7 @@ import {
   KokoTyosopimus,
   TyosopimusJaLasku,
   KokoLasku,
+  AlvErittely,
 } from './interfaces';
 import {CONTRACT_STATES} from '../constants';
 
@@ -120,6 +121,16 @@ export const getTyosopimusJaLasku = async (
     'SELECT * FROM koko_lasku WHERE lasku_id = $1',
     [laskuId]
   );
+
+  const alv_erittely = await getDataById<AlvErittely>(
+    tyosuoritusId,
+    'tyosopimusAlvErittely.sql'
+  );
+  if (alv_erittely !== undefined) {
+    result.alv_erittely = alv_erittely;
+  }
+
+  console.log('alv_erittely', alv_erittely);
 
   result.tyosopimus = tyosopimus[0]?.tyosopimus;
   result.asiakas = tyosopimus[0]?.asiakas;

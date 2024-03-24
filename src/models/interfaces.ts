@@ -1,7 +1,7 @@
 import {QueryResultRow} from 'pg';
 
-export interface AlvYhteenveto extends QueryResultRow {
-  alv_prosentti: number;
+export interface AlvErittely extends QueryResultRow {
+  alv_prosentti: string;
   alv_summa: string;
 }
 
@@ -45,6 +45,7 @@ export interface KokoLasku extends QueryResultRow {
   kokonaissumma_alv0: string;
   alesumma_alv0: string;
   aleprosentti: string;
+  alv_erittely: AlvErittely[];
 }
 
 export interface KokoTyosopimus {
@@ -174,6 +175,7 @@ export interface TyosopimusJaLasku {
   tyosuoritukset: Tyosuoritus[];
   tarvikkeet: Tarvike[];
   kokonaissumma: string;
+  alv_erittely: AlvErittely[];
   is_urakka: boolean;
   is_tuntihinta: boolean;
 }

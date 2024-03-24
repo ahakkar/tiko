@@ -156,23 +156,10 @@
 
 <div class="grid grid-cols-8 text-sm">
   <div class="col-start-6 col-span-2">ALV-erittely</div>
-
-  <div class="col-start-6 col-span-2">Veroton määrä:</div>
-  <div class="col-start-8 text-right">{{lasku.alesumma_alv0}} €</div>
-
-  <div class="col-start-6 col-span-2">ALV 0 %:</div>
-  <div class="col-start-8 text-right">XXX €</div>
-
-  <div class="col-start-6 col-span-2">ALV 10 %</div>
-  <div class="col-start-8 text-right">XXX €</div>
-
-  <div class="col-start-6 col-span-2">ALV 14 %</div>
-  <div class="col-start-8 text-right">XXX €</div>
-
-  <div class="col-start-6 col-span-2">ALV 24 %:</div>
-  <div class="col-start-8 text-right">XXX €</div>
-
-
+  {{#each alv_erittely}}  
+  <div class="col-start-6 col-span-2">ALV {{formatPercentage alv_prosentti}}:</div>
+  <div class="col-start-8 text-right">{{alv_summa}} €</div>
+  {{/each}}
 </div>
 
 <!-- Työn ja tarvikkeiden ja kotitalousvähennyksen erittely -->
