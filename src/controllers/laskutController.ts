@@ -46,8 +46,6 @@ router.get('/', async (req, res) => {
   const laskuId = Number(req.query['laskuId']);
   const tyosopimusId = Number(req.query['tyosopimusId']);
 
-  console.log('laskuId', laskuId, 'tyosopimusId', tyosopimusId);
-
   if (laskuId && tyosopimusId) {
     const tjl: TyosopimusJaLasku = await getTyosopimusJaLasku(
       tyosopimusId,
