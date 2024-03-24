@@ -88,8 +88,6 @@ router.post('/', async (req, res) => {
   if (req.body.tyyppi === 'urakka') {
     const uusiUrakka = await luoUrakka();
     ts.urakka_id = uusiUrakka.id;
-  } else {
-    ts.urakka_id = null;
   }
 
   const result = await lisaaTyosopimus(ts);

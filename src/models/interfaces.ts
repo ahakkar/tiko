@@ -54,7 +54,7 @@ export interface KokoTyosuoritus extends QueryResultRow {
   tuntihinta: string;
   hinta: string;
   alv: string;
-  hinta_yhteensa: string;
+  hinta_yhteensa: number;
 }
 
 export interface Lasku extends QueryResultRow {
@@ -104,14 +104,14 @@ export interface Tarvike extends QueryResultRow {
   tyosuoritus_id: number;
   varastotarvike_id: number;
   maara: number;
-  hinta_sisaan: number;
-  hinta_ulos: number;
-  hinta_yhteensa: number;
+  hinta_sisaan: string;
+  hinta_ulos: string;
+  hinta_yhteensa: string;
   pvm: Date;
-  aleprosentti: number;
-  alv_prosentti: number;
-  hinta: number;
-  alv: number;
+  aleprosentti: string;
+  alv_prosentti: string;
+  hinta: string;
+  alv: string;
 }
 
 export interface Toimittaja extends QueryResultRow {
