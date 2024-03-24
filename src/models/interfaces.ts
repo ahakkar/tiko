@@ -144,7 +144,7 @@ export interface Tyosuoritus extends QueryResultRow {
 }
 
 export interface Tyosopimus extends QueryResultRow {
-  id: number;
+  id: number | null;
   tyokohde_id: number;
   urakka_id: number | null;
   aloitus_pvm: Date;

@@ -78,21 +78,23 @@
 {{#if is_tuntihinta}}
 <div class="py-4 font-bold">Tuntityöerittely koko työsopimuksesta</div>
 <div class="text-sm">
-  <div class="grid grid-cols-6 font-bold border-b-2 border-black">  
+  <div class="grid grid-cols-7 font-bold border-b-2 border-black">  
     <div>Nimi</div>
     <div class="text-right">Määrä</div>
     <div class="text-right">Veroton a-hinta</div>
     <div class="text-right">Yhteensä ALV 0</div>
+    <div class="text-right">Alennus-%</div>
     <div class="text-right">ALV:n osuus</div>
     <div class="text-right">Yhteensä</div>
   </div>
 
-  <div class="grid grid-cols-6 pb-4"> 
+  <div class="grid grid-cols-7 pb-4"> 
     {{#each tyosuoritukset}}
     <div class="capitalize">{{tyyppi}}</div>
     <div class="text-right">{{tuntihinta}}</div>
     <div class="text-right">{{tunnit}}</div>
     <div class="text-right">{{hinta}} €</div>
+    <div class="text-right">{{aleprosentti}}</div>
     <div class="text-right">{{alv}} €</div>
     <div class="text-right">{{hinta_yhteensa}} €</div>
     {{/each}}
@@ -101,21 +103,23 @@
 
 <div class="py-4 font-bold">Tarvike-erittely koko työsopimuksesta</div>
 <div class="text-sm">
-  <div class="grid grid-cols-6 font-bold border-b-2 border-black">  
+  <div class="grid grid-cols-7 font-bold border-b-2 border-black">  
     <div>Nimi</div>
     <div class="text-right">Määrä</div>
-    <div class="text-right">Veroton a-hinta</div>
+    <div class="text-right">Veroton a-hinta</div>    
     <div class="text-right">Yhteensä ALV 0</div>
+    <div class="text-right">Alennus-%</div>
     <div class="text-right">ALV</div>
     <div class="text-right">Yhteensä</div>
   </div>
 
-  <div class="grid grid-cols-6 pb-4"> 
+  <div class="grid grid-cols-7 pb-4"> 
     {{#each tarvikkeet}}
     <div>{{nimi}}</div>
     <div class="text-right">{{maara}} {{yksikko}}</div>
     <div class="text-right">{{hinta_ulos}} €</div>
     <div class="text-right">{{hinta}} €</div>
+    <div class="text-right">{{aleprosentti}}</div>
     <div class="text-right">{{alv}} €</div>
     <div class="text-right">{{hinta_yhteensa}} €</div>
     {{/each}}

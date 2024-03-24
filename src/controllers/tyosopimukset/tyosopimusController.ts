@@ -72,8 +72,8 @@ router.get('/', async (_req, res) => {
 
 router.post('/', async (req, res) => {
   const ts: Tyosopimus = {
-    id: -1, // id generoidaan tietokannassa
-    urakka_id: -1, // id generoidaan tietokannassa
+    id: null, // id generoidaan tietokannassa
+    urakka_id: null, // id generoidaan tietokannassa
     tyokohde_id: req.body.tyokohde_id,
     asiakas_id: req.body.asiakas_id,
     aloitus_pvm: new Date(),
@@ -88,6 +88,8 @@ router.post('/', async (req, res) => {
   if (req.body.tyyppi === 'urakka') {
     const uusiUrakka = await luoUrakka();
     ts.urakka_id = uusiUrakka.id;
+  } else {
+    ts.urakka_id = null;
   }
 
   const result = await lisaaTyosopimus(ts);
