@@ -88,6 +88,7 @@ export const getTyosopimusJaLasku = async (
   tyosuoritusId: number,
   laskuId: number
 ): Promise<TyosopimusJaLasku> => {
+  console.log('tyosuoritusId', tyosuoritusId, 'laskuId', laskuId);
   const result: TyosopimusJaLasku = {} as TyosopimusJaLasku;
   const tyosopimus = await getTyoSopimusData(tyosuoritusId);
 
@@ -113,7 +114,7 @@ export const getTyosopimusJaLasku = async (
   }
 
   const {rows: lasku} = await query<KokoLasku>(
-    'SELECT * FROM koko_lasku WHERE id = $1',
+    'SELECT * FROM koko_lasku WHERE lasku_id = $1',
     [laskuId]
   );
 
@@ -130,6 +131,8 @@ export const getTyosopimusJaLasku = async (
   );
   result.is_urakka = !!result.tyosopimus.urakka_id;
   result.is_tuntihinta = !result.tyosopimus.urakka_id;
+
+  console.log(result);
 
   return result;
 };

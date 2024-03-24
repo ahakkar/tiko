@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
 import {addMuistutusLasku, getLaskuAsiakasKohde} from '../models/laskuModel';
-import {LaskuAsiakasKohde} from '../models/interfaces';
+import {LaskuAsiakasKohde, TyosopimusJaLasku} from '../models/interfaces';
 import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
 import {Lasku} from '../models/interfaces';
@@ -46,8 +46,13 @@ router.get('/', async (req, res) => {
   const laskuId = Number(req.query['laskuId']);
   const tyosopimusId = Number(req.query['tyosopimusId']);
 
+  console.log('laskuId', laskuId, 'tyosopimusId', tyosopimusId);
+
   if (laskuId && tyosopimusId) {
-    const tjl = await getTyosopimusJaLasku(tyosopimusId, laskuId);
+    const tjl: TyosopimusJaLasku = await getTyosopimusJaLasku(
+      tyosopimusId,
+      laskuId
+    );
     res.render('laskut/lasku', tjl);
     return;
   }

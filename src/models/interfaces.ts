@@ -16,6 +16,25 @@ export interface Kayttaja {
   rooli: 'read' | 'write';
 }
 
+export interface KokoLasku extends QueryResultRow {
+  id: number;
+  tyosuoritus_id: number;
+  summa: number;
+  yhteissumma: number;
+  era_pvm: Date; // puuttuu
+  pvm: Date; // puuttuu
+  maksettu_pvm: Date; // puuttuu
+  jarjestysluku: number;
+  laskutuslisä: number;
+  viivastyskorko: number;
+  tarvike_hinta: number;
+  tarvike_alv: number;
+  tyo_hinta: number;
+  tyo_alv: number;
+  kotitalousvahennys: number;
+  kokonaissumma: number;
+}
+
 export interface KokoTyosopimus {
   asiakas: Asiakas;
   tyokohde: Tyokohde;
@@ -182,23 +201,4 @@ export interface VarastoTarvike extends QueryResultRow {
   yksikko: string;
   hinta_sisaan: number;
   vanhentunut: boolean;
-}
-
-export interface KokoLasku extends QueryResultRow {
-  id: number;
-  tyosuoritus_id: number;
-  summa: number;
-  era_pvm: Date;
-  pvm: Date;
-  maksettu_pvm: Date;
-  yhteissumma: number;
-  jarjestysluku: number;
-  laskutuslisä: number;
-  viivastyskorko: number;
-  tarvike_hinta: number;
-  tarvike_alv: number;
-  tyo_hinta: number;
-  tyo_alv: number;
-  kotitalousvahennys: number;
-  kokonaissumma: number;
 }
