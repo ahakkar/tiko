@@ -117,6 +117,7 @@ CREATE TABLE tarvike (
     aleprosentti percentage NOT NULL DEFAULT 0,
     alv_prosentti percentage NOT NULL,
     hinta NUMERIC(10, 2) GENERATED ALWAYS AS (maara * hinta_ulos * (1 - aleprosentti)) STORED,
+    alkup_hinta NUMERIC(10, 2) GENERATED ALWAYS AS (maara * hinta_ulos) STORED,
     alv NUMERIC(10, 2) GENERATED ALWAYS AS (maara * hinta_ulos * (1 - aleprosentti) * alv_prosentti) STORED,
     FOREIGN KEY (tyosuoritus_id) REFERENCES tyosuoritus(id),
     FOREIGN KEY (varastotarvike_id) REFERENCES varastotarvike(id)
@@ -207,6 +208,7 @@ CREATE VIEW tuntihinta_nakyma AS
         aleprosentti,
         tunnit,
         ROUND(tuntihinta * tunnit * (1 - aleprosentti), 2) AS hinta,
+        ROUND(tuntihinta * tunnit, 2) AS alkup_hinta,
         ROUND(tuntihinta * tunnit * (1 - aleprosentti) * alv_prosentti, 2) AS alv
     FROM 
         tuntihinta
@@ -218,6 +220,7 @@ CREATE VIEW tuntihinnat AS
     SELECT 
         tyosuoritus_id,
         SUM(hinta) AS tuntihinta_hinta,
+        SUM(alkup_hinta) AS alkup_hinta,
         SUM(alv) AS tuntihinta_alv,
         SUM(hinta + alv) AS kotitalousvahennys
     FROM
@@ -231,6 +234,7 @@ CREATE VIEW tarvikkeet AS
     SELECT 
         tyosuoritus_id,
         SUM(hinta) AS tarvike_hinta,
+        SUM(alkup_hinta) AS alkup_hinta,
         SUM(alv) AS tarvike_alv,
         SUM(hinta + alv) AS tarvike_summa
     FROM
@@ -263,9 +267,13 @@ CREATE VIEW koko_lasku AS
         (edelliset_laskut + 1) AS jarjestysluku,
         (edelliset_laskut * 5) AS laskutuslisä,
         viivastyskorko,
-        tarvikkeet.tarvike_hinta AS tarvike_hinta,
-        tarvikkeet.tarvike_alv AS tarvike_alv,
-        tuntihinnat.tuntihinta_hinta AS tyo_hinta,       
+        tarvikkeet.tarvike_summa AS tarvikkeet_summa,
+        tarvikkeet.tarvike_hinta AS tarvikkeet_alv0_summa,
+        tarvikkeet.alkup_hinta AS tarvikkeet_alkup_hinta,
+        tarvikkeet.tarvike_alv AS tarvikkeet_alv,
+        tuntihinnat.kotitalousvahennys AS tyo_summa,
+        tuntihinnat.tuntihinta_hinta AS tyo_alv0_summa,   
+        tuntihinnat.alkup_hinta AS tyo_alkup_hinta,    
         tuntihinnat.tuntihinta_alv AS tyo_alv,
         CASE 
             WHEN urakka.lahtohinta IS NULL 
@@ -278,7 +286,10 @@ CREATE VIEW koko_lasku AS
                 THEN tuntihinnat.kotitalousvahennys + tarvike_summa
                 ELSE urakka.kotitalousvahennys
             END
-        AS kokonaissumma
+        AS kokonaissumma_alvilla,
+        tarvikkeet.alkup_hinta + tuntihinnat.alkup_hinta AS kokonaissumma_alv0,
+        tarvikkeet.tarvike_hinta + tuntihinnat.tuntihinta_hinta AS alesumma_alv0,
+        ROUND(1 - (tarvikkeet.tarvike_hinta + tuntihinnat.tuntihinta_hinta) /(tarvikkeet.alkup_hinta + tuntihinnat.alkup_hinta), 2) AS aleprosentti
     FROM
         lasku
     JOIN tyosuoritus 
@@ -291,3 +302,33 @@ CREATE VIEW koko_lasku AS
         ON tyosuoritus.urakka_id = urakka.id
     LEFT JOIN tuntihinnat 
         ON lasku.tyosuoritus_id = tuntihinnat.tyosuoritus_id;
+
+CREATE VIEW tarvike_alv_yhteenveto AS
+    SELECT
+        tyosuoritus_id,
+        alv_prosentti,
+        SUM(alv) AS alv_summa
+    FROM
+        tarvike
+    GROUP BY
+        tyosuoritus_id, alv_prosentti;
+
+CREATE VIEW tuntihinta_alv_yhteenveto AS
+    SELECT
+        tyosuoritus_id,
+        alv_prosentti,
+        SUM(alv) AS alv_summa
+    FROM
+        tuntihinta_nakyma
+    GROUP BY
+        tyosuoritus_id, alv_prosentti;
+
+SELECT
+    alv_prosentti,
+    SUM(alv_summa) AS alv_summa
+FROM
+    (SELECT * FROM tarvike_alv_yhteenveto WHERE tyosuoritus_id = 8
+     UNION ALL
+     SELECT * FROM tuntihinta_alv_yhteenveto WHERE tyosuoritus_id = 8) AS combined_vat_summary
+GROUP BY
+    alv_prosentti;

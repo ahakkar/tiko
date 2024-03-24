@@ -135,8 +135,6 @@ export const getTyosopimusJaLasku = async (
   result.is_urakka = !!result.tyosopimus.urakka_id;
   result.is_tuntihinta = !result.tyosopimus.urakka_id;
 
-  console.log(result);
-
   return result;
 };
 

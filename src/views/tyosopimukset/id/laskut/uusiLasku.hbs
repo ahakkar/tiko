@@ -2,11 +2,13 @@
 
 <br />
 
+<p>Työsopimuksen numero: {{tyosopimus_id}}</p>
+
 <p>Laskuttamatta: {{max_summa}} €</p>
 
 <p>TODO: lisää max_summaan viivästyskorko ja muistutusmaksu tarvittaessa, ja erittele ne tässä</p>
 
-<form hx-post="/laskut" hx-target="#modal-content" hx-vals='{"tyosuoritus_id": "{{tyosuoritus_id}}"}'>
+<form hx-post="/laskut" hx-target="#modal-content" hx-vals='{"tyosuoritus_id": "{{tyosopimus_id}}"}'>
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Laskun summa €</div>

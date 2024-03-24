@@ -1,5 +1,10 @@
 import {QueryResultRow} from 'pg';
 
+export interface AlvYhteenveto extends QueryResultRow {
+  alv_prosentti: number;
+  alv_summa: string;
+}
+
 export interface Asiakas extends QueryResultRow {
   id: number;
   nimi: string;
@@ -21,18 +26,25 @@ export interface KokoLasku extends QueryResultRow {
   tyosuoritus_id: number;
   summa: number;
   yhteissumma: number;
-  era_pvm: Date; // puuttuu
-  pvm: Date; // puuttuu
-  maksettu_pvm: Date; // puuttuu
+  era_pvm: Date;
+  pvm: Date;
+  maksettu_pvm: Date;
   jarjestysluku: number;
   laskutuslisä: number;
   viivastyskorko: number;
-  tarvike_hinta: number;
-  tarvike_alv: number;
-  tyo_hinta: number;
-  tyo_alv: number;
-  kotitalousvahennys: number;
-  kokonaissumma: number;
+  tarvikkeet_summa: string;
+  tarvikkeet_alkup_hinta: string;
+  tarvikkeet_alv0_summa: string;
+  tarvikkeet_alv: string;
+  tyo_summa: string;
+  tyo_alkup_hinta: string;
+  tyo_alv0_summa: string;
+  tyo_alv: string;
+  kotitalousvahennys: string;
+  kokonaissumma_alvilla: string;
+  kokonaissumma_alv0: string;
+  alesumma_alv0: string;
+  aleprosentti: string;
 }
 
 export interface KokoTyosopimus {

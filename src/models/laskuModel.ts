@@ -64,7 +64,7 @@ export const addMuistutusLasku = async (
     if (!edellinen) {
       throw new Error('Edellistä laskua ei löydetty');
     }
-    console.log(edellinen);
+
     const {rows: newLasku} = await client.query<Lasku>(
       'INSERT INTO lasku (tyosuoritus_id, edellinen_lasku, summa, era_pvm) VALUES ($1, $2, $3, $4) RETURNING *',
       [edellinen.tyosuoritus_id, edellinenId, edellinen.summa, eraPvm]

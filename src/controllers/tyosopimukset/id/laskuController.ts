@@ -17,7 +17,6 @@ router.get('/:id/laskut', async (req, res) => {
   // viivästyskorko yms
   const tjl = await getTyosopimusJaLaskut(tyosopimus_id);
   const max_summa = tjl.kokonaissumma;
-  console.log(max_summa, tyosopimus_id);
 
   res.render('tyosopimukset/id/laskut/uusiLasku', {
     max_summa,
@@ -33,7 +32,6 @@ router.get('/:id/laskut', async (req, res) => {
  */
 router.get('/:id/laskut/:laskuid/muistutuslaskut', async (req, res) => {
   const edellinenId = Number(req.params.laskuid);
-
   const edellinen_lasku: KokoLasku = await getKokoLasku(edellinenId);
 
   res.render('tyosopimukset/id/laskut/uusiMuistutuslasku', {

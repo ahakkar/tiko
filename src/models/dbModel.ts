@@ -117,9 +117,9 @@ export const getDataById = async <T extends QueryResultRow>(
   try {
     const queryStr = await getQueryFromFile(queryFile);
     const {rows} = await query<T>(queryStr, [id]);
-    for (const key in rows[0]) {
+    /*     for (const key in rows[0]) {
       console.log(`${key}: ${typeof rows[0][key]}`);
-    }
+    } */
     return rows;
   } catch (e) {
     throw new Error(
