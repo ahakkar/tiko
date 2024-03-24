@@ -90,7 +90,7 @@ export const getLaskuAsiakasKohde = async (): Promise<LaskuAsiakasKohde[]> => {
 
 export const getKokoLasku = async (id: number): Promise<KokoLasku> => {
   const {rows} = await query<KokoLasku>(
-    'SELECT * FROM koko_lasku WHERE id = $1',
+    'SELECT * FROM koko_lasku WHERE lasku_id = $1',
     [id]
   );
   const lasku = rows.at(0);
