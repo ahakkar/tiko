@@ -36,18 +36,21 @@ export const getTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
  * @returns tyosuoritukseen liittyvät tiedot
  */
 export const getTyosopimusJaLaskut = async (
-  id: number
+  tyosopimus_id: number
 ): Promise<TyosopimusJaLaskut> => {
   const result: TyosopimusJaLaskut = {} as TyosopimusJaLaskut;
-  const tyosopimus = await getTyoSopimusData(id);
+  const tyosopimus = await getTyoSopimusData(tyosopimus_id);
   if (tyosopimus[0] === undefined) {
     throw new Error('Työsopimuksia ei löytynyt.');
   }
   const tyosuoritukset = await getDataById<KokoTyosuoritus>(
-    id,
+    tyosopimus_id,
     'kokoTyosopimus.sql'
   );
-  const tarvikkeet = await getDataById<Tarvike>(id, 'tyosopimusTarvikkeet.sql');
+  const tarvikkeet = await getDataById<Tarvike>(
+    tyosopimus_id,
+    'tyosopimusTarvikkeet.sql'
+  );
   if (tyosopimus[0]?.tyosopimus.urakka_id) {
     const urakka_result = await getDataById<Urakka>(
       tyosopimus[0].tyosopimus.urakka_id,
@@ -63,7 +66,7 @@ export const getTyosopimusJaLaskut = async (
   result.tyokohde = tyosopimus[0]?.tyokohde;
   const res = await query<KokoLasku>(
     'SELECT * FROM koko_lasku WHERE tyosuoritus_id = $1',
-    [id]
+    [tyosopimus_id]
   );
   result.laskut = res.rows;
   result.tyosuoritukset = tyosuoritukset;
