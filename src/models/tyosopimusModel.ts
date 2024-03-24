@@ -6,13 +6,14 @@ import {
   Asiakas,
   Tyokohde,
   Urakka,
-  Lasku,
   Tarvike,
   TyosopimusJaLaskut,
   Tyosopimus,
   KokoTyosopimus,
   TyosopimusJaLasku,
+  KokoLasku,
 } from './interfaces';
+import {CONTRACT_STATES} from '../constants';
 
 /**
  * Hakee tietokannasta työsuorituksien perustiedot
@@ -60,7 +61,11 @@ export const getTyosopimusJaLaskut = async (
   result.tyosopimus = tyosopimus[0]?.tyosopimus;
   result.asiakas = tyosopimus[0]?.asiakas;
   result.tyokohde = tyosopimus[0]?.tyokohde;
-  result.laskut = await getDataById<Lasku>(id, 'tyosopimusLaskut.sql');
+  const res = await query<KokoLasku>(
+    'SELECT * FROM koko_lasku WHERE tyosuoritus_id = $1',
+    [id]
+  );
+  result.laskut = res.rows;
   result.tyosuoritukset = tyosuoritukset;
   result.tarvikkeet = tarvikkeet;
   result.kokonaissumma = sumKokonaissumma(
@@ -107,7 +112,10 @@ export const getTyosopimusJaLasku = async (
     }
   }
 
-  const lasku = await getDataById<Lasku>(laskuId, 'tyosopimusLasku.sql');
+  const {rows: lasku} = await query<KokoLasku>(
+    'SELECT * FROM koko_lasku WHERE id = $1',
+    [laskuId]
+  );
 
   result.tyosopimus = tyosopimus[0]?.tyosopimus;
   result.asiakas = tyosopimus[0]?.asiakas;
@@ -276,5 +284,15 @@ function mapRowsToTyosopimukset(rows: QueryResultRow[]): KokoTyosopimus[] {
   }
   return result;
 }
+
+export const updateTyosopimusState = async (id: number, state: string) => {
+  if (!CONTRACT_STATES.includes(state)) {
+    throw new Error('Invalid contract state.');
+  }
+  await query<Tyosopimus>('UPDATE tyosuoritus SET tila = $1 WHERE id = $2', [
+    state,
+    id,
+  ]);
+};
 
 export {validoiTyosopimus, lisaaTyosopimus, luoUrakka};

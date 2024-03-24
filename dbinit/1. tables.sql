@@ -253,9 +253,7 @@ CREATE VIEW koko_lasku AS
                 lasku
         )
     SELECT 
-        lasku.id AS lasku_id, 
-        lasku.tyosuoritus_id AS tyosuoritus_id,
-        lasku.summa AS summa,
+        lasku.*,
         (lasku.summa + edelliset_laskut * 5 + viivastyskorko) AS yhteissumma,
         (edelliset_laskut + 1) AS jarjestysluku,
         (edelliset_laskut * 5) AS laskutuslisä,

@@ -11,6 +11,9 @@
         <th scope="col" class="px-6 py-4">Toimittaja</th>
         <th scope="col" class="px-6 py-4">Varastotilanne</th>
         <th scope="col" class="px-6 py-4">Hinta sisään</th>
+        {{#if writeAccess}}
+        <th scope="col" class="px-6 py-4">Siirrä pois arkistosta</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -24,6 +27,14 @@
         <td class="px-6 py-4">{{this.toimittaja_nimi}}</td>
         <td class="px-6 py-4">{{this.varastotilanne}} {{this.yksikko}}</td>
         <td class="px-6 py-4">{{this.hinta_sisaan}}
+        {{#if ../writeAccess}}
+        <td class="flex-row px-6 py-4">
+          <button hx-patch="/tarvikkeet/{{this.id}}" hx-vals='{"vanhentunut": "{{not this.vanhentunut}}"}'
+            hx-trigger="click consume" class="border rounded p-2 hover:border-blue-700">
+            &#10060
+          </button>
+        </td>
+        {{/if}}
       </tr>
       {{/each}}
     </tbody>

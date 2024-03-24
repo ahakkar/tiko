@@ -27,10 +27,11 @@ app.use(middleware.htmxChecker);
 
 // Kirjautuminen
 app.use('/kirjaudu', kirjaudu);
+app.use('/kirjaudu-ulos', kirjauduUlos);
 app.use(middleware.authRedirect);
+app.use(middleware.unauthorizedCheck);
 
 // Routerit
-app.use('/kirjaudu-ulos', kirjauduUlos);
 app.use('/asiakkaat', asiakkaat);
 app.use('/laskut', laskut);
 app.use('/tarvikkeet', tarvikkeet);

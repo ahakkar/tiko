@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
-import {getLaskuAsiakasKohde} from '../models/laskuModel';
+import {addMuistutusLasku, getLaskuAsiakasKohde} from '../models/laskuModel';
 import {LaskuAsiakasKohde} from '../models/interfaces';
 import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
@@ -13,26 +13,27 @@ const router = Router();
  * tietokantaan
  */
 router.post('/', async (req, res) => {
-  // TODO: Tee muistutuslasku/karhulasku
-  // Jos bodysta puuttuu summa ja sisältää edellinen_lasku-kentän:
-  // {era_pvm: '2024-03-30', edellinen_lasku: '1'},
-  // tee muistutuslasku
-  const l: Lasku = {
-    tyosuoritus_id: Number(req.body.tyosuoritus_id),
-    summa: Number(req.body.summa),
-    pvm: new Date(),
-    era_pvm: new Date(req.body.era_pvm),
-  };
-  console.log('tallennetaan lasku', req.body);
+  // Jos laskulla on edellinen lasku, se on muistutuslasku.
+  if (req.body.edellinen_lasku) {
+    await addMuistutusLasku(req.body.era_pvm, req.body.edellinen_lasku);
+  } else {
+    const l: Lasku = {
+      tyosuoritus_id: Number(req.body.tyosuoritus_id),
+      summa: Number(req.body.summa),
+      pvm: new Date(),
+      era_pvm: new Date(req.body.era_pvm),
+    };
+    console.log('tallennetaan lasku', req.body);
 
-  if (!validoiLasku(l)) {
-    res.sendStatus(StatusCode.BadRequest);
-    return;
-  }
+    if (!validoiLasku(l)) {
+      res.sendStatus(StatusCode.BadRequest);
+      return;
+    }
 
-  if (!(await lisaaLasku(l))) {
-    res.sendStatus(StatusCode.InternalServerError);
-    return;
+    if (!(await lisaaLasku(l))) {
+      res.sendStatus(StatusCode.InternalServerError);
+      return;
+    }
   }
 
   res.set('hx-refresh', 'true');

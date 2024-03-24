@@ -1,5 +1,7 @@
 import {Router} from 'express';
 import {DateTime} from 'luxon';
+import {KokoLasku} from '../../../models/interfaces';
+import {getKokoLasku} from '../../../models/laskuModel';
 const router = Router();
 
 /**
@@ -23,21 +25,13 @@ router.get('/:id/laskut', (req, res) => {
 /**
  * Näyttää modaalikkunan uuden muistutuslaskun lisäämistä varten
  */
-router.get('/:id/laskut/:laskuid/muistutuslaskut', (req, res) => {
-  const tyosuoritus_id = Number(req.params.id);
-  const edellinen_lasku = Number(req.params.laskuid);
+router.get('/:id/laskut/:laskuid/muistutuslaskut', async (req, res) => {
+  const edellinenId = Number(req.params.laskuid);
 
-  // TODO: Hae laskutiedot tietokannasta
-  const db = {
-    old_summa: 100,
-    muistutusmaksu: 10,
-    viivastyskorko: 7, // Tää on 0, jos on muistutuslasku
-    total: 100 + 10 + 7,
-  };
+  const edellinen_lasku: KokoLasku = await getKokoLasku(edellinenId);
+
   res.render('tyosopimukset/id/laskut/uusiMuistutuslasku', {
-    ...db,
     edellinen_lasku,
-    tyosuoritus_id,
     today: DateTime.now().toFormat('yyyy-MM-dd'),
     default_era_pvm: DateTime.now().plus({days: 14}).toFormat('yyyy-MM-dd'),
     layout: 'modal',

@@ -8,7 +8,8 @@
   <div>Kohdeosoite: {{tyokohde.osoite}}</div>
   <div>Aloituspäivämäärä: {{formatDate tyosopimus.aloitus_pvm}}</div>
   <div class="flex items-center">
-    <span>Työsopimuksen tila:</span>
+    <span class="pr-1">Työsopimuksen tila:</span>
+    {{#if writeAccess}}
     <select name="tila" hx-patch="/tyosopimukset/{{tyosopimus.id}}"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
       <option value="">{{tyosopimus.tila}}</option>
@@ -17,6 +18,9 @@
       <option value="{{this}}">{{this}}</option>
       {{/each}}
     </select>
+    {{else}}
+    <span>{{tyosopimus.tila}}</span>
+    {{/if}}
   </div>
 </div>
 
@@ -58,7 +62,7 @@
     <div class="flex">
       <div>
         <div class="font-medium">{{formatDate pvm}}</div>
-        <div>{{summa}} €</div>
+        <div>{{yhteissumma}} €</div>
         <div {{#if expired}}class="px-2 -left-2 relative rounded-full bg-red-500 text-white" {{/if}}>
           Eräpäivä {{formatDate era_pvm}}
         </div>
@@ -67,10 +71,10 @@
     <div class="flex justify-between flex-col min-h-full">
       <div class="text-right font-medium">{{tila}}</div>
       {{#if is_muistutuslasku}}<div class="px-3 rounded-full bg-yellow-500 text-white">Muistutuslasku</div>{{/if}}
-      {{#if is_karhulasku}}<div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>
-      {{/if}}
+      {{#if is_karhulasku}}<div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
     </div>
   </div>
+  {{#if ../writeAccess}}
   {{#if showExpiredButton}}
   <div class="relative h-0 left-44 bottom-12">
     <button hx-get="/tyosopimukset/{{../tyosopimus.id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content"
@@ -79,12 +83,15 @@
     </button>
   </div>
   {{/if}}
+  {{/if}}
   {{/each}}
 
+  {{#if writeAccess}}
   <button hx-get="/tyosopimukset/{{tyosopimus.id}}/laskut" hx-target="#modal-content"
     class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
     Uusi lasku
   </button>
+  {{/if}}
 </div>
 
 <div class="py-3"></div>
@@ -123,10 +130,12 @@
   <p>Urakan korotusprosentti: {{urakka.korotusprosentti}}</p>
   {{/if}}
 
+  {{#if writeAccess}}
   <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tyot/uusi" hx-target="#modal-content"
     class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
     Uusi työsuoritus
   </button>
+  {{/if}}
 </div>
 
 <div class="py-3"></div>
@@ -159,10 +168,12 @@
     </tbody>
   </table>
 
+  {{#if writeAccess}}
   <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tarvikkeet/uusi" hx-target="#modal-content"
     class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
     Uusi tarvike
   </button>
+  {{/if}}
 </div>
 
 <div class="py-3"></div>

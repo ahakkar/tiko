@@ -1,5 +1,6 @@
-import {getData, query} from './dbModel';
-import {Lasku, LaskuAsiakasKohde} from './interfaces';
+import {PoolClient} from 'pg';
+import {getData, makeTransaction, query} from './dbModel';
+import {KokoLasku, Lasku, LaskuAsiakasKohde} from './interfaces';
 
 /**
  * Tarkistaa onko tyokohteen tiedot validit
@@ -50,6 +51,32 @@ export const lisaaLasku = async (n: Lasku): Promise<Lasku> => {
   return result.rows[0];
 };
 
+export const addMuistutusLasku = async (
+  eraPvm: string,
+  edellinenId: number
+) => {
+  const res = await makeTransaction(async (client: PoolClient) => {
+    const {rows} = await client.query<Lasku>(
+      'SELECT tyosuoritus_id, summa FROM lasku WHERE id = $1',
+      [edellinenId]
+    );
+    const edellinen = rows.at(0);
+    if (!edellinen) {
+      throw new Error('Edellistä laskua ei löydetty');
+    }
+    console.log(edellinen);
+    const {rows: newLasku} = await client.query<Lasku>(
+      'INSERT INTO lasku (tyosuoritus_id, edellinen_lasku, summa, era_pvm) VALUES ($1, $2, $3, $4) RETURNING *',
+      [edellinen.tyosuoritus_id, edellinenId, edellinen.summa, eraPvm]
+    );
+    return newLasku;
+  });
+  if (res.at(0)) {
+    return res;
+  }
+  throw new Error('Uutta laskua ei luotu');
+};
+
 /**
  * Hakee custom-määrän tietoja joka laskusta kaikki laskut-näkymää varten
  * @returns lista laskuista
@@ -59,4 +86,28 @@ export const getLaskuAsiakasKohde = async (): Promise<LaskuAsiakasKohde[]> => {
     'laskutAsiakasKohde.sql'
   );
   return data;
+};
+
+export const getKokoLasku = async (id: number): Promise<KokoLasku> => {
+  const {rows} = await query<KokoLasku>(
+    'SELECT * FROM koko_lasku WHERE id = $1',
+    [id]
+  );
+  const lasku = rows.at(0);
+  if (lasku) {
+    return lasku;
+  } else {
+    throw new Error('Laskua ei löydetty.');
+  }
+};
+
+export const hasMuistutusLasku = async (id: number): Promise<boolean> => {
+  const {rows} = await query(
+    'SELECT DISTINCT id FROM lasku WHERE edellinen_lasku = $1',
+    [id]
+  );
+  if (rows.length > 0) {
+    return true;
+  }
+  return false;
 };

@@ -5,6 +5,7 @@ import {
   validoiTyosopimus,
   lisaaTyosopimus,
   luoUrakka,
+  updateTyosopimusState,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
@@ -13,6 +14,7 @@ import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 import {Tyosopimus} from '../../models/interfaces';
 import {CONTRACT_STATES, StatusCode} from '../../constants';
+import {hasMuistutusLasku} from '../../models/laskuModel';
 
 const router = Router();
 router.use(tyot);
@@ -32,17 +34,8 @@ router.get('/tyokohde/uusi', (_req, res) => {
   });
 });
 
-/**
- * TODO: Käsittele PATCH-pyyntö
- * Tällä hetkellä PATCH-pyyntöä käytetään vain tilan päivittämiseen
- */
 router.patch('/:id', async (req, res) => {
-  console.log(req.body); // Sisältää {tila: 'valmis'}
-  // Täytyy palauttaa virhekoodi, jotta HTMX ei muuta listaa
-  if (!req.body.tila) {
-    res.sendStatus(StatusCode.BadRequest);
-    return;
-  }
+  await updateTyosopimusState(parseInt(req.params.id), req.body.tila);
   res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
 });
 
@@ -52,15 +45,21 @@ router.get('/:id', async (req, res) => {
 
   const new_tjl = {
     ...tjl,
-    laskut: tjl.laskut.map(lasku => ({
-      ...lasku,
-      // TODO: expired-muuttuja on true, jos lasku erääntynyt ja
-      // sitä ei ole maksettu
-      expired: lasku.era_pvm < new Date() && !lasku.maksettu_pvm,
-      // TODO: Laita arvoksi true, jos lasku on erääntynyt ja siitä ei
-      // ole vielä luotu muistutuslaskua
-      showExpiredButton: true,
-    })),
+    laskut: await Promise.all(
+      tjl.laskut.map(async lasku => {
+        const expired =
+          lasku['era_pvm'] < new Date() && lasku['maksettu_pvm'] === null;
+        const hasReminder = await hasMuistutusLasku(lasku.id);
+        return {
+          ...lasku,
+          expired,
+          is_muistutuslasku: lasku.jarjestysluku === 2,
+          is_karhulasku: lasku.jarjestysluku > 2,
+          karhuluku: lasku.jarjestysluku - 2,
+          showExpiredButton: !hasReminder && expired,
+        };
+      })
+    ),
     tilat: CONTRACT_STATES,
   };
   res.render('tyosopimukset/id', new_tjl);
