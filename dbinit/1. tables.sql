@@ -257,15 +257,10 @@ CREATE VIEW koko_lasku AS
                 lasku
         )
     SELECT 
-        lasku.id AS lasku_id,
-        lasku.tyosuoritus_id AS tyosuoritus_id,
-        lasku.summa AS summa,
+        lasku.*,
         (lasku.summa + edelliset_laskut * 5 + viivastyskorko) AS yhteissumma,
-        lasku.pvm AS pvm,
-        lasku.era_pvm AS era_pvm,
-        lasku.maksettu_pvm AS maksettu_pvm,
         (edelliset_laskut + 1) AS jarjestysluku,
-        (edelliset_laskut * 5) AS laskutuslisä,
+        (edelliset_laskut * 5) AS laskutuslisa,
         viivastyskorko,
         tarvikkeet.tarvike_summa AS tarvikkeet_summa,
         tarvikkeet.tarvike_hinta AS tarvikkeet_alv0_summa,

@@ -118,7 +118,7 @@ export const getTyosopimusJaLasku = async (
   }
 
   const {rows: lasku} = await query<KokoLasku>(
-    'SELECT * FROM koko_lasku WHERE lasku_id = $1',
+    'SELECT * FROM koko_lasku WHERE id = $1',
     [laskuId]
   );
 
