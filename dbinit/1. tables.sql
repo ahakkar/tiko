@@ -322,13 +322,3 @@ CREATE VIEW tuntihinta_alv_yhteenveto AS
         tuntihinta_nakyma
     GROUP BY
         tyosuoritus_id, alv_prosentti;
-
-SELECT
-    alv_prosentti,
-    SUM(alv_summa) AS alv_summa
-FROM
-    (SELECT * FROM tarvike_alv_yhteenveto WHERE tyosuoritus_id = 8
-     UNION ALL
-     SELECT * FROM tuntihinta_alv_yhteenveto WHERE tyosuoritus_id = 8) AS combined_vat_summary
-GROUP BY
-    alv_prosentti;
