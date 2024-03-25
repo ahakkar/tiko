@@ -216,6 +216,7 @@ const getTyoSopimusData = async (id: number): Promise<KokoTyosopimus[]> => {
 };
 
 /**
+ * TODO poista ja laske tietokannassa
  * Laskee tuntihintojen ja tarvikkeiden yhteishinnan
  * @param tuntihinnat
  * @param tarvikkeet
