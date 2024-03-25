@@ -8,12 +8,15 @@ import {
   addNewWarehouseItems,
   retrieveArchivedWarehouseItems,
   updateWarehouseItem,
+  lisaaTarvike,
+  validoiTarvike,
 } from '../models/tarvikeModel';
 import {retrieveSupplier} from '../models/toimittajaModel';
 import {Request} from 'express-serve-static-core';
-import {NewWarehouseItems} from '../models/interfaces';
+import {NewWarehouseItems, Tarvike} from '../models/interfaces';
 import {makeTransaction} from '../models/dbModel';
 import {PoolClient} from 'pg';
+import {StatusCode} from '../constants';
 
 const router = Router();
 
@@ -81,6 +84,42 @@ router.post('/lataa', upload.array('items-files'), async (req, res) => {
   const items = await retrieveWarehouseItems();
 
   res.render('tarvikkeet/tarvikkeet', {warehouseItems: items});
+});
+
+router.post('/', async (req, res) => {
+  const id: number = req.body.tyosuoritus_id;
+
+  const n: Tarvike = {
+    tyosuoritus_id: id,
+    varastotarvike_id: Number(req.body.varastotarvike_id),
+    maara: Number(req.body.maara),
+    hinta_ulos: req.body.hinta_ulos,
+    aleprosentti: (Number(req.body.aleprosentti) / 100).toString(),
+    alv_prosentti: (Number(req.body.alv_prosentti) / 100).toString(),
+
+    // näitä ei tarvita, mutta interfacen takia pitää olla
+    id: -1,
+    nimi: '',
+    hinta: '',
+    pvm: new Date(),
+    hinta_sisaan: '',
+    hinta_yhteensa: '',
+    alv: '',
+    yksikko: '',
+  };
+
+  if (!validoiTarvike(n)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
+  if (await lisaaTarvike(n)) {
+    res.set('hx-refresh', 'true');
+    res.sendStatus(StatusCode.OK);
+    return;
+  }
+
+  res.sendStatus(StatusCode.InternalServerError);
 });
 
 router.patch('/:id', async (req, res) => {

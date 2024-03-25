@@ -1,6 +1,6 @@
 <h2 class="font-medium text-xl">Uusi tarvike</h2>
 
-<form hx-post="/tyosopimukset/{{id}}/tarvike" hx-target="#modal-content">
+<form hx-post="/tarvikkeet" hx-target="#modal-content" hx-vals='{"tyosuoritus_id": "{{id}}"}'>
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Tarvike</div>
