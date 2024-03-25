@@ -65,9 +65,9 @@ export interface KokoTyosuoritus extends QueryResultRow {
   tunnit: number;
   tyyppi: string;
   tuntihinta: string;
-  hinta: string;
-  alv: string;
-  hinta_yhteensa: number;
+  hinta: string | null;
+  alv: string | null;
+  hinta_yhteensa: number | null;
 }
 
 export interface Lasku extends QueryResultRow {

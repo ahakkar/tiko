@@ -12,8 +12,15 @@ import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
-import {KokoTyosopimus, Tyosopimus} from '../../models/interfaces';
+import {
+  KokoTyosopimus,
+  KokoTyosuoritus,
+  Tarvike,
+  Tyosopimus,
+} from '../../models/interfaces';
 import {CONTRACT_STATES, StatusCode} from '../../constants';
+import {haeTarvikkeet} from '../../models/tarvikeModel';
+import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
 // import {hasMuistutusLasku} from '../../models/laskuModel';
 
 const router = Router();
@@ -32,8 +39,15 @@ router.get('/', async (_req, res) => {
 router.get('/:id', async (req, res) => {
   const työsopimus_id = Number(req.params.id);
   const kokoTyosopimus: KokoTyosopimus = await haeKokoTyosopimus(työsopimus_id);
+  const tyosuoritukset: KokoTyosuoritus[] =
+    await haeTyosuoritukset(työsopimus_id);
+  const tarvikkeet: Tarvike[] = await haeTarvikkeet(työsopimus_id);
 
-  res.render('tyosopimukset/id', kokoTyosopimus);
+  res.render('tyosopimukset/id', {
+    ...kokoTyosopimus,
+    tyosuoritukset,
+    tarvikkeet,
+  });
 });
 
 // Uusi työsopimus -modaali-ikkuna

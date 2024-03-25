@@ -1,5 +1,5 @@
-import {query} from './dbModel';
-import {Tyosuoritus, Tuntihintatyyppi} from './interfaces';
+import {getDataById, query} from './dbModel';
+import {Tyosuoritus, Tuntihintatyyppi, KokoTyosuoritus} from './interfaces';
 
 /**
  * Hakee tietokannasta tuntihintatyypit
@@ -30,6 +30,21 @@ export const getTuntihintatyyppi = async (
   }
 
   return rows[0];
+};
+
+export const haeTyosuoritukset = async (
+  työsopimus_id: number
+): Promise<KokoTyosuoritus[]> => {
+  const rows = await getDataById<KokoTyosuoritus>(
+    työsopimus_id,
+    'tyosopimusTyosuoritukset.sql'
+  );
+
+  if (rows.length === 0) {
+    throw new Error('Tyosuorituksia ei löytynyt.');
+  }
+
+  return rows;
 };
 
 /**

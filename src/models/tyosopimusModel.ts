@@ -11,8 +11,8 @@ import {CONTRACT_STATES} from '../constants';
 import {FlatObject, flatToNestedObject} from '../utils/parse';
 
 /**
- * Hakee tietokannasta työsuorituksien perustiedot
- * @returns tyosuorituksien tiedot
+ * Hakee tietokannasta työsopimusten perustiedot
+ * @returns lista työsopimuksista
  */
 export const haeTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
   const queryStr = await getQueryFromFile('kaikkiTyosopimukset.sql');
@@ -23,6 +23,24 @@ export const haeTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
   }
 
   return rows.map(row => mapRowToKokoTyosopimus(row));
+};
+
+/**
+ * Hakee tietokannasta yhden työsopimuksen tiedot
+ * @param id työsopimuksen id
+ * @returns yhden työsopimuksen tiedot
+ */
+export const haeKokoTyosopimus = async (
+  id: number
+): Promise<KokoTyosopimus> => {
+  const queryStr = await getQueryFromFile('tyosopimusTietoineen.sql');
+  const {rows} = await query(queryStr, [id]);
+
+  if (rows[0] === undefined || rows.length === 0) {
+    throw new Error('Työsopimusta ei löytynyt.');
+  }
+
+  return mapRowToKokoTyosopimus(rows[0]);
 };
 
 /**
@@ -74,26 +92,12 @@ const luoUrakka = async (): Promise<Urakka> => {
   return result.rows[0];
 };
 
-export const haeKokoTyosopimus = async (
-  id: number
-): Promise<KokoTyosopimus> => {
-  const queryStr = await getQueryFromFile('tyosopimusTietoineen.sql');
-  const {rows} = await query(queryStr, [id]);
-
-  if (rows[0] === undefined || rows.length === 0) {
-    throw new Error('Työsopimusta ei löytynyt.');
-  }
-
-  return mapRowToKokoTyosopimus(rows[0]);
-};
-
 /**
- * Muuntaa tietokannasta tulleet rivit Tyosuoritukset-interfaceksi
- * TODO korvaa utils/parse.ts tyylin funktiolla
- * @param rows tietokannasta tulleet rivit
- * @returns Tyosuoritus-olioiden taulukko
+ * Muuntaa tietokannasta tulleen rivin KokoTyosopimus-interfaceksi
+ * @param rows
+ * @returns
  */
-function mapRowToKokoTyosopimus(row: QueryResultRow): KokoTyosopimus {
+const mapRowToKokoTyosopimus = (row: QueryResultRow): KokoTyosopimus => {
   const nestedRow = flatToNestedObject(row as FlatObject);
 
   const asiakas = nestedRow['asiakas'] as Asiakas;
@@ -101,10 +105,10 @@ function mapRowToKokoTyosopimus(row: QueryResultRow): KokoTyosopimus {
   const tyokohde = nestedRow['tyokohde'] as Tyokohde;
   const urakka = nestedRow['urakka']
     ? (nestedRow['urakka'] as Urakka)
-    : undefined; // Optional, based on your data
+    : undefined;
 
   return {asiakas, tyokohde, tyosopimus, urakka};
-}
+};
 
 export const updateTyosopimusState = async (id: number, state: string) => {
   if (!CONTRACT_STATES.includes(state)) {

@@ -221,14 +221,16 @@ const validateNewWarehouseItems = (items: NewWarehouseItems): boolean => {
 };
 
 /**
- * Hakee tyosuorituksen tarvikkeet
- * @param tyosuoritus_id tyosuorituksen id
- * @returns tyosuorituksen tarvikkeet
+ * Hakee yhteen työsopimukseen kuuluvat tarvikkeet
+ * @param työsopimus_id
+ * @returns tarvikkeet
  */
-const getTarvikkeet = async (tyosuoritus_id: number) => {
+export const haeTarvikkeet = async (
+  työsopimus_id: number
+): Promise<Tarvike[]> => {
   try {
-    const queryStr = await getQueryFromFile('tyosuoritusTarvikkeet.sql');
-    const {rows} = await query<Tarvike>(queryStr, [tyosuoritus_id]);
+    const queryStr = await getQueryFromFile('tyosopimusTarvikkeet.sql');
+    const {rows} = await query<Tarvike>(queryStr, [työsopimus_id]);
 
     if (rows === undefined || rows.length === 0) {
       throw new Error('Tyosuorituksia ei löytynyt.');
@@ -248,5 +250,4 @@ export {
   updateWarehouseItem,
   addNewWarehouseItems,
   validateNewWarehouseItems,
-  getTarvikkeet,
 };
