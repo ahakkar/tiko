@@ -62,7 +62,6 @@ router.get('/', async (req, res) => {
 
   // Haetaan suoritukset ja tarvikkeet jos kyseessä on tuntityösopimus
   if (tyosopimus.urakka?.id === null) {
-    console.log('haetaan tiedot');
     const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
     const tarvikkeet = await haeTarvikkeet(työsopimus_id);
 

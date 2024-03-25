@@ -12,17 +12,11 @@ import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
-import {
-  KokoLasku,
-  KokoTyosopimus,
-  KokoTyosuoritus,
-  Tarvike,
-  Tyosopimus,
-} from '../../models/interfaces';
+import {Tyosopimus} from '../../models/interfaces';
 import {CONTRACT_STATES, StatusCode} from '../../constants';
 import {haeTarvikkeet} from '../../models/tarvikeModel';
 import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
-import {haeKokoLaskut} from '../../models/laskuModel';
+import {haeKokoLaskut, hasMuistutusLasku} from '../../models/laskuModel';
 
 const router = Router();
 router.use(tyot);
@@ -39,18 +33,45 @@ router.get('/', async (_req, res) => {
 // Yhden työsopimuksen sivu
 router.get('/:id', async (req, res) => {
   const työsopimus_id = Number(req.params.id);
-  const kokoTyosopimus: KokoTyosopimus = await haeKokoTyosopimus(työsopimus_id);
-  const laskut: KokoLasku[] = await haeKokoLaskut(työsopimus_id);
-  const tyosuoritukset: KokoTyosuoritus[] =
-    await haeTyosuoritukset(työsopimus_id);
-  const tarvikkeet: Tarvike[] = await haeTarvikkeet(työsopimus_id);
+  const tyosopimus = await haeKokoTyosopimus(työsopimus_id);
+  // Teoriassa karsitummat tiedot riittäisivät, mutta tässä haetaan kaikki
+  // TODO refaktoroinnissa luo suppeampi interface ja käytä sitä
+  const muokaamattomatLaskut = await haeKokoLaskut(työsopimus_id);
+  const laskut = [];
 
-  res.render('tyosopimukset/id', {
-    ...kokoTyosopimus,
-    laskut,
-    tyosuoritukset,
-    tarvikkeet,
-  });
+  for (const lasku of muokaamattomatLaskut) {
+    const expired =
+      lasku['era_pvm'] < new Date() && lasku['maksettu_pvm'] === null;
+    const hasReminder = await hasMuistutusLasku(lasku.id);
+    laskut.push({
+      ...lasku,
+      expired,
+      showExpiredButton: !hasReminder && expired,
+    });
+  }
+
+  if (tyosopimus.urakka?.id === null) {
+    const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
+    const tarvikkeet = await haeTarvikkeet(työsopimus_id);
+
+    res.render('tyosopimukset/id', {
+      ...tyosopimus,
+      laskut,
+      tyosuoritukset,
+      tarvikkeet,
+      is_tuntihinta: true,
+      is_urakka: false,
+      showExpiredButton: true,
+    });
+  } else {
+    res.render('tyosopimukset/id', {
+      ...tyosopimus,
+      laskut,
+      is_tuntihinta: false,
+      is_urakka: true,
+      showExpiredButton: true,
+    });
+  }
 });
 
 // Uusi työsopimus -modaali-ikkuna
@@ -76,6 +97,7 @@ router.patch('/:id', async (req, res) => {
 
 // Lisää uusi työsopimus tietokantaan
 router.post('/', async (req, res) => {
+  // TODO refaktoroi tämäkin spaghetti järkevämmäksi
   const ts: Tyosopimus = {
     id: null, // id generoidaan tietokannassa
     urakka_id: null, // id generoidaan tietokannassa

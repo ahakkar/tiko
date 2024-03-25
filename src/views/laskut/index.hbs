@@ -1,6 +1,6 @@
 <div class="py-4 font-bold text-3xl">Laskut</div>
 <div class="text-sm">
-  <div class="grid grid-cols-8 font-bold p-2 border-b-4 border-black">  
+  <div class="grid grid-cols-8 font-bold p-2 border-b-4 border-black">
     <div>Tunnus</div>
     <div class="col-span-2">Asiakas</div>
     <div>Kohde</div>
@@ -13,14 +13,14 @@
 
   {{#each laskut}}
   <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true">
-    <div class="grid grid-cols-8 p-2 rounded-md hover:bg-gray-100 hover:underline">       
-      <div class="items-center">{{id}}</div>
-      <div class="col-span-2 items-center">{{asiakas_nimi}}</div>
+    <div class="grid grid-cols-8 p-2 rounded-md hover:bg-gray-100 hover:underline items-center">
+      <div>{{id}}</div>
+      <div class="col-span-2">{{asiakas_nimi}}</div>
       <div>{{tyokohde_osoite}} {{tyokohde.postitoimipaikka}}</div>
-      <div class="text-right items-center">{{formatDate pvm}}</div>
-      <div class="text-right items-center">{{formatDate era_pvm}}</div>
-      <div class="text-right items-center">{{summa}} €</div>
-      <div class="text-right items-center">{{#if is_maksettu}} Kyllä {{else}} Ei {{/if}}</div>
+      <div class="text-right">{{formatDate pvm}}</div>
+      <div class="text-right">{{formatDate era_pvm}}</div>
+      <div class="text-right">{{summa}} €</div>
+      <div class="text-right">{{#if is_maksettu}} Kyllä {{else}} Ei {{/if}}</div>
     </div>
   </div>
   {{/each}}
