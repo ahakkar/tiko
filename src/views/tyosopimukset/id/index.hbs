@@ -182,4 +182,8 @@
 
 <div class="py-3"></div>
 
-<div class="font-medium text-xl">Kokonaissumma €</div>
+{{#if is_urakka}}
+<div class="font-medium text-xl">Kokonaissumma sis.alv {{urakka.kotitalousvahennys}} €</div>
+{{else}}
+Daa
+{{/if}}

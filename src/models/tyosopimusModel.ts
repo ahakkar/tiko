@@ -1,4 +1,3 @@
-import Decimal from 'decimal.js';
 import {QueryResultRow} from 'pg';
 import {query, getQueryFromFile, getDataById} from './dbModel';
 import {
@@ -72,11 +71,6 @@ export const getTyosopimusJaLaskut = async (
   result.laskut = res.rows;
   result.tyosuoritukset = tyosuoritukset;
   result.tarvikkeet = tarvikkeet;
-  result.kokonaissumma = sumKokonaissumma(
-    tyosopimus,
-    tyosuoritukset,
-    tarvikkeet
-  );
   result.is_urakka = !!result.tyosopimus.urakka_id;
   result.is_tuntihinta = !result.tyosopimus.urakka_id;
 
@@ -138,11 +132,6 @@ export const getTyosopimusJaLasku = async (
   result.lasku = lasku[0] ? lasku[0] : undefined;
   result.tyosuoritukset = tyosuoritukset;
   result.tarvikkeet = tarvikkeet;
-  result.kokonaissumma = sumKokonaissumma(
-    tyosopimus,
-    tyosuoritukset,
-    tarvikkeet
-  );
   result.is_urakka = !!result.tyosopimus.urakka_id;
   result.is_tuntihinta = !result.tyosopimus.urakka_id;
 
@@ -213,33 +202,6 @@ const getTyoSopimusData = async (id: number): Promise<KokoTyosopimus[]> => {
   }
 
   return ts;
-};
-
-/**
- * TODO poista ja laske tietokannassa
- * Laskee tuntihintojen ja tarvikkeiden yhteishinnan
- * @param tuntihinnat
- * @param tarvikkeet
- * @returns työsuorituksen yhteishinta
- */
-const sumKokonaissumma = (
-  tyosopimus: KokoTyosopimus[],
-  tyosuoritukset: KokoTyosuoritus[],
-  tarvikkeet: Tarvike[]
-): string => {
-  let summa = new Decimal(0);
-
-  if (tyosopimus[0]?.urakka.hinta_yhteensa) {
-    summa = summa.plus(new Decimal(tyosopimus[0]?.urakka.hinta_yhteensa));
-  }
-  for (const tyosuoritus of tyosuoritukset) {
-    summa = summa.plus(new Decimal(tyosuoritus.hinta_yhteensa));
-  }
-  for (const tarvike of tarvikkeet) {
-    summa = summa.plus(new Decimal(tarvike.hinta_yhteensa));
-  }
-
-  return summa.toFixed(2);
 };
 
 /**

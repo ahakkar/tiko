@@ -174,7 +174,6 @@ export interface TyosopimusJaLasku {
   lasku: KokoLasku | undefined;
   tyosuoritukset: Tyosuoritus[];
   tarvikkeet: Tarvike[];
-  kokonaissumma: string;
   alv_erittely: AlvErittely[];
   is_urakka: boolean;
   is_tuntihinta: boolean;
@@ -188,7 +187,6 @@ export interface TyosopimusJaLaskut {
   laskut: KokoLasku[];
   tyosuoritukset: Tyosuoritus[];
   tarvikkeet: Tarvike[];
-  kokonaissumma: string;
   is_urakka: boolean;
   is_tuntihinta: boolean;
 }
