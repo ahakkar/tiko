@@ -52,7 +52,7 @@ export interface KokoTyosopimus {
   asiakas: Asiakas;
   tyokohde: Tyokohde;
   tyosopimus: Tyosopimus;
-  urakka: Urakka;
+  urakka: Urakka | undefined;
 }
 
 export interface KokoTyosuoritus extends QueryResultRow {

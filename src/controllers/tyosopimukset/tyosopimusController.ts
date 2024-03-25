@@ -24,6 +24,7 @@ router.use(laskut);
 // Kaikki työsopimukset -sivu
 router.get('/', async (_req, res) => {
   const tyosopimukset = await haeTyosopimukset();
+  //console.log(tyosopimukset);
   res.render('tyosopimukset', {tyosopimukset});
 });
 

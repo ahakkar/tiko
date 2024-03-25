@@ -8,6 +8,7 @@ import {
   KokoTyosopimus,
 } from './interfaces';
 import {CONTRACT_STATES} from '../constants';
+import {FlatObject, flatToNestedObject} from '../utils/parse';
 
 /**
  * Hakee tietokannasta työsuorituksien perustiedot
@@ -93,48 +94,16 @@ export const haeKokoTyosopimus = async (
  * @returns Tyosuoritus-olioiden taulukko
  */
 function mapRowToKokoTyosopimus(row: QueryResultRow): KokoTyosopimus {
-  const asiakas: Asiakas = {
-    id: row['asiakas_id'],
-    nimi: row['asiakas_nimi'],
-    osoite: row['asiakas_osoite'],
-    postinumero: row['asiakas_postinumero'],
-    postitoimipaikka: row['asiakas_postitoimipaikka'],
-    sahkoposti: row['asiakas_sahkoposti'],
-    puhelinnumero: row['asiakas_puhelinnumero'],
-  };
+  const nestedRow = flatToNestedObject(row as FlatObject);
 
-  const tyosopimus: Tyosopimus = {
-    id: row['tyosuoritus_id'],
-    tyokohde_id: row['tyokohde_id'],
-    urakka_id: row['urakka_id'],
-    aloitus_pvm: row['tyosuoritus_aloituspvm'],
-    asiakas_id: row['tyosuoritus_asiakasid'],
-    tila: row['tyosuoritus_tila'],
-  };
+  const asiakas = nestedRow['asiakas'] as Asiakas;
+  const tyosopimus = nestedRow['tyosuoritus'] as Tyosopimus;
+  const tyokohde = nestedRow['tyokohde'] as Tyokohde;
+  const urakka = nestedRow['urakka']
+    ? (nestedRow['urakka'] as Urakka)
+    : undefined; // Optional, based on your data
 
-  const tyokohde: Tyokohde = {
-    id: row['tyokohde_id'],
-    tyyppi: row['tyokohde_tyyppi'],
-    osoite: row['tyokohde_osoite'],
-    postinumero: row['tyokohde_postinumero'],
-    postitoimipaikka: row['tyokohde_postitoimipaikka'],
-  };
-
-  const urakka: Urakka = {
-    id: row['urakka_id'],
-    lahtohinta: row['urakka_lahtohinta'],
-    aleprosentti: row['urakka_aleprosentti'],
-    alv_prosentti: row['urakka_alvprosentti'],
-    korotusprosentti: row['urakka_korotusprosentti'],
-    hinta: row['urakka_hinta'],
-    hinta_yhteensa: row['urakka_hintayhteensa'],
-    alv: row['urakka_alv'],
-    kotitalousvahennys: row['urakka_kotitalousvahennys'],
-  };
-
-  const result: KokoTyosopimus = {asiakas, tyokohde, tyosopimus, urakka};
-
-  return result;
+  return {asiakas, tyokohde, tyosopimus, urakka};
 }
 
 export const updateTyosopimusState = async (id: number, state: string) => {

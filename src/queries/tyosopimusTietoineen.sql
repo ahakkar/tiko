@@ -1,9 +1,9 @@
 SELECT
     t.id AS tyosuoritus_id,
     t.urakka_id,
-    t.aloitus_pvm AS tyosuoritus_aloituspvm,
+    t.aloitus_pvm AS tyosuoritus_aloitus_pvm,
     t.tila AS tyosuoritus_tila,
-    a.id AS tyosuoritus_asiakasid,
+    a.id AS tyosuoritus_asiakas_id,
     a.id AS asiakas_id,
     a.nimi AS asiakas_nimi,
     a.osoite AS asiakas_osoite,

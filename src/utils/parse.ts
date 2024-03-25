@@ -1,4 +1,4 @@
-interface FlatObject {
+export interface FlatObject {
   [key: string]: unknown;
 }
 
