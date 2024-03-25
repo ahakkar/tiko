@@ -50,28 +50,21 @@ router.get('/:id', async (req, res) => {
     });
   }
 
+  const renderOptions = {
+    ...tyosopimus,
+    laskut,
+    is_tuntihinta: tyosopimus.urakka?.id === null,
+    is_urakka: tyosopimus.urakka?.id !== null,
+    tilat: CONTRACT_STATES,
+  };
+
   if (tyosopimus.urakka?.id === null) {
     const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
     const tarvikkeet = await haeTarvikkeet(työsopimus_id);
-
-    res.render('tyosopimukset/id', {
-      ...tyosopimus,
-      laskut,
-      tyosuoritukset,
-      tarvikkeet,
-      is_tuntihinta: true,
-      is_urakka: false,
-      showExpiredButton: true,
-    });
-  } else {
-    res.render('tyosopimukset/id', {
-      ...tyosopimus,
-      laskut,
-      is_tuntihinta: false,
-      is_urakka: true,
-      showExpiredButton: true,
-    });
+    Object.assign(renderOptions, {tyosuoritukset, tarvikkeet});
   }
+
+  res.render('tyosopimukset/id', renderOptions);
 });
 
 // Uusi työsopimus -modaali-ikkuna

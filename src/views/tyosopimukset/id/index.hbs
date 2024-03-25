@@ -22,26 +22,28 @@
   </div>
 </div>
 
-<div class="mt-4">
-  <h2 class="font-medium text-xl">Työkohde</h2>
-  <div>{{tyokohde.osoite}}</div>
-  <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
-  <div class="capitalize">{{tyokohde.tyyppi}}</div>
-</div>
+<div class="grid grid-cols-2 mt-4">
+  <div>
+    <h2 class="font-medium text-xl">Asiakas</h2>
+    <div class="flex">
+      <div>
+        <div>{{asiakas.nimi}}</div>
+        <div>{{asiakas.sahkoposti}}</div>
+        <div>{{asiakas.puhelinnumero}}</div>
+      </div>
+      <div class="px-10"></div>
+      <div class="shrink-0">
+        <div>{{asiakas.osoite}}</div>
+        <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
+      </div>
+    </div>
+  </div>
 
-<div class="mt-4">
-  <h2 class="font-medium text-xl">Asiakas</h2>
-  <div class="flex">
-    <div>
-      <div>{{asiakas.nimi}}</div>
-      <div>{{asiakas.sahkoposti}}</div>
-      <div>{{asiakas.puhelinnumero}}</div>
-    </div>
-    <div class="px-10"></div>
-    <div class="shrink-0">
-      <div>{{asiakas.osoite}}</div>
-      <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
-    </div>
+  <div>
+    <h2 class="font-medium text-xl">Työkohde</h2>
+    <div>{{tyokohde.osoite}}</div>
+    <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
+    <div class="capitalize">{{tyokohde.tyyppi}}</div>
   </div>
 </div>
 
@@ -81,7 +83,7 @@
 {{/if}}
 
 {{#if is_urakka}}
-<div class="font-medium text-xl">Kokonaissumma sis.alv {{urakka.kotitalousvahennys}} €</div>
+<div class="font-medium text-xl">Urakkahinta sis.alv {{urakka.kotitalousvahennys}} €</div>
 {{else}}
 Laske tuntihintasopimuksen kokonaissumma tähän
 {{/if}}
