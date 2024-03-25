@@ -1,8 +1,9 @@
 <h2 class="font-medium text-xl">Laskut</h2>
 
 <div class="text-sm">
-  <div class="grid grid-cols-7 font-bold p-2 border-b-4 border-black">
+  <div class="grid grid-cols-8 font-bold p-2 border-b-4 border-black">
     <div>Tunnus</div>
+    <div>Maksettu</div>
     <div>Päivämäärä</div>
     <div>Summa</div>
     <div>Eräpvm</div>
@@ -10,10 +11,13 @@
   </div>
 
   {{#each laskut}}
-  <div class="grid grid-cols-7 p-2 items-center">
+  <div class="grid grid-cols-8 p-2 items-center">
     <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true"
       class="rounded-md hover:bg-gray-100 hover:underline">
       {{id}}</div>
+    <div>
+      {{#if maksettu_pvm}}Maksettu{{else}}Maksamatta{{/if}}
+    </div>
     <div>{{formatDate pvm}}</div>
     <div>{{yhteissumma}} €</div>
 
