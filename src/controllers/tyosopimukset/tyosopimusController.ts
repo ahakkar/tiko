@@ -1,26 +1,41 @@
 import {Router} from 'express';
 import {
-  getTyosopimusJaLaskut,
-  getTyosopimukset,
   validoiTyosopimus,
   lisaaTyosopimus,
   luoUrakka,
   updateTyosopimusState,
+  haeKokoTyosopimus,
+  haeTyosopimukset,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
-import {Tyosopimus} from '../../models/interfaces';
+import {KokoTyosopimus, Tyosopimus} from '../../models/interfaces';
 import {CONTRACT_STATES, StatusCode} from '../../constants';
-import {hasMuistutusLasku} from '../../models/laskuModel';
+// import {hasMuistutusLasku} from '../../models/laskuModel';
 
 const router = Router();
 router.use(tyot);
 router.use(tarvikkeet);
 router.use(laskut);
 
+// Kaikki työsopimukset -sivu
+router.get('/', async (_req, res) => {
+  const tyosopimukset = await haeTyosopimukset();
+  res.render('tyosopimukset', {tyosopimukset});
+});
+
+// Yhden työsopimuksen sivu
+router.get('/:id', async (req, res) => {
+  const työsopimus_id = Number(req.params.id);
+  const kokoTyosopimus: KokoTyosopimus = await haeKokoTyosopimus(työsopimus_id);
+
+  res.render('tyosopimukset/id', kokoTyosopimus);
+});
+
+// Uusi työsopimus -modaali-ikkuna
 router.get('/uusi', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
   const asiakkaat = await getAsiakkaat();
@@ -28,48 +43,20 @@ router.get('/uusi', async (_req, res) => {
   res.render('tyosopimukset/uusiTyosopimus', {tyokohteet, asiakkaat});
 });
 
+// Uusi työkohde -modaali-ikkuna
 router.get('/tyokohde/uusi', (_req, res) => {
   res.render('tyokohteet/uusiTyokohde', {
     layout: 'modal',
   });
 });
 
+// Vaihda työsopimuksen tilaa
 router.patch('/:id', async (req, res) => {
   await updateTyosopimusState(parseInt(req.params.id), req.body.tila);
   res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
 });
 
-router.get('/:id', async (req, res) => {
-  const id = Number(req.params.id);
-  const tjl = await getTyosopimusJaLaskut(id);
-
-  const new_tjl = {
-    ...tjl,
-    laskut: await Promise.all(
-      tjl.laskut.map(async lasku => {
-        const expired =
-          lasku['era_pvm'] < new Date() && lasku['maksettu_pvm'] === null;
-        const hasReminder = await hasMuistutusLasku(lasku.id);
-        return {
-          ...lasku,
-          expired,
-          is_muistutuslasku: lasku.jarjestysluku === 2,
-          is_karhulasku: lasku.jarjestysluku > 2,
-          karhuluku: lasku.jarjestysluku - 2,
-          showExpiredButton: !hasReminder && expired,
-        };
-      })
-    ),
-    tilat: CONTRACT_STATES,
-  };
-  res.render('tyosopimukset/id', new_tjl);
-});
-
-router.get('/', async (_req, res) => {
-  const tyosopimukset = await getTyosopimukset();
-  res.render('tyosopimukset', {tyosopimukset});
-});
-
+// Lisää uusi työsopimus tietokantaan
 router.post('/', async (req, res) => {
   const ts: Tyosopimus = {
     id: null, // id generoidaan tietokannassa

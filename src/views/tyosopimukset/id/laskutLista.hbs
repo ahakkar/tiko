@@ -1,0 +1,42 @@
+<!--
+<div>
+  <h2 class="font-medium text-xl">Laskut</h2>
+
+  {{#each laskut}}
+  <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true"
+    class="flex justify-between p-2 border-b-2 transition duration-300 ease-in-out hover:bg-neutral-200 rounded cursor-pointer">
+    <div class="flex">
+      <div>
+        <div class="font-medium">{{formatDate pvm}}</div>
+        <div>{{yhteissumma}} €</div>
+        <div {{#if expired}}class="px-2 -left-2 relative rounded-full bg-red-500 text-white" {{/if}}>
+          Eräpäivä {{formatDate era_pvm}}
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between flex-col min-h-full">
+      <div class="text-right font-medium">{{tila}}</div>
+      {{#if is_muistutuslasku}}<div class="px-3 rounded-full bg-yellow-500 text-white">Muistutuslasku</div>{{/if}}
+      {{#if is_karhulasku}}<div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
+    </div>
+  </div>
+  {{#if ../writeAccess}}
+  {{#if showExpiredButton}}
+  <div class="relative h-0 left-44 bottom-12">
+    <button hx-get="/tyosopimukset/{{../tyosopimus.id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content"
+      class="px-4 py-2 font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300">
+      Luo muistutuslasku
+    </button>
+  </div>
+  {{/if}}
+  {{/if}}
+  {{/each}}
+
+  {{#if writeAccess}}
+  <button hx-get="/tyosopimukset/{{tyosopimus.id}}/laskut" hx-target="#modal-content"
+    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+    Uusi lasku
+  </button>
+  {{/if}}
+</div>
+-->

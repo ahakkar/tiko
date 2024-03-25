@@ -1,7 +1,5 @@
 import {Router} from 'express';
-import {getTyosopimusJaLasku} from '../models/tyosopimusModel';
-import {addMuistutusLasku, getLaskuAsiakasKohde} from '../models/laskuModel';
-import {LaskuAsiakasKohde, TyosopimusJaLasku} from '../models/interfaces';
+import {addMuistutusLasku} from '../models/laskuModel';
 import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
 import {Lasku} from '../models/interfaces';
@@ -42,11 +40,13 @@ router.post('/', async (req, res) => {
 
 // TODO refaktoroi välittämään modelille vain laskun id, jolla se
 // hakee ensin laskun, ja sitä kautta myös työsopimuksen tiedot
-router.get('/', async (req, res) => {
-  const laskuId = Number(req.query['laskuId']);
-  const tyosopimusId = Number(req.query['tyosopimusId']);
+router.get('/', async (_req, res) => {
+  /*   const laskuId = Number(req.query['laskuId']);
+  const tyosopimusId = Number(req.query['tyosopimusId']); */
 
-  if (laskuId && tyosopimusId) {
+  res.sendStatus(StatusCode.OK);
+
+  /*   if (laskuId && tyosopimusId) {
     const tjl: TyosopimusJaLasku = await getTyosopimusJaLasku(
       tyosopimusId,
       laskuId
@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
   else {
     const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
     res.render('laskut', {laskut: laskut});
-  }
+  } */
 });
 
 export default router;

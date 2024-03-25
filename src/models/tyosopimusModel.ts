@@ -1,17 +1,11 @@
 import {QueryResultRow} from 'pg';
-import {query, getQueryFromFile, getDataById} from './dbModel';
+import {query, getQueryFromFile} from './dbModel';
 import {
-  KokoTyosuoritus,
   Asiakas,
   Tyokohde,
   Urakka,
-  Tarvike,
-  TyosopimusJaLaskut,
   Tyosopimus,
   KokoTyosopimus,
-  TyosopimusJaLasku,
-  KokoLasku,
-  AlvErittely,
 } from './interfaces';
 import {CONTRACT_STATES} from '../constants';
 
@@ -19,7 +13,7 @@ import {CONTRACT_STATES} from '../constants';
  * Hakee tietokannasta työsuorituksien perustiedot
  * @returns tyosuorituksien tiedot
  */
-export const getTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
+export const haeTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
   const queryStr = await getQueryFromFile('kaikkiTyosopimukset.sql');
   const {rows} = await query(queryStr);
 
@@ -27,115 +21,7 @@ export const getTyosopimukset = async (): Promise<KokoTyosopimus[]> => {
     throw new Error('Tyosuorituksia ei löytynyt.');
   }
 
-  return mapRowsToTyosopimukset(rows);
-};
-
-/**
- * Hakee kaiken työsuoritukseen liittyvän tiedon tietokannasta
- * @param id tyosuorituksen id
- * @returns tyosuoritukseen liittyvät tiedot
- */
-export const getTyosopimusJaLaskut = async (
-  tyosopimus_id: number
-): Promise<TyosopimusJaLaskut> => {
-  const result: TyosopimusJaLaskut = {} as TyosopimusJaLaskut;
-  const tyosopimus = await getTyoSopimusData(tyosopimus_id);
-  if (tyosopimus[0] === undefined) {
-    throw new Error('Työsopimuksia ei löytynyt.');
-  }
-  const tyosuoritukset = await getDataById<KokoTyosuoritus>(
-    tyosopimus_id,
-    'kokoTyosopimus.sql'
-  );
-  const tarvikkeet = await getDataById<Tarvike>(
-    tyosopimus_id,
-    'tyosopimusTarvikkeet.sql'
-  );
-  if (tyosopimus[0]?.tyosopimus.urakka_id) {
-    const urakka_result = await getDataById<Urakka>(
-      tyosopimus[0].tyosopimus.urakka_id,
-      'urakka.sql'
-    );
-    if (urakka_result[0] !== undefined) {
-      result.urakka = urakka_result[0];
-    }
-  }
-
-  result.tyosopimus = tyosopimus[0]?.tyosopimus;
-  result.asiakas = tyosopimus[0]?.asiakas;
-  result.tyokohde = tyosopimus[0]?.tyokohde;
-  const res = await query<KokoLasku>(
-    'SELECT * FROM koko_lasku WHERE tyosuoritus_id = $1',
-    [tyosopimus_id]
-  );
-  result.laskut = res.rows;
-  result.tyosuoritukset = tyosuoritukset;
-  result.tarvikkeet = tarvikkeet;
-  result.is_urakka = !!result.tyosopimus.urakka_id;
-  result.is_tuntihinta = !result.tyosopimus.urakka_id;
-
-  return result;
-};
-
-/**
- * Hakee työsuorituksen ja laskun
- * @param id tyosuorituksen id
- * @returns tyosuoritukseen liittyvät tiedot
- */
-export const getTyosopimusJaLasku = async (
-  tyosuoritusId: number,
-  laskuId: number
-): Promise<TyosopimusJaLasku> => {
-  console.log('tyosuoritusId', tyosuoritusId, 'laskuId', laskuId);
-  const result: TyosopimusJaLasku = {} as TyosopimusJaLasku;
-  const tyosopimus = await getTyoSopimusData(tyosuoritusId);
-
-  if (tyosopimus[0] === undefined) {
-    throw new Error('Työsopimuksia ei löytynyt.');
-  }
-  const tyosuoritukset = await getDataById<KokoTyosuoritus>(
-    tyosuoritusId,
-    'kokoTyosopimus.sql'
-  );
-  const tarvikkeet = await getDataById<Tarvike>(
-    tyosuoritusId,
-    'tyosopimusTarvikkeet.sql'
-  );
-  if (tyosopimus[0]?.tyosopimus.urakka_id) {
-    const urakka_result = await getDataById<Urakka>(
-      tyosopimus[0].tyosopimus.urakka_id,
-      'urakka.sql'
-    );
-    if (urakka_result[0] !== undefined) {
-      result.urakka = urakka_result[0];
-    }
-  }
-
-  const {rows: lasku} = await query<KokoLasku>(
-    'SELECT * FROM koko_lasku WHERE id = $1',
-    [laskuId]
-  );
-
-  const alv_erittely = await getDataById<AlvErittely>(
-    tyosuoritusId,
-    'tyosopimusAlvErittely.sql'
-  );
-  if (alv_erittely !== undefined) {
-    result.alv_erittely = alv_erittely;
-  }
-
-  console.log('alv_erittely', alv_erittely);
-
-  result.tyosopimus = tyosopimus[0]?.tyosopimus;
-  result.asiakas = tyosopimus[0]?.asiakas;
-  result.tyokohde = tyosopimus[0]?.tyokohde;
-  result.lasku = lasku[0] ? lasku[0] : undefined;
-  result.tyosuoritukset = tyosuoritukset;
-  result.tarvikkeet = tarvikkeet;
-  result.is_urakka = !!result.tyosopimus.urakka_id;
-  result.is_tuntihinta = !result.tyosopimus.urakka_id;
-
-  return result;
+  return rows.map(row => mapRowToKokoTyosopimus(row));
 };
 
 /**
@@ -187,21 +73,17 @@ const luoUrakka = async (): Promise<Urakka> => {
   return result.rows[0];
 };
 
-const getTyoSopimusData = async (id: number): Promise<KokoTyosopimus[]> => {
-  const queryStr = await getQueryFromFile('tyosuoritus.sql');
+export const haeKokoTyosopimus = async (
+  id: number
+): Promise<KokoTyosopimus> => {
+  const queryStr = await getQueryFromFile('tyosopimusTietoineen.sql');
   const {rows} = await query(queryStr, [id]);
 
-  if (rows === undefined || rows.length === 0) {
-    throw new Error('Tyosuorituksia ei löytynyt.');
+  if (rows[0] === undefined || rows.length === 0) {
+    throw new Error('Työsopimusta ei löytynyt.');
   }
 
-  const ts = mapRowsToTyosopimukset(rows);
-
-  if (ts[0] === undefined) {
-    throw new Error('Tyosuorituksia ei löytynyt.');
-  }
-
-  return ts;
+  return mapRowToKokoTyosopimus(rows[0]);
 };
 
 /**
@@ -210,56 +92,48 @@ const getTyoSopimusData = async (id: number): Promise<KokoTyosopimus[]> => {
  * @param rows tietokannasta tulleet rivit
  * @returns Tyosuoritus-olioiden taulukko
  */
-function mapRowsToTyosopimukset(rows: QueryResultRow[]): KokoTyosopimus[] {
-  const result: KokoTyosopimus[] = [];
+function mapRowToKokoTyosopimus(row: QueryResultRow): KokoTyosopimus {
+  const asiakas: Asiakas = {
+    id: row['asiakas_id'],
+    nimi: row['asiakas_nimi'],
+    osoite: row['asiakas_osoite'],
+    postinumero: row['asiakas_postinumero'],
+    postitoimipaikka: row['asiakas_postitoimipaikka'],
+    sahkoposti: row['asiakas_sahkoposti'],
+    puhelinnumero: row['asiakas_puhelinnumero'],
+  };
 
-  for (const row of rows) {
-    const asiakas: Asiakas = {
-      id: row['asiakas_id'],
-      nimi: row['asiakas_nimi'],
-      osoite: row['asiakas_osoite'],
-      postinumero: row['asiakas_postinumero'],
-      postitoimipaikka: row['asiakas_postitoimipaikka'],
-      sahkoposti: row['asiakas_sahkoposti'],
-      puhelinnumero: row['asiakas_puhelinnumero'],
-    };
+  const tyosopimus: Tyosopimus = {
+    id: row['tyosuoritus_id'],
+    tyokohde_id: row['tyokohde_id'],
+    urakka_id: row['urakka_id'],
+    aloitus_pvm: row['tyosuoritus_aloituspvm'],
+    asiakas_id: row['tyosuoritus_asiakasid'],
+    tila: row['tyosuoritus_tila'],
+  };
 
-    const tyosopimus: Tyosopimus = {
-      id: row['tyosuoritus_id'],
-      tyokohde_id: row['tyokohde_id'],
-      urakka_id: row['urakka_id'],
-      aloitus_pvm: row['tyosuoritus_aloituspvm'],
-      asiakas_id: row['tyosuoritus_asiakasid'],
-      tila: row['tyosuoritus_tila'],
-    };
+  const tyokohde: Tyokohde = {
+    id: row['tyokohde_id'],
+    tyyppi: row['tyokohde_tyyppi'],
+    osoite: row['tyokohde_osoite'],
+    postinumero: row['tyokohde_postinumero'],
+    postitoimipaikka: row['tyokohde_postitoimipaikka'],
+  };
 
-    const tyokohde: Tyokohde = {
-      id: row['tyokohde_id'],
-      tyyppi: row['tyokohde_tyyppi'],
-      osoite: row['tyokohde_osoite'],
-      postinumero: row['tyokohde_postinumero'],
-      postitoimipaikka: row['tyokohde_postitoimipaikka'],
-    };
+  const urakka: Urakka = {
+    id: row['urakka_id'],
+    lahtohinta: row['urakka_lahtohinta'],
+    aleprosentti: row['urakka_aleprosentti'],
+    alv_prosentti: row['urakka_alvprosentti'],
+    korotusprosentti: row['urakka_korotusprosentti'],
+    hinta: row['urakka_hinta'],
+    hinta_yhteensa: row['urakka_hintayhteensa'],
+    alv: row['urakka_alv'],
+    kotitalousvahennys: row['urakka_kotitalousvahennys'],
+  };
 
-    const urakka: Urakka = {
-      id: row['urakka_id'],
-      lahtohinta: row['urakka_lahtohinta'],
-      aleprosentti: row['urakka_aleprosentti'],
-      alv_prosentti: row['urakka_alvprosentti'],
-      korotusprosentti: row['urakka_korotusprosentti'],
-      hinta: row['urakka_hinta'],
-      hinta_yhteensa: row['urakka_hintayhteensa'],
-      alv: row['urakka_alv'],
-      kotitalousvahennys: row['urakka_kotitalousvahennys'],
-    };
+  const result: KokoTyosopimus = {asiakas, tyokohde, tyosopimus, urakka};
 
-    result.push({
-      asiakas,
-      tyokohde,
-      tyosopimus,
-      urakka,
-    });
-  }
   return result;
 }
 

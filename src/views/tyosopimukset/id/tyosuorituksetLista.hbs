@@ -1,0 +1,43 @@
+<div>
+  {{#if is_urakka}}<h2 class="font-medium text-xl">Urakkahinnan peruste</h2>{{/if}}
+  {{#if is_tuntihinta}}<h2 class="font-medium text-xl">Tuntihintaerittely</h2>{{/if}}
+
+  <table class="min-w-full text-left text-sm">
+    <thead class="border-b font-medium dark:border-neutral-500">
+      <tr>
+        <th scope="col" class="px-6 py-4">Työn tyyppi</th>
+        <th scope="col" class="px-6 py-4">Tuntihinta</th>
+        <th scope="col" class="px-6 py-4">Tunnit</th>
+        <th scope="col" class="px-6 py-4">Hinta ALV 0</th>
+        <th scope="col" class="px-6 py-4">Alennus-%</th>
+        <th scope="col" class="px-6 py-4">ALV</th>
+        <th scope="col" class="px-6 py-4">Hinta yhteensä</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tyosuoritukset}}
+      <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-200">
+        <td class="whitespace-nowrap px-6 py-4 capitalize">{{tyyppi}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{tuntihinta}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{tunnit}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{formatPercentage aleprosentti}}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{alv}} €</td>
+        <td class="whitespace-nowrap px-6 py-4">{{hinta_yhteensa}} €</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  {{#if is_urakka}}
+  <p>Urakan aleprosentti: {{urakka.aleprosentti}}</p>
+  <p>Urakan korotusprosentti: {{urakka.korotusprosentti}}</p>
+  {{/if}}
+
+  {{#if writeAccess}}
+  <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tyot/uusi" hx-target="#modal-content"
+    class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded my-2">
+    Uusi työsuoritus
+  </button>
+  {{/if}}
+</div>
