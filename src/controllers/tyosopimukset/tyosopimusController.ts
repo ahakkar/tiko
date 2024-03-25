@@ -13,6 +13,7 @@ import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 import {
+  KokoLasku,
   KokoTyosopimus,
   KokoTyosuoritus,
   Tarvike,
@@ -21,7 +22,7 @@ import {
 import {CONTRACT_STATES, StatusCode} from '../../constants';
 import {haeTarvikkeet} from '../../models/tarvikeModel';
 import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
-// import {hasMuistutusLasku} from '../../models/laskuModel';
+import {haeKokoLaskut} from '../../models/laskuModel';
 
 const router = Router();
 router.use(tyot);
@@ -39,12 +40,14 @@ router.get('/', async (_req, res) => {
 router.get('/:id', async (req, res) => {
   const työsopimus_id = Number(req.params.id);
   const kokoTyosopimus: KokoTyosopimus = await haeKokoTyosopimus(työsopimus_id);
+  const laskut: KokoLasku[] = await haeKokoLaskut(työsopimus_id);
   const tyosuoritukset: KokoTyosuoritus[] =
     await haeTyosuoritukset(työsopimus_id);
   const tarvikkeet: Tarvike[] = await haeTarvikkeet(työsopimus_id);
 
   res.render('tyosopimukset/id', {
     ...kokoTyosopimus,
+    laskut,
     tyosuoritukset,
     tarvikkeet,
   });

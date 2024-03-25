@@ -259,7 +259,6 @@ CREATE VIEW koko_lasku AS
     SELECT 
         lasku.*,
         (lasku.summa + edelliset_laskut * 5 + viivastyskorko) AS yhteissumma,
-        (edelliset_laskut + 1) AS jarjestysluku,
         (edelliset_laskut * 5) AS laskutuslisa,
         viivastyskorko,
         tarvikkeet.tarvike_summa AS tarvikkeet_summa,
@@ -284,7 +283,12 @@ CREATE VIEW koko_lasku AS
         AS kokonaissumma_alvilla,
         tarvikkeet.alkup_hinta + tuntihinnat.alkup_hinta AS kokonaissumma_alv0,
         tarvikkeet.tarvike_hinta + tuntihinnat.tuntihinta_hinta AS alesumma_alv0,
-        ROUND(1 - (tarvikkeet.tarvike_hinta + tuntihinnat.tuntihinta_hinta) /(tarvikkeet.alkup_hinta + tuntihinnat.alkup_hinta), 2) AS aleprosentti
+        ROUND(1 - (tarvikkeet.tarvike_hinta + tuntihinnat.tuntihinta_hinta) /(tarvikkeet.alkup_hinta + tuntihinnat.alkup_hinta), 2) AS aleprosentti,
+        laske_edelliset_laskut(lasku.id) AS jarjestysluku,
+        (laske_edelliset_laskut(lasku.id) = 1) AS is_muistutuslasku,
+        (laske_edelliset_laskut(lasku.id) = 2) AS is_karhulasku,
+        (laske_edelliset_laskut(lasku.id) - 1) AS karhuluku,
+        (tyosuoritus.urakka_id IS NULL) AS is_tuntihinta
     FROM
         lasku
     JOIN tyosuoritus 

@@ -1,8 +1,15 @@
 import {Router} from 'express';
-import {addMuistutusLasku} from '../models/laskuModel';
+import {
+  addMuistutusLasku,
+  getLaskuAsiakasKohde,
+  haeKokoLasku,
+} from '../models/laskuModel';
 import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
-import {Lasku} from '../models/interfaces';
+import {Lasku, LaskuAsiakasKohde} from '../models/interfaces';
+import {haeKokoTyosopimus} from '../models/tyosopimusModel';
+import {haeTarvikkeet} from '../models/tarvikeModel';
+import {haeTyosuoritukset} from '../models/tyosuoritusModel';
 
 const router = Router();
 
@@ -38,27 +45,36 @@ router.post('/', async (req, res) => {
   res.sendStatus(StatusCode.OK);
 });
 
-// TODO refaktoroi välittämään modelille vain laskun id, jolla se
-// hakee ensin laskun, ja sitä kautta myös työsopimuksen tiedot
-router.get('/', async (_req, res) => {
-  /*   const laskuId = Number(req.query['laskuId']);
-  const tyosopimusId = Number(req.query['tyosopimusId']); */
+// Näyttää kaikki laskut, jos laskuId:tä ei ole annettu.
+// Muuten näyttää yhden laskun tiedot.
+router.get('/', async (req, res) => {
+  const laskuId = Number(req.query['laskuId']);
 
-  res.sendStatus(StatusCode.OK);
-
-  /*   if (laskuId && tyosopimusId) {
-    const tjl: TyosopimusJaLasku = await getTyosopimusJaLasku(
-      tyosopimusId,
-      laskuId
-    );
-    res.render('laskut/lasku', tjl);
-    return;
-  }
-  // Render all invoices
-  else {
+  if (!laskuId) {
     const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
     res.render('laskut', {laskut: laskut});
-  } */
+    return;
+  }
+
+  const lasku = await haeKokoLasku(laskuId);
+  const työsopimus_id = lasku.tyosuoritus_id;
+  const tyosopimus = await haeKokoTyosopimus(työsopimus_id);
+
+  // Haetaan suoritukset ja tarvikkeet jos kyseessä on tuntityösopimus
+  if (tyosopimus.urakka?.id === null) {
+    console.log('haetaan tiedot');
+    const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
+    const tarvikkeet = await haeTarvikkeet(työsopimus_id);
+
+    res.render('laskut/lasku', {
+      lasku,
+      ...tyosopimus,
+      tyosuoritukset,
+      tarvikkeet,
+    });
+  } else {
+    res.render('laskut/lasku', {lasku, ...tyosopimus});
+  }
 });
 
 export default router;

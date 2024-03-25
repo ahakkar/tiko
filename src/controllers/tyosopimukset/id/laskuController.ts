@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import {DateTime} from 'luxon';
 import {KokoLasku} from '../../../models/interfaces';
-import {getKokoLasku} from '../../../models/laskuModel';
+import {haeKokoLasku} from '../../../models/laskuModel';
 const router = Router();
 
 /**
@@ -26,7 +26,7 @@ router.get('/:id/laskut', async (req, res) => {
  */
 router.get('/:id/laskut/:laskuid/muistutuslaskut', async (req, res) => {
   const edellinenId = Number(req.params.laskuid);
-  const edellinen_lasku: KokoLasku = await getKokoLasku(edellinenId);
+  const edellinen_lasku: KokoLasku = await haeKokoLasku(edellinenId);
 
   res.render('tyosopimukset/id/laskut/uusiMuistutuslasku', {
     edellinen_lasku,

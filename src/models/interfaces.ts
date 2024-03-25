@@ -165,32 +165,6 @@ export interface Tyosopimus extends QueryResultRow {
   asiakas_id: number;
   tila: string;
 }
-
-export interface TyosopimusJaLasku {
-  tyosopimus: Tyosopimus;
-  urakka: Urakka | null;
-  asiakas: Asiakas;
-  tyokohde: Tyokohde;
-  lasku: KokoLasku | undefined;
-  tyosuoritukset: Tyosuoritus[];
-  tarvikkeet: Tarvike[];
-  alv_erittely: AlvErittely[];
-  is_urakka: boolean;
-  is_tuntihinta: boolean;
-}
-
-export interface TyosopimusJaLaskut {
-  tyosopimus: Tyosopimus;
-  urakka: Urakka | null;
-  asiakas: Asiakas;
-  tyokohde: Tyokohde;
-  laskut: KokoLasku[];
-  tyosuoritukset: Tyosuoritus[];
-  tarvikkeet: Tarvike[];
-  is_urakka: boolean;
-  is_tuntihinta: boolean;
-}
-
 export interface Urakka extends QueryResultRow {
   id: number;
   lahtohinta: number;
