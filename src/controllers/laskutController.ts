@@ -7,7 +7,7 @@ import {
 import {StatusCode} from '../constants';
 import {lisaaLasku, validoiLasku} from '../models/laskuModel';
 import {Lasku, LaskuAsiakasKohde} from '../models/interfaces';
-import {haeKokoTyosopimus} from '../models/tyosopimusModel';
+import {haeAlvErittely, haeKokoTyosopimus} from '../models/tyosopimusModel';
 import {haeTarvikkeet} from '../models/tarvikeModel';
 import {haeTyosuoritukset} from '../models/tyosuoritusModel';
 
@@ -59,6 +59,7 @@ router.get('/', async (req, res) => {
   const lasku = await haeKokoLasku(laskuId);
   const työsopimus_id = lasku.tyosuoritus_id;
   const tyosopimus = await haeKokoTyosopimus(työsopimus_id);
+  const alv_erittely = await haeAlvErittely(työsopimus_id);
 
   // Haetaan suoritukset ja tarvikkeet jos kyseessä on tuntityösopimus
   if (tyosopimus.urakka?.id === null) {
@@ -70,9 +71,10 @@ router.get('/', async (req, res) => {
       ...tyosopimus,
       tyosuoritukset,
       tarvikkeet,
+      alv_erittely,
     });
   } else {
-    res.render('laskut/lasku', {lasku, ...tyosopimus});
+    res.render('laskut/lasku', {lasku, ...tyosopimus, alv_erittely});
   }
 });
 

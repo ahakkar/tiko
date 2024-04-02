@@ -84,12 +84,32 @@
   {{/if}}
 </div>
 
-<div class="mt-4">
-  {{#if is_urakka}}
-  <p>Urakan aleprosentti: {{urakka.aleprosentti}}</p>
-  <p>Urakan korotusprosentti: {{urakka.korotusprosentti}}</p>
-  <div class="font-medium text-xl">Urakkahinta ALV 0: {{urakka.hinta}} €</div>
-  {{else}}
-  Tuntityösopimuksen loppuhinta: {{tyosopimus_yhteissumma}} €
-  {{/if}}
+<div class="grid grid-cols-2 mt-4">
+  <div class="grid grid-cols-2">
+    <div>ALV-erittely:</div>
+    <div></div>
+    {{#each alv_erittely}}
+    <div>ALV {{formatPercentage alv_prosentti}}:</div>
+    <div>{{alv_summa}} €</div>
+    {{/each}}
+  </div>
+
+  <div class="grid grid-cols-2">
+    {{#if is_urakka}}
+    <div>Urakan aleprosentti:</div>
+    <div>{{formatPercentage urakka.aleprosentti}}</div>
+
+    <div>Urakan korotusprosentti:</div>
+    <div>{{formatPercentage urakka.korotusprosentti}}</div>
+    {{/if}}
+
+    <div class="mt-4">Lähtöhinta ALV 0 %:</div>
+    <div class="mt-4">{{summat.lahtohinta}} €</div>
+
+    <div>Alehinta ALV 0 %:</div>
+    <div>{{summat.alehinta}} €</div>
+
+    <div>Yhteensä sis. ALV:</div>
+    <div>{{summat.alv_hinta}} €</div>
+  </div>
 </div>

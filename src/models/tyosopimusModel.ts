@@ -6,6 +6,8 @@ import {
   Urakka,
   Tyosopimus,
   KokoTyosopimus,
+  Summat,
+  AlvErittely,
 } from './interfaces';
 import {ContractState} from '../constants';
 import {FlatObject, flatToNestedObject} from '../utils/parse';
@@ -41,6 +43,26 @@ export const haeKokoTyosopimus = async (
   }
 
   return mapRowToKokoTyosopimus(rows[0]);
+};
+
+/**
+ * Hakee yhden työsopimuksen alv-erittelyn
+ * @param tyosopimus_id
+ * @returns
+ */
+export const haeAlvErittely = async (
+  tyosopimus_id: number
+): Promise<AlvErittely[]> => {
+  const erittely = await getDataById<AlvErittely>(
+    tyosopimus_id,
+    'tyosopimusAlvErittely.sql'
+  );
+
+  if (erittely.length === 0 || erittely[0] === undefined) {
+    throw new Error('ALV-erittelyä ei löytynyt.');
+  }
+
+  return erittely;
 };
 
 /**
@@ -132,14 +154,14 @@ export const updateTyosopimusState = async (
  * @param tid työsopimuksen ID
  */
 export const paivitaUrakkaHinta = async (tyosopimus_id: number) => {
-  const dataa = await getDataById(tyosopimus_id, 'laskeSumma.sql');
+  const dataa = await getDataById(tyosopimus_id, 'laskeSummat.sql');
   const {rows} = await query<Tyosopimus>(
     'SELECT urakka_id FROM tyosuoritus WHERE id = $1;',
     [tyosopimus_id.toString()]
   );
 
   if (dataa[0] !== undefined && rows[0] !== undefined) {
-    const kokonaissumma = dataa[0]['kokonaissumma'];
+    const kokonaissumma = dataa[0]['alehinta'];
     const urakka_id = rows[0]['urakka_id'];
 
     await query<Tyosopimus>(
@@ -152,12 +174,13 @@ export const paivitaUrakkaHinta = async (tyosopimus_id: number) => {
 
 export const laskeSopimusHinta = async (
   tyosopimus_id: number
-): Promise<string> => {
-  const rows = await getDataById(tyosopimus_id, 'laskeSumma.sql');
+): Promise<Summat | undefined> => {
+  const rows = await getDataById<Summat>(tyosopimus_id, 'laskeSummat.sql');
   if (rows[0] !== undefined) {
-    return rows[0]['kokonaissumma'];
+    console.log(rows);
+    return rows[0];
   }
-  return '0.00';
+  return undefined;
 };
 
 export {validoiTyosopimus, lisaaTyosopimus, luoUrakka};

@@ -8,6 +8,7 @@ import {
   haeTyosopimukset,
   paivitaUrakkaHinta,
   laskeSopimusHinta,
+  haeAlvErittely,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
@@ -118,7 +119,10 @@ router.get('/:id', async (req, res) => {
   const is_editable =
     (tyosopimus.tyosopimus.tila === ContractState.InDesign && is_urakka) ||
     is_tuntihinta;
-  const tyosopimus_yhteissumma = await laskeSopimusHinta(työsopimus_id);
+  const summat = await laskeSopimusHinta(työsopimus_id);
+  const alv_erittely = await haeAlvErittely(työsopimus_id);
+  const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
+  const tarvikkeet = await haeTarvikkeet(työsopimus_id);
 
   // Teoriassa karsitummat tiedot riittäisivät, mutta tässä haetaan kaikki
   // TODO refaktoroinnissa luo suppeampi interface ja käytä sitä
@@ -143,12 +147,11 @@ router.get('/:id', async (req, res) => {
     is_urakka: is_urakka,
     tilat: ContractState,
     is_editable,
-    tyosopimus_yhteissumma,
+    summat,
+    alv_erittely,
+    tyosuoritukset,
+    tarvikkeet,
   };
-
-  const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
-  const tarvikkeet = await haeTarvikkeet(työsopimus_id);
-  Object.assign(renderOptions, {tyosuoritukset, tarvikkeet});
 
   res.render('tyosopimukset/id', renderOptions);
 });

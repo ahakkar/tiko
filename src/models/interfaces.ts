@@ -111,6 +111,12 @@ export interface NewWarehouseItems {
   };
 }
 
+export interface Summat extends QueryResultRow {
+  lahtohinta: string;
+  alehinta: string;
+  alv_hinta: string;
+}
+
 export interface Tarvike extends QueryResultRow {
   id: number;
   nimi: string;
