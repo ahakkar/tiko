@@ -40,10 +40,6 @@ export const haeTyosuoritukset = async (
     'tyosopimusTyosuoritukset.sql'
   );
 
-  if (rows.length === 0) {
-    throw new Error('Tyosuorituksia ei löytynyt.');
-  }
-
   return rows;
 };
 

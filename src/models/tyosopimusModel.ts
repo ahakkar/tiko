@@ -1,5 +1,5 @@
 import {QueryResultRow} from 'pg';
-import {query, getQueryFromFile} from './dbModel';
+import {query, getQueryFromFile, getDataById} from './dbModel';
 import {
   Asiakas,
   Tyokohde,
@@ -81,8 +81,8 @@ const lisaaTyosopimus = async (ts: Tyosopimus): Promise<Tyosopimus> => {
  */
 const luoUrakka = async (): Promise<Urakka> => {
   const result = await query<Urakka>(
-    'INSERT INTO urakka (lahtohinta, aleprosentti, alv_prosentti, korotusprosentti) VALUES ($1, $2, $3, $4) RETURNING *',
-    [0, 0, 0, 0]
+    'INSERT INTO urakka (lahtohinta, aleprosentti, korotusprosentti) VALUES ($1, $2, $3) RETURNING *',
+    [0, 0, 0]
   );
 
   if (!result.rows[0]) {
@@ -126,8 +126,38 @@ export const updateTyosopimusState = async (
   return (result.rowCount || 0) > 0;
 };
 
-export const paivitaUrakkaHinta = async (tid: number) => {
-  console.log('test', tid);
+/**
+ * Laskee hinnan urakalle tuntitöiden ja tarvikkeiden perusteella,
+ * ja päivittää sen tietokantaan
+ * @param tid työsopimuksen ID
+ */
+export const paivitaUrakkaHinta = async (tyosopimus_id: number) => {
+  const dataa = await getDataById(tyosopimus_id, 'laskeSumma.sql');
+  const {rows} = await query<Tyosopimus>(
+    'SELECT urakka_id FROM tyosuoritus WHERE id = $1;',
+    [tyosopimus_id.toString()]
+  );
+
+  if (dataa[0] !== undefined && rows[0] !== undefined) {
+    const kokonaissumma = dataa[0]['kokonaissumma'];
+    const urakka_id = rows[0]['urakka_id'];
+
+    await query<Tyosopimus>(
+      'UPDATE urakka SET lahtohinta = $1 WHERE id = $2;',
+      [kokonaissumma, urakka_id]
+    );
+    console.log(urakka_id, kokonaissumma);
+  }
+};
+
+export const laskeSopimusHinta = async (
+  tyosopimus_id: number
+): Promise<string> => {
+  const rows = await getDataById(tyosopimus_id, 'laskeSumma.sql');
+  if (rows[0] !== undefined) {
+    return rows[0]['kokonaissumma'];
+  }
+  return '0.00';
 };
 
 export {validoiTyosopimus, lisaaTyosopimus, luoUrakka};

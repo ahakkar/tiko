@@ -98,6 +98,7 @@ router.post('/', async (req, res) => {
     alv_prosentti: (Number(req.body.alv_prosentti) / 100).toString(),
 
     // näitä ei tarvita, mutta interfacen takia pitää olla
+    // TODO tällekin saa miettiä paremman ratkaisun
     id: -1,
     nimi: '',
     hinta: '',

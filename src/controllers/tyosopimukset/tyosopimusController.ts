@@ -7,6 +7,7 @@ import {
   haeKokoTyosopimus,
   haeTyosopimukset,
   paivitaUrakkaHinta,
+  laskeSopimusHinta,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
@@ -34,7 +35,27 @@ router.get('/', async (_req, res) => {
 // Yhden työsopimuksen sivu
 router.get('/:id', async (req, res) => {
   const työsopimus_id = Number(req.params.id);
+
+  if (isNaN(työsopimus_id)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
   const tyosopimus = await haeKokoTyosopimus(työsopimus_id);
+
+  if (tyosopimus === null) {
+    res.sendStatus(StatusCode.NotFound);
+    return;
+  }
+
+  // Tuntihintasopimusta voi aina muokata, urakkaa vain suunnitteluvaiheessa
+  const is_tuntihinta = tyosopimus.urakka?.id === null;
+  const is_urakka = tyosopimus.urakka?.id !== null;
+  const is_editable =
+    (tyosopimus.tyosopimus.tila === ContractState.InDesign && is_urakka) ||
+    is_tuntihinta;
+  const tyosopimus_yhteissumma = await laskeSopimusHinta(työsopimus_id);
+
   // Teoriassa karsitummat tiedot riittäisivät, mutta tässä haetaan kaikki
   // TODO refaktoroinnissa luo suppeampi interface ja käytä sitä
   const muokaamattomatLaskut = await haeKokoLaskut(työsopimus_id);
@@ -54,22 +75,23 @@ router.get('/:id', async (req, res) => {
   const renderOptions = {
     ...tyosopimus,
     laskut,
-    is_tuntihinta: tyosopimus.urakka?.id === null,
-    is_urakka: tyosopimus.urakka?.id !== null,
+    is_tuntihinta: is_tuntihinta,
+    is_urakka: is_urakka,
     tilat: ContractState,
+    is_editable,
+    tyosopimus_yhteissumma,
   };
 
-  if (tyosopimus.urakka?.id === null) {
-    const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
-    const tarvikkeet = await haeTarvikkeet(työsopimus_id);
-    Object.assign(renderOptions, {tyosuoritukset, tarvikkeet});
-  }
+  const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
+  const tarvikkeet = await haeTarvikkeet(työsopimus_id);
+  Object.assign(renderOptions, {tyosuoritukset, tarvikkeet});
 
   res.render('tyosopimukset/id', renderOptions);
 });
 
 // Uusi työsopimus -modaali-ikkuna
 router.get('/uusi', async (_req, res) => {
+  console.log('uusi työsopimus');
   const tyokohteet = await getTyokohteet();
   const asiakkaat = await getAsiakkaat();
 

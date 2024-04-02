@@ -39,7 +39,7 @@ CREATE TABLE urakka (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     lahtohinta NUMERIC(10, 2),
     aleprosentti percentage NOT NULL DEFAULT 0,
-    alv_prosentti percentage NOT NULL,
+    alv_prosentti percentage NOT NULL DEFAULT 0.24,
     korotusprosentti percentage NOT NULL DEFAULT 0,
     hinta NUMERIC(10, 2) GENERATED ALWAYS AS (lahtohinta * (1 - aleprosentti) * (1 + korotusprosentti)) STORED, -- alennuksen ja korotuksen jälkeinen hinta
     alv NUMERIC(10, 2) GENERATED ALWAYS AS (lahtohinta * (1 - aleprosentti) * (1 + korotusprosentti) * alv_prosentti) STORED,
