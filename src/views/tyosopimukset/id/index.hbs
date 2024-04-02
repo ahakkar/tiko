@@ -52,18 +52,18 @@
 </div>
 
 <div class="relative border-2 border-gray-400 p-2 mt-8">
-  {{> tarvikkeetLista tarvikkeet=tarvikkeet}}
+  {{> tarvikkeetLista tarvikkeet=tarvikkeet tarvike_erittely=tarvike_erittely}}
 
 </div>
 
 <div class="relative border-2 border-gray-400 p-2 mt-8">
-  {{> tyosuorituksetLista tyosuoritukset=tyosuoritukset}}
+  {{> tyosuorituksetLista tyosuoritukset=tyosuoritukset tyosuoritus_erittely=tyosuoritus_erittely}}
 </div>
 
-<div class="flex border-2 border-black text-sm mt-8">
-  <div class="flex flex-col w-1/3">
+<div class="flex border-2 border-gray-400 text-sm mt-8">
+  <div class="flex flex-col w-1/3 p-1">
     <div class="flex items-center flex-shrink-0 h-8 border-b-4 border-black  p-1">ALV-erittely:</div>
-    <div class="grid grid-cols-4 p-1">
+    <div class="grid grid-cols-4">
       {{#each alv_erittely}}
       <div class="col-span-2">{{hinta_summa}} €:stä</div>
       <div>ALV {{formatPercentage alv_prosentti}}:&nbsp;</div>
@@ -72,9 +72,9 @@
     </div>
   </div>
 
-  <div class="flex flex-col w-1/3">
-    <div class="flex items-center flex-shrink-0 h-8 border-b-4 border-black p-1">Hinnat:</div>
-    <div class="grid grid-cols-2 p-1">
+  <div class="flex flex-col w-1/3 border-x-2 border-gray-400 p-1">
+    <div class="flex items-center flex-shrink-0 h-8 border-b-4 border-black">Hinnat:</div>
+    <div class="grid grid-cols-2">
       <div>Lähtöhinta ALV 0 %:</div>
       <div>{{summat.lahtohinta}} €</div>
 
@@ -86,11 +86,11 @@
     </div>
   </div>
 
-  <div class="flex flex-col w-1/3">
-    <div class="flex items-center flex-shrink-0 h-8 border-b-4 border-black p-1">
+  <div class="flex flex-col w-1/3 p-1">
+    <div class="flex items-center flex-shrink-0 h-8 border-b-4 border-black">
       {{#if is_urakka}}Urakan muuttujat:{{/if}}</div>
     <!-- Content -->
-    <div class="grid grid-cols-2 p-1">
+    <div class="grid grid-cols-2">
       {{#if is_urakka}}
       <div>Aleprosentti:</div>
       <div>{{formatPercentage urakka.aleprosentti}}</div>

@@ -15,11 +15,12 @@ import tarvikkeet from './id/tarvikeController';
 import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
-import {Tyosopimus} from '../../models/interfaces';
+import {Erittely, Tyosopimus} from '../../models/interfaces';
 import {ContractState, StatusCode} from '../../constants';
 import {haeTarvikkeet} from '../../models/tarvikeModel';
 import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
 import {haeKokoLaskut, hasMuistutusLasku} from '../../models/laskuModel';
+import {getDataById} from '../../models/dbModel';
 
 const router = Router();
 router.use(tyot);
@@ -123,6 +124,14 @@ router.get('/:id', async (req, res) => {
   const alv_erittely = await haeAlvErittely(työsopimus_id);
   const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
   const tarvikkeet = await haeTarvikkeet(työsopimus_id);
+  const tarvike_erittely = await getDataById<Erittely>(
+    työsopimus_id,
+    'tarvikeErittely.sql'
+  );
+  const tyosuoritus_erittely = await getDataById<Erittely>(
+    työsopimus_id,
+    'tyosuoritusErittely.sql'
+  );
 
   // Teoriassa karsitummat tiedot riittäisivät, mutta tässä haetaan kaikki
   // TODO refaktoroinnissa luo suppeampi interface ja käytä sitä
@@ -151,6 +160,8 @@ router.get('/:id', async (req, res) => {
     alv_erittely,
     tyosuoritukset,
     tarvikkeet,
+    tarvike_erittely,
+    tyosuoritus_erittely,
   };
 
   res.render('tyosopimukset/id', renderOptions);

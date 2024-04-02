@@ -16,6 +16,12 @@ export interface Asiakas extends QueryResultRow {
   puhelinnumero: string | null;
 }
 
+export interface Erittely extends QueryResultRow {
+  alv0_summa: string;
+  summa: string;
+  alv: string;
+}
+
 export interface Kayttaja {
   nimi: string;
   salasanatiiviste: string;
