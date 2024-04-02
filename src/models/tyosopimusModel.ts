@@ -7,7 +7,7 @@ import {
   Tyosopimus,
   KokoTyosopimus,
 } from './interfaces';
-import {CONTRACT_STATES} from '../constants';
+import {ContractState} from '../constants';
 import {FlatObject, flatToNestedObject} from '../utils/parse';
 
 /**
@@ -110,14 +110,24 @@ const mapRowToKokoTyosopimus = (row: QueryResultRow): KokoTyosopimus => {
   return {asiakas, tyokohde, tyosopimus, urakka};
 };
 
-export const updateTyosopimusState = async (id: number, state: string) => {
-  if (!CONTRACT_STATES.includes(state)) {
+export const updateTyosopimusState = async (
+  id: number,
+  state: string
+): Promise<boolean> => {
+  if (!Object.values(ContractState).includes(state as ContractState)) {
     throw new Error('Invalid contract state.');
   }
-  await query<Tyosopimus>('UPDATE tyosuoritus SET tila = $1 WHERE id = $2', [
-    state,
-    id,
-  ]);
+
+  const result = await query<Tyosopimus>(
+    'UPDATE tyosuoritus SET tila = $1 WHERE id = $2',
+    [state, id]
+  );
+
+  return (result.rowCount || 0) > 0;
+};
+
+export const paivitaUrakkaHinta = async (tid: number) => {
+  console.log('test', tid);
 };
 
 export {validoiTyosopimus, lisaaTyosopimus, luoUrakka};

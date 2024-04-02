@@ -6,6 +6,7 @@ import {
   updateTyosopimusState,
   haeKokoTyosopimus,
   haeTyosopimukset,
+  paivitaUrakkaHinta,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
@@ -13,7 +14,7 @@ import laskut from './id/laskuController';
 import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 import {Tyosopimus} from '../../models/interfaces';
-import {CONTRACT_STATES, StatusCode} from '../../constants';
+import {ContractState, StatusCode} from '../../constants';
 import {haeTarvikkeet} from '../../models/tarvikeModel';
 import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
 import {haeKokoLaskut, hasMuistutusLasku} from '../../models/laskuModel';
@@ -55,7 +56,7 @@ router.get('/:id', async (req, res) => {
     laskut,
     is_tuntihinta: tyosopimus.urakka?.id === null,
     is_urakka: tyosopimus.urakka?.id !== null,
-    tilat: CONTRACT_STATES,
+    tilat: ContractState,
   };
 
   if (tyosopimus.urakka?.id === null) {
@@ -82,9 +83,18 @@ router.get('/tyokohde/uusi', (_req, res) => {
   });
 });
 
-// Vaihda työsopimuksen tilaa
+// Vaihda työsopimuksen tilaa ja päivitä urakan hinta
 router.patch('/:id', async (req, res) => {
-  await updateTyosopimusState(parseInt(req.params.id), req.body.tila);
+  const tid = parseInt(req.params.id);
+  const tila = req.body.tila;
+
+  if (
+    (await updateTyosopimusState(tid, tila)) &&
+    tila === ContractState.InProgress
+  ) {
+    paivitaUrakkaHinta(tid);
+  }
+
   res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
 });
 
@@ -97,7 +107,7 @@ router.post('/', async (req, res) => {
     tyokohde_id: req.body.tyokohde_id,
     asiakas_id: req.body.asiakas_id,
     aloitus_pvm: new Date(),
-    tila: CONTRACT_STATES[0]!,
+    tila: ContractState.InDesign,
   };
 
   if (!validoiTyosopimus(ts)) {

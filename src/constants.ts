@@ -1,4 +1,9 @@
-export const CONTRACT_STATES = ['Suunnitellaan', 'Tehdään', 'Tehty', 'Valmis'];
+export enum ContractState {
+  InDesign = 'Suunnitellaan',
+  InProgress = 'Tehdään',
+  Completed = 'Tehty',
+  Done = 'Valmis',
+}
 
 // Define HTTP status codes in a human readable format
 // More codes over at https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
