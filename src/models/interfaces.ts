@@ -2,6 +2,7 @@ import {QueryResultRow} from 'pg';
 
 export interface AlvErittely extends QueryResultRow {
   alv_prosentti: string;
+  hinta_summa: string;
   alv_summa: string;
 }
 

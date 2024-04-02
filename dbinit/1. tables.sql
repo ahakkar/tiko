@@ -306,6 +306,7 @@ CREATE VIEW tarvike_alv_yhteenveto AS
     SELECT
         tyosuoritus_id,
         alv_prosentti,
+        SUM(hinta) AS hinta_summa,
         SUM(alv) AS alv_summa
     FROM
         tarvike
@@ -316,6 +317,7 @@ CREATE VIEW tuntihinta_alv_yhteenveto AS
     SELECT
         tyosuoritus_id,
         alv_prosentti,
+        SUM(hinta) AS hinta_summa,
         SUM(alv) AS alv_summa
     FROM
         tuntihinta_nakyma

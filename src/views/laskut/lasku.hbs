@@ -154,12 +154,15 @@
   <div class="col-start-8 mb-4 font-bold text-right border-b-2 border-black">{{lasku.yhteissumma}} €</div>
 </div>
 
-<div class="grid grid-cols-8 text-sm">
-  <div class="col-start-6 col-span-2">ALV-erittely</div>
-  {{#each alv_erittely}}
-  <div class="col-start-6 col-span-2">ALV {{formatPercentage alv_prosentti}}:</div>
-  <div class="col-start-8 text-right">{{alv_summa}} €</div>
-  {{/each}}
+<div class="grid grid-cols-8">
+  <div class="grid grid-cols-4 col-start-6 col-span-3">
+    <div class="col-span-4">ALV-erittely:</div>
+    {{#each alv_erittely}}
+    <div class="col-span-2">{{hinta_summa}} €:stä</div>
+    <div class="text-right">ALV {{formatPercentage alv_prosentti}}:&nbsp;</div>
+    <div class="text-right">{{alv_summa}} €</div>
+    {{/each}}
+  </div>
 </div>
 
 <!-- Työn ja tarvikkeiden ja kotitalousvähennyksen erittely -->
