@@ -168,7 +168,6 @@ export const paivitaUrakkaHinta = async (tyosopimus_id: number) => {
       'UPDATE urakka SET lahtohinta = $1 WHERE id = $2;',
       [kokonaissumma, urakka_id]
     );
-    console.log(urakka_id, kokonaissumma);
   }
 };
 
@@ -177,7 +176,6 @@ export const laskeSopimusHinta = async (
 ): Promise<Summat | undefined> => {
   const rows = await getDataById<Summat>(tyosopimus_id, 'laskeSummat.sql');
   if (rows[0] !== undefined) {
-    console.log(rows);
     return rows[0];
   }
   return undefined;

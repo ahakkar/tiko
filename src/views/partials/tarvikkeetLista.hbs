@@ -1,12 +1,13 @@
-<div class="flex font-semibold absolute top-0 left-2 transform -translate-y-1/2 bg-white px-2">
-  <div class="mr-4 text-2xl my-auto">Tarvikkeet</div>
+<div
+  class="flex justify-between font-semibold absolute top-0 left-2 transform -translate-y-1/2 px-2 bg-slate-300 rounded-md shadow-lg w-4/12">
+  <div class="text-2xl my-auto">Tarvikkeet</div>
 
   <div>
     {{#if is_editable}}
     {{#if writeAccess}}
     <button hx-get="/tyosopimukset/{{tyosopimus.id}}/tarvikkeet/uusi" hx-target="#modal-content"
-      class="bg-blue-500 text-white hover:bg-blue-200 font-semibold hover:text-blue-500 border-2 border-blue-500 rounded my-2 px-1">
-      + Lisää tarvike
+      class="bg-blue-500 text-white hover:bg-blue-200 font-semibold hover:text-blue-500 border-2 border-blue-500 rounded my-2 px-1 ml-4 text-sm">
+      + Lisää
     </button>
     {{/if}}
     {{/if}}
@@ -35,10 +36,10 @@
     <div class="text-right">{{hinta_yhteensa}} €</div>
     {{/each}}
   </div>
-</div>
 
-<div class="grid grid-cols-7 font-bold border-t-2 border-black">
-  <div class="col-start-4 text-right">{{tarvike_erittely.[0].alv0_summa}} €</div>
-  <div class="col-start-6 text-right">{{tarvike_erittely.[0].alv}} €</div>
-  <div class="col-start-7 text-right">{{tarvike_erittely.[0].summa}} €</div>
+  <div class="grid grid-cols-7 font-bold border-t-2 border-black">
+    <div class="col-start-4 text-right">{{tarvike_erittely.[0].alv0_summa}} €</div>
+    <div class="col-start-6 text-right">{{tarvike_erittely.[0].alv}} €</div>
+    <div class="col-start-7 text-right">{{tarvike_erittely.[0].summa}} €</div>
+  </div>
 </div>
