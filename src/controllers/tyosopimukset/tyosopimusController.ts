@@ -32,6 +32,70 @@ router.get('/', async (_req, res) => {
   res.render('tyosopimukset', {tyosopimukset});
 });
 
+// Uusi työsopimus -modaali-ikkuna
+router.get('/uusi', async (_req, res) => {
+  console.log('uusi työsopimus');
+  const tyokohteet = await getTyokohteet();
+  const asiakkaat = await getAsiakkaat();
+
+  res.render('tyosopimukset/uusiTyosopimus', {tyokohteet, asiakkaat});
+});
+
+// Uusi työkohde -modaali-ikkuna
+router.get('/tyokohde/uusi', (_req, res) => {
+  res.render('tyokohteet/uusiTyokohde', {
+    layout: 'modal',
+  });
+});
+
+// Lisää uusi työsopimus tietokantaan
+router.post('/', async (req, res) => {
+  // TODO refaktoroi tämäkin spaghetti järkevämmäksi
+  const ts: Tyosopimus = {
+    id: null, // id generoidaan tietokannassa
+    urakka_id: null, // id generoidaan tietokannassa
+    tyokohde_id: req.body.tyokohde_id,
+    asiakas_id: req.body.asiakas_id,
+    aloitus_pvm: new Date(),
+    tila: ContractState.InDesign,
+  };
+
+  if (!validoiTyosopimus(ts)) {
+    res.sendStatus(StatusCode.BadRequest);
+    return;
+  }
+
+  if (req.body.tyyppi === 'urakka') {
+    const uusiUrakka = await luoUrakka();
+    ts.urakka_id = uusiUrakka.id;
+  }
+
+  const result = await lisaaTyosopimus(ts);
+  if (result) {
+    res.set('hx-redirect', `/tyosopimukset/${result.id}`);
+    res.sendStatus(StatusCode.Created);
+    return;
+  }
+
+  // TODO tässä tapauksessa pitäisi yllä luotu urakka myös poistaa...
+  res.sendStatus(StatusCode.InternalServerError);
+});
+
+// Vaihda työsopimuksen tilaa ja päivitä urakan hinta
+router.patch('/:id', async (req, res) => {
+  const tid = parseInt(req.params.id);
+  const tila = req.body.tila;
+
+  if (
+    (await updateTyosopimusState(tid, tila)) &&
+    tila === ContractState.InProgress
+  ) {
+    paivitaUrakkaHinta(tid);
+  }
+
+  res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
+});
+
 // Yhden työsopimuksen sivu
 router.get('/:id', async (req, res) => {
   const työsopimus_id = Number(req.params.id);
@@ -48,7 +112,7 @@ router.get('/:id', async (req, res) => {
     return;
   }
 
-  // Tuntihintasopimusta voi aina muokata, urakkaa vain suunnitteluvaiheessa
+  // Tuntihintasopimusta voi aina muokata, urakkaa vain suurjannitteluvaiheessa
   const is_tuntihinta = tyosopimus.urakka?.id === null;
   const is_urakka = tyosopimus.urakka?.id !== null;
   const is_editable =
@@ -87,70 +151,6 @@ router.get('/:id', async (req, res) => {
   Object.assign(renderOptions, {tyosuoritukset, tarvikkeet});
 
   res.render('tyosopimukset/id', renderOptions);
-});
-
-// Uusi työsopimus -modaali-ikkuna
-router.get('/uusi', async (_req, res) => {
-  console.log('uusi työsopimus');
-  const tyokohteet = await getTyokohteet();
-  const asiakkaat = await getAsiakkaat();
-
-  res.render('tyosopimukset/uusiTyosopimus', {tyokohteet, asiakkaat});
-});
-
-// Uusi työkohde -modaali-ikkuna
-router.get('/tyokohde/uusi', (_req, res) => {
-  res.render('tyokohteet/uusiTyokohde', {
-    layout: 'modal',
-  });
-});
-
-// Vaihda työsopimuksen tilaa ja päivitä urakan hinta
-router.patch('/:id', async (req, res) => {
-  const tid = parseInt(req.params.id);
-  const tila = req.body.tila;
-
-  if (
-    (await updateTyosopimusState(tid, tila)) &&
-    tila === ContractState.InProgress
-  ) {
-    paivitaUrakkaHinta(tid);
-  }
-
-  res.set('hx-refresh', 'true').sendStatus(StatusCode.OK);
-});
-
-// Lisää uusi työsopimus tietokantaan
-router.post('/', async (req, res) => {
-  // TODO refaktoroi tämäkin spaghetti järkevämmäksi
-  const ts: Tyosopimus = {
-    id: null, // id generoidaan tietokannassa
-    urakka_id: null, // id generoidaan tietokannassa
-    tyokohde_id: req.body.tyokohde_id,
-    asiakas_id: req.body.asiakas_id,
-    aloitus_pvm: new Date(),
-    tila: ContractState.InDesign,
-  };
-
-  if (!validoiTyosopimus(ts)) {
-    res.sendStatus(StatusCode.BadRequest);
-    return;
-  }
-
-  if (req.body.tyyppi === 'urakka') {
-    const uusiUrakka = await luoUrakka();
-    ts.urakka_id = uusiUrakka.id;
-  }
-
-  const result = await lisaaTyosopimus(ts);
-  if (result) {
-    res.set('hx-redirect', `/tyosopimukset/${result.id}`);
-    res.sendStatus(StatusCode.Created);
-    return;
-  }
-
-  // TODO tässä tapauksessa pitäisi yllä luotu urakka myös poistaa...
-  res.sendStatus(StatusCode.InternalServerError);
 });
 
 export default router;
