@@ -1,28 +1,34 @@
-<div class="py-4 font-bold text-3xl">Laskut</div>
-<div class="text-sm">
-  <div class="grid grid-cols-8 font-bold p-2 border-b-4 border-black">
-    <div>Tunnus</div>
-    <div class="col-span-2">Asiakas</div>
-    <div>Kohde</div>
-    <div class="text-right">Pvm</div>
-    <div class="text-right">Eräpvm</div>
-    <div class="text-right">Yhteensä</div>
-    <div class="text-right">Maksettu</div>
-  </div>
+<div class="page-container mt-4">
+  {{> otsikko title="Laskut"}}
 
+  <table class="min-w-full text-left text-sm mt-6">
+    <thead class="font-bold border-b-2 border-black">
+      <tr>
+        <th scope="col">Tunnus</th>
+        <th scope="col">Asiakas</th>
+        <th scope="col">Kohde</th>
+        <th scope="col">Pvm</th>
+        <th scope="col">Eräpvm</th>
+        <th scope="col">Yhteensä</th>
+        <th scope="col">Maksettu</th>
+      </tr>
+    </thead>
+    <tbody>
 
-  {{#each laskut}}
-  <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true">
-    <div class="grid grid-cols-8 p-2 rounded-md hover:bg-gray-100 hover:underline items-center">
-      <div>{{id}}</div>
-      <div class="col-span-2">{{asiakas_nimi}}</div>
-      <div>{{tyokohde_osoite}} {{tyokohde.postitoimipaikka}}</div>
-      <div class="text-right">{{formatDate pvm}}</div>
-      <div class="text-right">{{formatDate era_pvm}}</div>
-      <div class="text-right">{{summa}} €</div>
-      <div class="text-right">{{#if is_maksettu}} Kyllä {{else}} Ei {{/if}}</div>
-    </div>
-  </div>
-  {{/each}}
+      {{#each laskut}}
+      <tr class="hover:bg-slate-300 whitespace-nowrap odd:bg-slate-100 cursor-pointer" hx-get="/laskut/{{id}}"
+        hx-target="#main-content" hx-push-url="true">
+        <td class="whitespace-nowrap p-2">{{id}}</td>
+        <td class="whitespace-nowrap p-2">{{asiakas_nimi}}</td>
+        <td class="whitespace-nowrap p-2">{{tyokohde_osoite}} {{tyokohde.postitoimipaikka}}</td>
+        <td class="whitespace-nowrap p-2">{{formatDate pvm}}</td>
+        <td class="whitespace-nowrap p-2">{{formatDate era_pvm}}</td>
+        <td class="whitespace-nowrap p-2">{{summa}} €</td>
+        <td class="whitespace-nowrap p-2">{{#if is_maksettu}} Kyllä {{else}} Ei {{/if}}</td>
+      </tr>
+      {{/each}}
+
+    </tbody>
+  </table>
 
 </div>

@@ -45,17 +45,15 @@ router.post('/', async (req, res) => {
   res.sendStatus(StatusCode.OK);
 });
 
-// Näyttää kaikki laskut, jos laskuId:tä ei ole annettu.
-// Muuten näyttää yhden laskun tiedot.
-router.get('/', async (req, res) => {
-  const laskuId = Number(req.query['laskuId']);
+// Kaikki laskut
+router.get('/', async (_req, res) => {
+  const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
+  res.render('laskut/laskut', {laskut: laskut});
+});
 
-  if (!laskuId) {
-    const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
-    res.render('laskut/laskut', {laskut: laskut});
-    return;
-  }
-
+// Yksi lasku
+router.get('/:id', async (req, res) => {
+  const laskuId = parseInt(req.params.id);
   const lasku = await haeKokoLasku(laskuId);
   const työsopimus_id = lasku.tyosuoritus_id;
   const tyosopimus = await haeKokoTyosopimus(työsopimus_id);

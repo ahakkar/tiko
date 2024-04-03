@@ -1,42 +1,44 @@
-<h1 class="font-medium text-3xl mb-6">Tarvikearkisto</h1>
+<div class="page-container mt-4">
+  {{> otsikko title="Tarvikearkisto"}}
 
-<div class="block max-w-screen-lg">
-  <table class="table-auto w-full text-left text-sm">
-    <thead class="w-full border-b font-medium dark:border-neutral-500">
-      <tr>
-        <th scope="col" class="px-6 py-4">Nimi</th>
-        <th scope="col" class="px-6 py-4">Merkki</th>
-        <th scope="col" class="px-6 py-4">Tyyppi</th>
-        <th scope="col" class="px-6 py-4">Yksikkö</th>
-        <th scope="col" class="px-6 py-4">Toimittaja</th>
-        <th scope="col" class="px-6 py-4">Varastotilanne</th>
-        <th scope="col" class="px-6 py-4">Hinta sisään</th>
-        {{#if writeAccess}}
-        <th scope="col" class="px-6 py-4">Siirrä pois arkistosta</th>
-        {{/if}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each warehouseItems}}
-      <tr hx-get="/tarvikkeet/{{this.id}}" hx-target="#main-content" hx-push-url="true"
-        class="cursor-pointer border-b transition duration-300 ease-in-out hover:bg-neutral-200">
-        <td class="px-6 py-4">{{this.nimi}}</td>
-        <td class="px-6 py-4">{{this.merkki}}</td>
-        <td class="px-6 py-4">{{this.tyyppi}}</td>
-        <td class="px-6 py-4">{{this.yksikko}}</td>
-        <td class="px-6 py-4">{{this.toimittaja_nimi}}</td>
-        <td class="px-6 py-4">{{this.varastotilanne}} {{this.yksikko}}</td>
-        <td class="px-6 py-4">{{this.hinta_sisaan}}
-        {{#if ../writeAccess}}
-        <td class="flex-row px-6 py-4">
-          <button hx-patch="/tarvikkeet/{{this.id}}" hx-vals='{"vanhentunut": "{{not this.vanhentunut}}"}'
-            hx-trigger="click consume" class="border rounded p-2 hover:border-blue-700">
-            &#10060
-          </button>
-        </td>
-        {{/if}}
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+  <div class="block max-w-screen-lg">
+    <table class="table-auto w-full text-left text-sm">
+      <thead class="w-full border-b font-medium dark:border-neutral-500">
+        <tr>
+          <th scope="col" class="px-6 py-4">Nimi</th>
+          <th scope="col" class="px-6 py-4">Merkki</th>
+          <th scope="col" class="px-6 py-4">Tyyppi</th>
+          <th scope="col" class="px-6 py-4">Yksikkö</th>
+          <th scope="col" class="px-6 py-4">Toimittaja</th>
+          <th scope="col" class="px-6 py-4">Varastotilanne</th>
+          <th scope="col" class="px-6 py-4">Hinta sisään</th>
+          {{#if writeAccess}}
+          <th scope="col" class="px-6 py-4">Siirrä pois arkistosta</th>
+          {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each warehouseItems}}
+        <tr hx-get="/tarvikkeet/{{this.id}}" hx-target="#main-content" hx-push-url="true"
+          class="cursor-pointer border-b transition duration-300 ease-in-out hover:bg-neutral-200">
+          <td class="px-6 py-4">{{this.nimi}}</td>
+          <td class="px-6 py-4">{{this.merkki}}</td>
+          <td class="px-6 py-4">{{this.tyyppi}}</td>
+          <td class="px-6 py-4">{{this.yksikko}}</td>
+          <td class="px-6 py-4">{{this.toimittaja_nimi}}</td>
+          <td class="px-6 py-4">{{this.varastotilanne}} {{this.yksikko}}</td>
+          <td class="px-6 py-4">{{this.hinta_sisaan}}
+            {{#if ../writeAccess}}
+          <td class="flex-row px-6 py-4">
+            <button hx-patch="/tarvikkeet/{{this.id}}" hx-vals='{"vanhentunut": "{{not this.vanhentunut}}"}'
+              hx-trigger="click consume" class="border rounded p-2 hover:border-blue-700">
+              &#10060
+            </button>
+          </td>
+          {{/if}}
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>

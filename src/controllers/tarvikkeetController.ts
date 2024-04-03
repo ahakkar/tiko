@@ -40,9 +40,7 @@ router.get('/', async (_req, res) => {
 });
 
 router.get('/arkisto', async (_req, res) => {
-  console.log('siirrytään arkistoon');
   const warehouseItems = await retrieveWarehouseItems('TRUE');
-  console.log('noh toimiiko');
   res.render('tarvikkeet/arkisto', {warehouseItems});
 });
 

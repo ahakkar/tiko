@@ -3,6 +3,22 @@ import {Request, Response, NextFunction} from 'express';
 import {Kayttaja} from '../models/interfaces';
 import {StatusCode} from '../constants';
 
+export const navBarItems = (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.locals['navBarItems'] = [
+    {nimi: 'Työsopimukset', osoite: 'tyosopimukset'},
+    {nimi: 'Työkohteet', osoite: 'tyokohteet'},
+    {nimi: 'Tarvikkeet', osoite: 'tarvikkeet'},
+    {nimi: 'Asiakkaat', osoite: 'asiakkaat'},
+    {nimi: 'Laskut', osoite: 'laskut'},
+    {nimi: 'Toimittajat', osoite: 'toimittajat'},
+  ];
+  next();
+};
+
 /**
  * Asettaa näkymien muuttujan htmx:n arvoksi true, jos pyyntö tulee HTMX:ltä.
  * Muuttujaa htmx käytetään pohjatiedostossa main.hbs.

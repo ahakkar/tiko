@@ -69,7 +69,6 @@ export const retrieveWarehouseItems = async (
     archived,
     'varastotarvikkeet.sql'
   );
-  console.log('pitäis palauttaa tulokset', result);
   return result;
 };
 

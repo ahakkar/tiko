@@ -23,8 +23,14 @@ const formatDate = (value: {toLocaleDateString: (arg0: string) => unknown}) => {
   }
 };
 
+const concat = (...params: string[]) => {
+  params.pop();
+  return params.join('');
+};
+
 export default {
   formatDate: formatDate,
   formatPercentage: formatPercentage,
   not: (bool: boolean) => !bool,
+  concat: concat,
 };

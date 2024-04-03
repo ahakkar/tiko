@@ -1,22 +1,24 @@
-<h1 class="font-medium text-3xl">Toimittajat</h1>
+<div class="page-container mt-4">
+  {{> otsikko title="Toimittajat"}}
 
-<div>
-  {{#each toimittajat}}
-  <div hx-get="/toimittajat/{{id}}" hx-target="#main-content" hx-push-url="true"
-    class="flex justify-between p-2 hover:bg-neutral-200 rounded cursor-pointer">
-    <div>
-      <div class="grid">
-        <span class="font-medium text-lg">
-          {{nimi}}
-        </span>
-        <span class="text-md">
-          {{osoite}}
-        </span>
+  <div class="mt-6">
+    {{#each toimittajat}}
+    <div hx-get="/toimittajat/{{id}}" hx-target="#main-content" hx-push-url="true"
+      class="flex justify-between p-2 cursor-pointer hover:bg-slate-300 odd:bg-slate-100 ">
+      <div>
+        <div class="grid">
+          <span class="font-medium text-lg">
+            {{nimi}}
+          </span>
+          <span class="text-md">
+            {{osoite}}
+          </span>
+        </div>
+      </div>
+      <div class="capitalize">
+        x tarviketta
       </div>
     </div>
-    <div class="capitalize">
-      x tarviketta
-    </div>
+    {{/each}}
   </div>
-  {{/each}}
 </div>

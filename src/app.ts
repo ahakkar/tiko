@@ -24,6 +24,7 @@ app.use(morgan('dev')); // Logger
 app.use(express.urlencoded({extended: true})); // Parse POST data
 app.use(cookieParser());
 app.use(middleware.htmxChecker);
+app.use(middleware.navBarItems);
 
 // Kirjautuminen
 app.use('/kirjaudu', kirjaudu);
