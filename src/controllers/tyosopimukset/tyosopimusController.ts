@@ -117,9 +117,9 @@ router.get('/:id', async (req, res) => {
   // Tuntihintasopimusta voi aina muokata, urakkaa vain suurjannitteluvaiheessa
   const is_tuntihinta = tyosopimus.urakka?.id === null;
   const is_urakka = tyosopimus.urakka?.id !== null;
-  const is_editable =
-    (tyosopimus.tyosopimus.tila === ContractState.InDesign && is_urakka) ||
-    is_tuntihinta;
+  const isDisabled =
+    (tyosopimus.tyosopimus.tila !== ContractState.InDesign && is_urakka) ||
+    tyosopimus.tyosopimus.tila === ContractState.Completed;
   const summat = await laskeSopimusHinta(työsopimus_id);
   const alv_erittely = await haeAlvErittely(työsopimus_id);
   const tyosuoritukset = await haeTyosuoritukset(työsopimus_id);
@@ -155,7 +155,7 @@ router.get('/:id', async (req, res) => {
     is_tuntihinta: is_tuntihinta,
     is_urakka: is_urakka,
     tilat: ContractState,
-    is_editable,
+    isDisabled,
     summat,
     alv_erittely,
     tyosuoritukset,
