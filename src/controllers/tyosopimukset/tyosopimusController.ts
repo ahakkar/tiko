@@ -40,7 +40,11 @@ router.get('/uusi', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
   const asiakkaat = await getAsiakkaat();
 
-  res.render('tyosopimukset/uusiTyosopimus', {tyokohteet, asiakkaat});
+  res.render('tyosopimukset/uusiTyosopimus', {
+    layout: 'modal',
+    tyokohteet,
+    asiakkaat,
+  });
 });
 
 // Uusi työkohde -modaali-ikkuna

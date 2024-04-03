@@ -24,12 +24,10 @@
 
     <div class="flex flex-wrap items-center justify-between p-4">
       <div class="w-full md:block md:w-auto" id="navbar-default">
-        <ul
-          class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0">
+        <ul class="navbar-ul">
           {{#each navBarItems}}
           <li>
-            <a href="#" hx-get="/{{osoite}}" hx-target="#main-content" hx-push-url="true"
-              class="block text-gray-900 rounded bg-slate-300 md:hover:bg-slate-200 md:border-0 md:hover:text-blue-700 md:py-1 md:px-4 drop-shadow-lg">
+            <a href="#" hx-get="/{{osoite}}" hx-target="#main-content" hx-push-url="true" class="navbar-ul-li-a">
               {{nimi}}
             </a>
           </li>

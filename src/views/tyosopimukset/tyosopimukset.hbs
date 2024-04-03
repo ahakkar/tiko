@@ -2,7 +2,7 @@
 
   {{> otsikkoJaNappi
   title="Työsopimukset"
-  hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/uusi") hxTarget="#main-content"
+  hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/uusi") hxTarget="#modal-content"
   hxPushUrl="false"
   buttonText="Lisää"
   isDisabled=false}}
@@ -10,7 +10,7 @@
   <div class="mt-4">
     {{#each tyosopimukset}}
     <div hx-get="/tyosopimukset/{{tyosopimus.id}}" hx-target="#main-content" hx-push-url="true"
-      class="flex justify-between p-2 hover:bg-slate-300 rounded cursor-pointer odd:bg-slate-100">
+      class="flex justify-between p-2 items-table-row">
       <div>
         <div>
           <span class="font-medium text-xl">

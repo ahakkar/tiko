@@ -2,7 +2,7 @@
 
 <div class="py-3"></div>
 
-<form hx-post="/tyosopimukset">
+<form id="uusi-tyosopimus-form" hx-post="/tyosopimukset" hx-target="#main-content">
   <label>
     <h2 class="text-xl font-medium">Valitse työkohde</h2>
     <select name="tyokohde_id" required class="modal-input">
@@ -12,17 +12,6 @@
       {{/each}}
     </select>
   </label>
-  <!-- 
-    TODOongelma: miten ketussa samaa uusi tyokohde/asiakas modaali-ikkunaa voi
-   käyttää niin, että käyttäjä päätyy kuitenkin takaisin TÄLLE sivulle?
-
-   Samaa modaali-ikkunaa voidaan kutsua N:stä eri paikasta.
-
-  <button hx-get="/tyokohteet/uusi" hx-target="#modal-content" hx-push-url="true"
-    class="px-4 py-2 my-2 font-semibold text-blue-700 bg-transparent border border-blue-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
-    Uusi työkohde
-  </button>
-  -->
 
   <div class="py-3"></div>
 
@@ -35,12 +24,6 @@
       {{/each}}
     </select>
   </label>
-  <!--
-  <button hx-get="/asiakkaat/uusi" hx-target="#modal-content" hx-push-url="true"
-    class="px-4 py-2 my-2 font-semibold text-blue-700 bg-transparent border border-blue-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
-    Uusi asiakas
-  </button>
-  -->
 
   <div class="py-3"></div>
 
@@ -62,8 +45,13 @@
 
   <div class="py-3"></div>
 
-  <button type="submit"
-    class="px-4 py-2 my-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 focus:outline-none">
-    Tallenna
-  </button>
+  <div class="flex items-center">
+    <button type="submit" class="button-submit">
+      Tallenna
+    </button>
+    <div class="p-1"></div>
+    <button hx-get="/tyhja" hx-target="#modal-content" class="button-cancel">
+      Peruuta
+    </button>
+  </div>
 </form>

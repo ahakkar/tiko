@@ -18,8 +18,7 @@ isDisabled=false}}
 
   {{#each laskut}}
   <div class="grid grid-cols-8 p-2 items-center">
-    <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true"
-      class="rounded-md hover:bg-slate-300 cursor-pointer px-2">
+    <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true" class="items-table-row">
       {{id}}</div>
     <div>
       {{#if sopimusMaksettu}}Maksettu{{else}}Maksamatta{{/if}}

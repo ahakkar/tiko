@@ -16,8 +16,7 @@
     <tbody>
 
       {{#each laskut}}
-      <tr class="hover:bg-slate-300 whitespace-nowrap odd:bg-slate-100 cursor-pointer" hx-get="/laskut/{{id}}"
-        hx-target="#main-content" hx-push-url="true">
+      <tr class="items-table-row" hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true">
         <td class="whitespace-nowrap p-2">{{id}}</td>
         <td class="whitespace-nowrap p-2">{{asiakas_nimi}}</td>
         <td class="whitespace-nowrap p-2">{{tyokohde_osoite}} {{tyokohde.postitoimipaikka}}</td>

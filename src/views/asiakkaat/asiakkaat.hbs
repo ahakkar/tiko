@@ -1,6 +1,10 @@
 <div class="page-container mt-4">
 
-  {{> otsikkoJaNappi title="Asiakkaat" hxGetUrl="/asiakkaat/uusi" hxTarget="#modal-content" hxPushUrl="false"
+  {{> otsikkoJaNappi
+  title="Asiakkaat"
+  hxGetUrl="/asiakkaat/uusi"
+  hxTarget="#modal-content"
+  hxPushUrl="false"
   buttonText="Lisää"
   isDisabled=false}}
 
@@ -17,7 +21,7 @@
     </thead>
     <tbody>
       {{#each asiakkaat}}
-      <tr class="hover:bg-slate-300 whitespace-nowrap odd:bg-slate-100 cursor-pointer">
+      <tr class="items-table-row">
         <td class="whitespace-nowrap p-2">{{nimi}}</td>
         <td class="whitespace-nowrap p-2">{{osoite}}</td>
         <td class="whitespace-nowrap p-2">{{postinumero}}</td>

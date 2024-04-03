@@ -31,7 +31,7 @@
             {{#if ../writeAccess}}
           <td class="flex-row px-6 py-4">
             <button hx-patch="/tarvikkeet/{{this.id}}" hx-vals='{"vanhentunut": "{{not this.vanhentunut}}"}'
-              hx-trigger="click consume" class="border rounded p-2 hover:border-blue-700">
+              hx-trigger="click consume" class="button-submit">
               &#10060
             </button>
           </td>
