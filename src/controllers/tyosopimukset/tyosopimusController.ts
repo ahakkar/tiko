@@ -17,7 +17,7 @@ import {getTyokohteet} from '../../models/tyokohdeModel';
 import {getAsiakkaat} from '../../models/asiakasModel';
 import {Erittely, Tyosopimus} from '../../models/interfaces';
 import {ContractState, StatusCode} from '../../constants';
-import {haeTarvikkeet} from '../../models/tarvikeModel';
+import {haeTarvikkeet, poistaTarvike} from '../../models/tarvikeModel';
 import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
 import {haeKokoLaskut, hasMuistutusLasku} from '../../models/laskuModel';
 import {getDataById} from '../../models/dbModel';
@@ -169,6 +169,13 @@ router.get('/:id', async (req, res) => {
   };
 
   res.render('tyosopimukset/id/tyosopimus', renderOptions);
+});
+
+router.patch('/:id/poistatarvike/:id2', async (req, res) => {
+  const tyosopimus_id = req.params.id;
+  const tarvike_id = req.params.id2;
+  await poistaTarvike(tyosopimus_id, tarvike_id);
+  res.set('hx-refresh', 'true').send();
 });
 
 export default router;

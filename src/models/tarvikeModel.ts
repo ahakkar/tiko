@@ -57,6 +57,17 @@ export const lisaaTarvike = async (n: Tarvike): Promise<Tarvike> => {
   return result.rows[0];
 };
 
+export const poistaTarvike = async (
+  tyosopimus_id: string,
+  tarvike_id: string
+): Promise<void> => {
+  const result = await query(
+    'DELETE FROM tarvike WHERE tyosuoritus_id = $1 AND id = $2 RETURNING *',
+    [tyosopimus_id, tarvike_id]
+  );
+  console.log(result.rowCount);
+};
+
 /**
  * Hakee kaikki varastotarvikkeet
  * @param archived arkistoitu 'TRUE' tai 'FALSE'
