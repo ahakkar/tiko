@@ -83,3 +83,14 @@ export const lisaaTyosuoritus = async (
 
   return result.rows[0];
 };
+
+export const poistaTyosuoritus = async (
+  tyosopimus_id: string,
+  tyosuoritus_id: string
+): Promise<void> => {
+  const result = await query(
+    'DELETE FROM tuntihinta WHERE tyosuoritus_id = $1 AND id = $2 RETURNING *',
+    [tyosopimus_id, tyosuoritus_id]
+  );
+  console.log(result.rowCount);
+};

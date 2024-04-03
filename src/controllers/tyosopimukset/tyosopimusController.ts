@@ -18,7 +18,10 @@ import {getAsiakkaat} from '../../models/asiakasModel';
 import {Erittely, Tyosopimus} from '../../models/interfaces';
 import {ContractState, StatusCode} from '../../constants';
 import {haeTarvikkeet, poistaTarvike} from '../../models/tarvikeModel';
-import {haeTyosuoritukset} from '../../models/tyosuoritusModel';
+import {
+  haeTyosuoritukset,
+  poistaTyosuoritus,
+} from '../../models/tyosuoritusModel';
 import {haeKokoLaskut, hasMuistutusLasku} from '../../models/laskuModel';
 import {getDataById} from '../../models/dbModel';
 
@@ -171,10 +174,18 @@ router.get('/:id', async (req, res) => {
   res.render('tyosopimukset/id/tyosopimus', renderOptions);
 });
 
-router.patch('/:id/poistatarvike/:id2', async (req, res) => {
-  const tyosopimus_id = req.params.id;
+router.patch('/:id/poista/tarvike/:id2', async (req, res) => {
+  const tyosopimus_id = req.params['id'];
   const tarvike_id = req.params.id2;
   await poistaTarvike(tyosopimus_id, tarvike_id);
+  res.set('hx-refresh', 'true').send();
+});
+
+router.patch('/:id/poista/tyosuoritus/:id2', async (req, res) => {
+  const tyosopimus_id = req.params.id;
+  const tyosuoritus_id = req.params.id2;
+  console.log('poista työsuoritus', tyosopimus_id, tyosuoritus_id);
+  await poistaTyosuoritus(tyosopimus_id, tyosuoritus_id);
   res.set('hx-refresh', 'true').send();
 });
 

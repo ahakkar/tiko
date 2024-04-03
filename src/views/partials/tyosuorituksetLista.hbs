@@ -6,32 +6,56 @@ hxPushUrl="false"
 buttonText="Lisää"
 isDisabled=isDisabled}}
 
-<div class="text-sm mt-4">
-  <div class="grid grid-cols-7 font-bold border-b-2 border-black">
-    <div>Nimi</div>
-    <div class="text-right">Määrä</div>
-    <div class="text-right">Veroton a-hinta</div>
-    <div class="text-right">Yhteensä ALV 0</div>
-    <div class="text-right">Alennus-%</div>
-    <div class="text-right">ALV</div>
-    <div class="text-right">Yhteensä</div>
-  </div>
+<table class="text-right text-sm w-full mt-4">
+  <thead class="font-bold border-b-2 border-black">
+    <tr>
+      <th scope="text-left col">Nimi</th>
+      <th scope="col">Määrä</th>
+      <th scope="col">Veroton a-hinta</th>
+      <th scope="col">Ale-%</th>
+      <th scope="col">Yhteensä ALV 0</th>
+      <th scope="col">ALV-%</th>
+      <th scope="col">ALV</th>
+      <th scope="col">Yhteensä</th>
+      <th scope="col">Pst</th>
+    </tr>
+  </thead>
 
-  <div class="grid grid-cols-7">
+  <tbody>
     {{#each tyosuoritukset}}
-    <div class="capitalize">{{tyyppi}}</div>
-    <div class="text-right">{{tunnit}} h</div>
-    <div class="text-right">{{tuntihinta}} €</div>
-    <div class="text-right">{{hinta}} €</div>
-    <div class="text-right">{{formatPercentage aleprosentti}}</div>
-    <div class="text-right">{{alv}} €</div>
-    <div class="text-right">{{hinta_yhteensa}} €</div>
-    {{/each}}
-  </div>
 
-  <div class="grid grid-cols-7 font-bold border-t-2 border-black">
-    <div class="col-start-4 text-right">{{tyosuoritus_erittely.[0].alv0_summa}} €</div>
-    <div class="col-start-6 text-right">{{tyosuoritus_erittely.[0].alv}} €</div>
-    <div class="col-start-7 text-right">{{tyosuoritus_erittely.[0].summa}} €</div>
-  </div>
-</div>
+    <tr>
+      <td class="text-left capitalize">{{tyyppi}}</td>
+      <td>{{tunnit}}</td>
+      <td>{{tuntihinta}} €</td>
+      <td>{{formatPercentage aleprosentti}}</td>
+      <td>{{hinta}} €</td>
+      <td>{{formatPercentage alv_prosentti}}</td>
+      <td>{{alv}} €</td>
+      <td>{{hinta_yhteensa}} €</td>
+      <td>
+        {{#if ../writeAccess}}
+        <button hx-patch="/tyosopimukset/{{../tyosopimus.id}}/poista/tyosuoritus/{{tuntihinta_id}}"
+          hx-trigger="click consume"
+          class="border rounded break-all hover:border-blue-700 {{#if ../isDisabled}}opacity-50 cursor-not-allowed{{/if}}"
+          {{#if ../isDisabled}}disabled{{/if}}>
+          &#10060
+        </button>
+        {{/if}}
+      </td>
+    </tr>
+    {{/each}}
+
+    <tr class="border-t-2 border-black font-bold">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-right">{{tyosuoritus_erittely.[0].alv0_summa}} €</td>
+      <td class="text-right">{{tyosuoritus_erittely.[0].alv}} €</td>
+      <td class="text-right">{{tyosuoritus_erittely.[0].summa}} €</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
