@@ -1,6 +1,8 @@
 <div class="page-container mt-4">
 
-  {{> otsikkoJaNappi title="Työsopimukset" hxGetUrl="/tyosopimukset/{{tyosopimus.id}}/uusi" hxTarget="#modal-content"
+  {{> otsikkoJaNappi
+  title="Työsopimukset"
+  hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/uusi") hxTarget="#main-content"
   hxPushUrl="false"
   buttonText="Lisää"
   isDisabled=false}}

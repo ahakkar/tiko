@@ -1,3 +1,19 @@
 .page-container {
-    @apply relative px-4 py-2 mt-8 bg-slate-200 rounded-md shadow-xl;
+    @apply relative px-4 py-2 mt-8 bg-tarskyLt rounded-md shadow-xl;
+}
+
+.container-titlebar {
+    @apply flex justify-between font-semibold absolute top-0 left-2 transform -translate-y-1/2 px-2 bg-tarskyMed rounded-md shadow-lg w-4/12;
+}
+
+.titlebar-button {
+    @apply bg-tarskyBlueMed text-white hover:bg-tarskyBlueLt font-semibold hover:text-tarskyBlueMed border-2 border-tarskyBlueMed rounded my-2 px-1 ml-4 text-sm;
+}
+
+.modal-label {
+    @apply block font-medium text-sm mb-2;
+}
+
+.modal-input {
+    @apply border border-tarskyLt text-sm rounded-lg focus:ring-tarskyBlueMed focus:border-tarskyBlueMed block w-full p-2.5;
 }

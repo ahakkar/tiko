@@ -10,8 +10,7 @@ tunnit --}}
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Tuntihintatyyppi</div>
-      <select name="tuntihintatyyppi_id" required
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+      <select name="tuntihintatyyppi_id" required class="modal-input">
         <option value="">Tuntihintatyyppi</option>
         {{#each tht}}
         <option value="{{id}}">{{tyyppi}}, {{tuntihinta}} €/h</option>
@@ -25,8 +24,7 @@ tunnit --}}
       <div class="mb-2 text-sm font-medium text-gray-900">Aleprosentti</div>
       <input hx-get="/tyosopimukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta"
         hx-include="input, select" name="aleprosentti" value="0" type="number" min="0" max="100" step="0.1"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        required>
+        class="modal-input" required>
     </label>
   </div>
 
@@ -35,8 +33,7 @@ tunnit --}}
       <div class="mb-2 text-sm font-medium text-gray-900">ALV-prosentti</div>
       <input hx-get="/tyosopimukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta"
         hx-include="input, select" name="alv_prosentti" value="24" type="number" min="0" max="100" step="0.1"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        required>
+        class="modal-input" required>
     </label>
   </div>
 
@@ -44,9 +41,7 @@ tunnit --}}
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Tunnit</div>
       <input hx-get="/tyosopimukset/{{id}}/tyot/hinta" hx-trigger="keyup delay:200ms changed" hx-target="#hinta"
-        hx-include="input, select" name="tunnit" type="number" min="0"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        required>
+        hx-include="input, select" name="tunnit" type="number" min="0" class="modal-input" required>
     </label>
   </div>
 

@@ -1,5 +1,9 @@
-{{> otsikkoJaNappi title="Tarvikkeet" hxGetUrl="/tyosopimukset/{{tyosopimus.id}}/tarvikkeet/uusi"
-hxTarget="#modal-content" hxPushUrl="false" buttonText="Lisää"
+{{> otsikkoJaNappi
+title="Tarvikkeet"
+hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/tarvikkeet/uusi")
+hxTarget="#modal-content"
+hxPushUrl="false"
+buttonText="Lisää"
 isDisabled=isDisabled}}
 
 <div class="text-sm mt-4">

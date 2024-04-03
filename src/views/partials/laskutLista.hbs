@@ -1,4 +1,6 @@
-{{> otsikkoJaNappi title="Laskut" hxGetUrl="/tyosopimukset/{{tyosopimus.id}}/laskut" hxTarget="#modal-content"
+{{> otsikkoJaNappi
+title="Laskut"
+hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/laskut") hxTarget="#modal-content"
 hxPushUrl="false"
 buttonText="Lisää"
 isDisabled=false}}
