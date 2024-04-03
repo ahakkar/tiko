@@ -17,7 +17,7 @@
         <label for="file-input" class="button-submit">
           Lataa toimittajan tarvikelista
         </label>
-        <input multiple id="file-input" type="file" name="items-files" accept=".xml" class="file:hidden max-w-32">
+        <input multiple id="file-input" type="file" name="items-files" accept=".xml" class="file:hidden max-w-32 ml-4">
         <input type="submit" value="Lähetä" class="border rounded bg-transparent px-2 m-2 mt-0 py-1 hover:bg-gray-100">
       </div>
       <p class="ml-1 mb-2">HUOM! Uuden tarvikelistan lataaminen siirtää toimittajan aiemmat tarvikkeet arkistoon.</p>
@@ -26,14 +26,12 @@
   {{/if}}
 
 
-  <table class="w-full text-left text-sm">
+  <table class="text-left text-sm w-full">
     <thead class="font-bold border-b-2 border-black">
       <tr>
         <th scope="col">Nimi</th>
         <th scope="col">Merkki</th>
-        <th scope="col">Tyyppi</th>
         <th scope="col">Yksikkö</th>
-        <th scope="col">Toimittaja</th>
         <th scope="col">Varastotilanne</th>
         <th scope="col">Hinta sisään</th>
         {{#if writeAccess}}
@@ -45,17 +43,15 @@
       {{#each warehouseItems}}
 
       <tr hx-get="/tarvikkeet/{{this.id}}" hx-target="#main-content" hx-push-url="true" class="items-table-row">
-        <td class="p-2">{{this.nimi}}</td>
-        <td class="p-2">{{this.merkki}}</td>
-        <td class="p-2">{{this.tyyppi}}</td>
+        <td class="p-2">{{this.nimi}}</span></td>
+        <td class="p-2">{{this.merkki}}</span></td>
         <td class="p-2">{{this.yksikko}}</td>
-        <td class="p-2 ">{{this.toimittaja_nimi}}</td>
         <td class="p-2">{{this.varastotilanne}} {{this.yksikko}}</td>
         <td class="p-2">{{this.hinta_sisaan}}
           {{#if ../writeAccess}}
         <td class="p-2">
           <button hx-patch="tarvikkeet/{{this.id}}" hx-vals='{"vanhentunut": "{{not this.vanhentunut}}"}'
-            hx-trigger="click consume" class="border rounded p-2 hover:border-blue-700">
+            hx-trigger="click consume" class="border rounded p-2 break-all hover:border-blue-700">
             &#10060
           </button>
         </td>

@@ -1,5 +1,6 @@
 {{#unless htmx}}
 <!DOCTYPE html>
+<!-- laittamalla html elementin classiksi "dark" vaihtuu dark mode -->
 <html lang="fi">
 
 <head>
@@ -11,14 +12,14 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 
-<body class="bg-neutral-200 pb-4">
+<body id="body">
   <div>
     {{> navbar navBarItems=navBarItems}}
 
     <div class="p-2"></div>
 
     <div class="max-w-screen-lg mx-auto">
-      <div id="main-content" class="bg-white p-5 rounded-xl">
+      <div id="main-content">
         <!-- SPA vaihtelee kontsaa tähän -->
         {{/unless}}
         {{{body}}}

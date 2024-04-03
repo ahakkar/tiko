@@ -1,28 +1,20 @@
-<nav class="bg-white border-gray-200">
+<nav>
   <div class="max-w-screen-lg mx-auto">
 
-    <div class="flex items-start px-4">
-      <div class="pt-4">
-        <img src="/img/logo.webp" alt="Sähkötärsky" class="h-10 w-10 mr-4 border border-black">
+    <div class="flex items-start px-4 pt-2">
+      <div>
+        <img src="/img/logo.webp" alt="Sähkötärsky" class="h-10 w-10 mr-4 border border-black dark:border-gray-500">
       </div>
 
-      <div class="flex-grow items-center pt-4">
+      <div class="flex-grow items-center">
         <a href="#" hx-get="/tyosopimukset" hx-target="#main-content" hx-push-url="true">
-          <span class="text-3xl font-semibold whitespace-nowrap">Sähkötärsky</span>
+          <span id="tarsky-logo">Sähkötärsky</span>
         </a>
       </div>
 
-      <div class="pt-4">
-        {{#if loggedUser}}
-        <div hx-post="/kirjaudu-ulos" class="cursor-pointer font-medium">
-          {{loggedUser}}
-          {{> uloskirjautumisSvg}}
-        </div>
-        {{/if}}
-      </div>
     </div>
 
-    <div class="flex flex-wrap items-center justify-between p-4">
+    <div class="relative flex flex-wrap items-center justify-between p-4">
       <div class="w-full md:block md:w-auto" id="navbar-default">
         <ul class="navbar-ul">
           {{#each navBarItems}}
@@ -33,6 +25,16 @@
           </li>
           {{/each}}
         </ul>
+      </div>
+
+      <div class="absolute top-4 right-6 transform -translate-y-full">
+        {{#if loggedUser}}
+        <div hx-post="/kirjaudu-ulos"
+          class="rounded-md cursor-pointer font-medium dark:text-black dark:bg-gray-100 px-4 pb-4">
+          {{loggedUser}}
+          {{> uloskirjautumisSvg}}
+        </div>
+        {{/if}}
       </div>
     </div>
 

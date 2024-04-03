@@ -1,7 +1,31 @@
 /** Custom colors do not work with SSR unless a Tailwind JIT compiler is used. So it is more performant to just use traditional styles.css when the alternative is a JIT compiler. */
 
+body {
+    @apply 
+    text-gray-900
+    bg-neutral-200
+    dark:text-gray-100
+    dark:bg-tarsky-700 
+    pb-4;
+}
+
+nav {
+    @apply
+    bg-white
+    dark:bg-slate-900
+    border-gray-200;
+}
+
+#main-content {
+    @apply bg-white dark:bg-tarsky-800 p-5 rounded-xl;
+}
+
+#tarsky-logo {
+    @apply text-3xl font-semibold whitespace-nowrap;
+}
+
 .button-submit {
-    @apply bg-tarskyBlue500 text-white hover:bg-tarskyBlue300 font-semibold hover:text-tarskyBlue500 border-2 border-tarskyBlue500 rounded px-4 py-2 my-2;
+    @apply dark:bg-tarskyBlue500-dark bg-tarskyBlue500 text-white hover:bg-tarskyBlue300 font-semibold hover:text-tarskyBlue500 border-2 border-tarskyBlue500 rounded px-4 py-2 my-2;
 }
 
 .button-cancel {
@@ -9,11 +33,21 @@
 }
 
 .page-container {
-    @apply relative px-4 py-2 mt-8 bg-tarsky200 rounded-md shadow-xl;
+    @apply 
+    relative px-4 py-2 mt-8
+     bg-tarsky-200 
+     dark:bg-tarsky-700 
+     rounded-md shadow-xl;
 }
 
-.container-titlebar {
-    @apply flex justify-between font-semibold absolute top-0 left-2 transform -translate-y-1/2 px-2 bg-tarsky300 rounded-md shadow-lg w-4/12;
+.otsikko-container {
+    @apply 
+    flex justify-between font-semibold absolute top-0 left-2 transform -translate-y-1/2 px-2 bg-tarsky-300 dark:bg-tarsky-900 rounded-md shadow-lg w-4/12 min-h-10;
+}
+
+.otsikkoJaNappi-container {
+    @apply 
+    flex justify-between font-semibold absolute top-0 left-2 transform -translate-y-1/2 px-2 bg-tarsky-300 dark:bg-tarsky-900 rounded-md shadow-lg w-4/12;
 }
 
 .titlebar-button {
@@ -25,25 +59,41 @@
 }
 
 .modal-input {
-    @apply border border-tarsky200 text-sm rounded-lg focus:ring-tarskyBlue500 focus:border-tarskyBlue500 block w-full p-2.5;
-}
-
-.otsikko-container {
-    @apply flex justify-between font-semibold absolute top-0 left-2 transform -translate-y-1/2 px-2 bg-tarsky300 rounded-md shadow-lg w-4/12 min-h-10;
+    @apply border border-tarsky-200 text-sm rounded-lg focus:ring-tarskyBlue500 focus:border-tarskyBlue500 block w-full p-2.5;
 }
 
 .items-table-row {
-    @apply hover:bg-tarsky300 whitespace-nowrap odd:bg-tarsky100 cursor-pointer;
+    @apply
+    dark:bg-tarsky-700
+    odd:bg-tarsky-100
+    hover:bg-tarsky-300 
+    dark:hover:bg-tarsky-900
+    whitespace-nowrap cursor-pointer;
 }
 
 .navbar-ul {
-    @apply font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0;
+    @apply font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0;
 }
 
 .navbar-ul-li-a {
-    @apply block text-gray-900 rounded bg-tarsky300 md:hover:bg-tarsky200 md:border-0 md:hover:text-tarskyBlue500 md:py-1 md:px-4 drop-shadow-lg;
+    @apply 
+    block
+    text-gray-900 
+    rounded
+    bg-tarsky-200
+    dark:bg-tarsky-700
+    dark:text-gray-100
+    md:hover:bg-tarsky-200 
+    md:border-0
+    md:hover:text-tarskyBlue500 
+    md:py-1 
+    md:px-4 
+    drop-shadow-lg;
 }
 
 .sopimus-erittely {
-    @apply flex text-sm mt-8 bg-tarsky300 rounded-md shadow-xl;
+    @apply flex text-sm mt-8
+    bg-tarsky-200
+    dark:bg-tarsky-700 
+    rounded-md shadow-xl;
 }
