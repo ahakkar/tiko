@@ -3,6 +3,12 @@ import {Request, Response, NextFunction} from 'express';
 import {Kayttaja} from '../models/interfaces';
 import {StatusCode} from '../constants';
 
+/**
+ * Navigointipalkin sisältö. Teksti ja linkki mihin se johtaa.
+ * @param _req
+ * @param res
+ * @param next
+ */
 export const navBarItems = (
   _req: Request,
   res: Response,

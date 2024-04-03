@@ -16,8 +16,8 @@ isDisabled=false}}
 
   {{#each laskut}}
   <div class="grid grid-cols-8 p-2 items-center">
-    <div hx-get="/laskut?laskuId={{id}}&tyosopimusId={{tyosuoritus_id}}" hx-target="#main-content" hx-push-url="true"
-      class="rounded-md hover:bg-gray-100 hover:underline">
+    <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true"
+      class="rounded-md hover:bg-slate-300 cursor-pointer px-2">
       {{id}}</div>
     <div>
       {{#if sopimusMaksettu}}Maksettu{{else}}Maksamatta{{/if}}
@@ -40,7 +40,7 @@ isDisabled=false}}
     <div class="col-span-2">
       <button
         class="font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 px-1 ml-2"
-        hx-get="/tyosopimukset/{{../tyosuoritus_id}}/laskut/{{../id}}/muistutuslaskut" hx-target="#modal-content">
+        hx-get="/tyosopimukset/{{tyosuoritus_id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content">
         Luo muistutuslasku
       </button>
     </div>
