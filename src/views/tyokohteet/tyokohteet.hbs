@@ -1,0 +1,28 @@
+<div class="page-container mt-4">
+
+  {{> otsikkoJaNappi title="Työkohteet" hxGetUrl="/tyokohteet/uusi" hxTarget="#modal-content" hxPushUrl="false"
+  buttonText="Lisää"
+  isDisabled=isDisabled}}
+
+  <table class="min-w-full text-left text-sm mt-6">
+    <thead class="font-bold border-b-2 border-black">
+      <tr>
+        <th scope="col">Osoite</th>
+        <th scope="col">Tyyppi</th>
+        <th scope="col">Postinumero</th>
+        <th scope="col">Postitoimipaikka</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tyokohteet}}
+      <tr class="hover:bg-slate-300 whitespace-nowrap odd:bg-slate-100 cursor-pointer">
+        <td class="whitespace-nowrap p-2">{{osoite}}</td>
+        <td class="whitespace-nowrap p-2">{{tyyppi}}</td>
+        <td class="whitespace-nowrap p-2">{{postinumero}}</td>
+        <td class="whitespace-nowrap p-2">{{postitoimipaikka}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</div>

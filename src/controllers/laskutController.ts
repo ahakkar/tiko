@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
 
   if (!laskuId) {
     const laskut: LaskuAsiakasKohde[] = await getLaskuAsiakasKohde();
-    res.render('laskut', {laskut: laskut});
+    res.render('laskut/laskut', {laskut: laskut});
     return;
   }
 

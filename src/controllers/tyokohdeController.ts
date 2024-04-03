@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('/', async (_req, res) => {
   const tyokohteet = await getTyokohteet();
-  res.render('tyokohteet', {tyokohteet});
+  res.render('tyokohteet/tyokohteet', {tyokohteet});
 });
 
 router.get('/uusi', (_req, res) => {

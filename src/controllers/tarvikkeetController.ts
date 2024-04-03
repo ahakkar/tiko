@@ -6,7 +6,6 @@ import {
   retrieveWarehouseItems,
   validateNewWarehouseItems,
   addNewWarehouseItems,
-  retrieveArchivedWarehouseItems,
   updateWarehouseItem,
   lisaaTarvike,
   validoiTarvike,
@@ -36,12 +35,14 @@ const fileFilter = (
 const upload = multer({fileFilter});
 
 router.get('/', async (_req, res) => {
-  const warehouseItems = await retrieveWarehouseItems();
+  const warehouseItems = await retrieveWarehouseItems('FALSE');
   res.render('tarvikkeet/tarvikkeet', {warehouseItems});
 });
 
 router.get('/arkisto', async (_req, res) => {
-  const warehouseItems = await retrieveArchivedWarehouseItems();
+  console.log('siirrytään arkistoon');
+  const warehouseItems = await retrieveWarehouseItems('TRUE');
+  console.log('noh toimiiko');
   res.render('tarvikkeet/arkisto', {warehouseItems});
 });
 
@@ -81,7 +82,7 @@ router.post('/lataa', upload.array('items-files'), async (req, res) => {
     });
   }
 
-  const items = await retrieveWarehouseItems();
+  const items = await retrieveWarehouseItems('FALSE');
 
   res.render('tarvikkeet/tarvikkeet', {warehouseItems: items});
 });

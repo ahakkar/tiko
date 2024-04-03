@@ -1,5 +1,5 @@
 import {PoolClient} from 'pg';
-import {query, getQueryFromFile} from './dbModel';
+import {query, getQueryFromFile, getDataById} from './dbModel';
 import {
   NewWarehouseItems,
   Tarvike,
@@ -58,23 +58,19 @@ export const lisaaTarvike = async (n: Tarvike): Promise<Tarvike> => {
 };
 
 /**
- * Hakee kaikki ei-vanhentuneet varastotarvikkeet
+ * Hakee kaikki varastotarvikkeet
+ * @param archived arkistoitu 'TRUE' tai 'FALSE'
  * @returns varastotarvikkeet
  */
-const retrieveWarehouseItems = async (): Promise<VarastoTarvike[]> => {
-  const queryStr = await getQueryFromFile('varastotarvikkeet.sql');
-  const result = await query<VarastoTarvike>(queryStr, ['FALSE']);
-  return result.rows;
-};
-
-/**
- * Hakee kaikki arkistoidut eli vanhentuneet varastotarvikkeet
- * @returns arkistoidut varastotarvikkeet
- */
-const retrieveArchivedWarehouseItems = async (): Promise<VarastoTarvike[]> => {
-  const queryStr = await getQueryFromFile('varastotarvikkeet.sql');
-  const result = await query<VarastoTarvike>(queryStr, ['TRUE']);
-  return result.rows;
+export const retrieveWarehouseItems = async (
+  archived: string
+): Promise<VarastoTarvike[]> => {
+  const result = await getDataById<VarastoTarvike>(
+    archived,
+    'varastotarvikkeet.sql'
+  );
+  console.log('pitäis palauttaa tulokset', result);
+  return result;
 };
 
 /**
@@ -243,8 +239,6 @@ export const haeTarvikkeet = async (
 };
 
 export {
-  retrieveWarehouseItems,
-  retrieveArchivedWarehouseItems,
   retrieveWarehouseItem,
   retrieveItem,
   updateWarehouseItem,

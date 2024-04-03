@@ -111,7 +111,7 @@ export const getData = async <T extends QueryResultRow>(
  * @returns tietokannasta haetut rivit
  */
 export const getDataById = async <T extends QueryResultRow>(
-  id: number,
+  id: number | string,
   queryFile: string
 ): Promise<T[]> => {
   try {

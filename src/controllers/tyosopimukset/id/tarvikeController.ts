@@ -32,7 +32,7 @@ router.get('/:id/tarvikkeet/hinta', (req, res) => {
 
 router.get('/:id/tarvikkeet/uusi', async (req, res) => {
   const id = Number(req.params.id);
-  const vt = await retrieveWarehouseItems();
+  const vt = await retrieveWarehouseItems('FALSE');
   res.render('tyosopimukset/id/tarvikkeet/uusiTarvike', {
     vt,
     id,

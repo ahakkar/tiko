@@ -31,7 +31,7 @@ router.use(laskut);
 router.get('/', async (_req, res) => {
   const tyosopimukset = await haeTyosopimukset();
   //console.log(tyosopimukset);
-  res.render('tyosopimukset', {tyosopimukset});
+  res.render('tyosopimukset/tyosopimukset', {tyosopimukset});
 });
 
 // Uusi työsopimus -modaali-ikkuna
@@ -164,7 +164,7 @@ router.get('/:id', async (req, res) => {
     tyosuoritus_erittely,
   };
 
-  res.render('tyosopimukset/id', renderOptions);
+  res.render('tyosopimukset/id/tyosopimus', renderOptions);
 });
 
 export default router;

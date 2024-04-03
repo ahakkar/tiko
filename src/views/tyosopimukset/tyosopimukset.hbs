@@ -1,0 +1,32 @@
+<div class="page-container mt-4">
+
+  {{> otsikkoJaNappi title="Työsopimukset" hxGetUrl="/tyosopimukset/{{tyosopimus.id}}/uusi" hxTarget="#modal-content"
+  hxPushUrl="false"
+  buttonText="Lisää"
+  isDisabled=false}}
+
+  <div class="mt-4">
+    {{#each tyosopimukset}}
+    <div hx-get="/tyosopimukset/{{tyosopimus.id}}" hx-target="#main-content" hx-push-url="true"
+      class="flex justify-between p-2 hover:bg-slate-300 rounded cursor-pointer odd:bg-slate-100">
+      <div>
+        <div>
+          <span class="font-medium text-xl">
+            {{tyokohde.osoite}}, {{tyokohde.postitoimipaikka}}
+          </span>
+          <span class="uppercase text-xl">
+            {{tyosopimus.tyyppi}}
+          </span>
+        </div>
+        <div>{{formatDate tyosopimus.aloitus_pvm}}</div>
+        <div>{{asiakas.nimi}}</div>
+        <div>{{tyokohde.nimi}}</div>
+      </div>
+      <div class="capitalize">
+        {{tyosopimus.tila}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+</div>

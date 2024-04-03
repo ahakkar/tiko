@@ -1,0 +1,3 @@
+.page-container {
+    @apply relative px-4 py-2 mt-8 bg-slate-200 rounded-md shadow-xl;
+}
