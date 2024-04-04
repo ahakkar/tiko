@@ -80,7 +80,7 @@ CREATE TABLE lasku (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     edellinen_lasku INT,
     tyosuoritus_id INT NOT NULL,
-    summa NUMERIC(10, 2) NOT NULL,
+    summa NUMERIC(10, 2) NOT NULL, -- ei sisällä muistutuskuluja tai viivästyskorkoa
     pvm DATE NOT NULL DEFAULT CURRENT_DATE,
     era_pvm DATE NOT NULL DEFAULT (CURRENT_DATE + 30),
     maksettu_pvm DATE,
