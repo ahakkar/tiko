@@ -46,10 +46,19 @@ VALUES
 ('työ', 36.29),            -- 2
 ('apu työ', 28.24);        -- 3
 
+-- Esimerkkidatan täydennystä
+INSERT INTO tuntihintatyyppi (tyyppi, tuntihinta)
+VALUES
+('urakkatyö', 50);  
+INSERT INTO tuntihinta (tyosuoritus_id, tuntihintatyyppi_id, pvm, alv_prosentti, aleprosentti, tunnit)
+VALUES
+(1, 4, '2023-09-03', 0.24, 0, 2),
+(4, 4, '2023-09-04', 0.24, 0, 1);    
+
 INSERT INTO urakka (lahtohinta, aleprosentti, alv_prosentti, korotusprosentti)
 VALUES
 (100.00, 0, 0.24, 0),
-(50.00, 0, 0.12, 0);
+(50.00, 0, 0.24, 0);
 
 INSERT INTO tyosuoritus (tyokohde_id, urakka_id, asiakas_id, aloitus_pvm, tila)
 VALUES
