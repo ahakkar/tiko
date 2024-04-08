@@ -140,6 +140,10 @@
     <div>Työn osuus laskulla ALV 0: {{lasku.tyo_alv0_summa}} €</div>
     <div>Tarvikkeiden osuus laskulla ALV 0: {{lasku.tarvikkeet_alv0_summa}} €</div>
     <div>Laskun summasta kotitalousvähennyskelpoinen osuus: {{lasku.kotitalousvahennys}} €</div>
+    {{#if lasku.laskutuslisa}}
+    <div>Muistutuskulut: {{lasku.laskutuslisa}} €</div>
+    <div>Viivästyskorko: {{lasku.viivastyskorko}} €</div>
+    {{/if}}
   </div>
   <div class="col-start-6 col-span-2">Alkuperäinen hinta ALV 0:</div>
   <div class="col-start-8 text-right">{{lasku.kokonaissumma_alv0}} €</div>
