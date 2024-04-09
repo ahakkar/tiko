@@ -58,3 +58,12 @@ CREATE TRIGGER urakka_korotus
     ON tyosuoritus
     FOR EACH ROW
     EXECUTE FUNCTION urakka_korotus_trigger_funktio();
+
+INSERT INTO urakka (lahtohinta, aleprosentti, alv_prosentti, korotusprosentti)
+VALUES
+(100.00, 0, 0.24, 0), -- Tähän (urakka 3) tulee korotusprosentti 10%
+(100.00, 0, 0.24, 0); -- Tähän (urakka 4) tulee korotusprosentti 30%
+
+INSERT INTO tyosuoritus (tyokohde_id, urakka_id, asiakas_id, aloitus_pvm, tila) VALUES
+(4,    3, 2, '2024-02-14', 'Suunnitellaan'), -- Asiakkaalla 2 on karhuttu lasku viimeisen 2. vuoden aikana
+(5,    4, 3, '2024-02-14', 'Suunnitellaan'); -- Asiakkaalla 3 on maksamattomia erääntyneitä laskuja

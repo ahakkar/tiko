@@ -50,10 +50,6 @@ VALUES
 INSERT INTO tuntihintatyyppi (tyyppi, tuntihinta)
 VALUES
 ('urakkatyö', 50);  
-INSERT INTO tuntihinta (tyosuoritus_id, tuntihintatyyppi_id, pvm, alv_prosentti, aleprosentti, tunnit)
-VALUES
-(1, 4, '2023-09-03', 0.24, 0, 2),
-(4, 4, '2023-09-04', 0.24, 0, 1);    
 
 INSERT INTO urakka (lahtohinta, aleprosentti, alv_prosentti, korotusprosentti)
 VALUES
@@ -67,6 +63,11 @@ VALUES
 (3, NULL, 3, '2024-01-16', 'Valmis'), -- puotonkorpi    - 3
 (4,    2, 2, '2024-02-17', 'Valmis'), -- huitsinneva    - 4
 (5, NULL, 3, '2024-02-14', 'Valmis'); -- masalantie     - 5
+
+INSERT INTO tuntihinta (tyosuoritus_id, tuntihintatyyppi_id, pvm, alv_prosentti, aleprosentti, tunnit)
+VALUES
+(1, 4, '2023-09-03', 0.24, 0, 2),
+(4, 4, '2023-09-04', 0.24, 0, 1);    
 
 INSERT INTO tuntihinta (tyosuoritus_id, tuntihintatyyppi_id, pvm, alv_prosentti, aleprosentti, tunnit)
 VALUES
@@ -104,4 +105,6 @@ VALUES
 (5,    3, 2488.18, '2024-02-15', '2024-03-01', NULL),
 (6,    3, 2488.18, '2024-03-05', '2024-03-20', NULL),
 (NULL, 4, 74.40,   '2024-03-01', '2024-03-15', NULL),
-(NULL, 5, 725.13,  '2024-03-01', '2024-03-15', NULL);
+(NULL, 5, 725.13,  '2024-03-01', '2024-03-15', NULL),
+(8,    4, 74.40,   '2024-03-15', '2024-03-30', NULL),
+(10,   4, 74.40,   '2024-03-15', '2024-03-30', '2024-03-30');
