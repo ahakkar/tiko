@@ -234,18 +234,10 @@ const validateNewWarehouseItems = (items: NewWarehouseItems): boolean => {
 export const haeTarvikkeet = async (
   työsopimus_id: number
 ): Promise<Tarvike[]> => {
-  try {
-    const queryStr = await getQueryFromFile('tyosopimusTarvikkeet.sql');
-    const {rows} = await query<Tarvike>(queryStr, [työsopimus_id]);
+  const queryStr = await getQueryFromFile('tyosopimusTarvikkeet.sql');
+  const {rows} = await query<Tarvike>(queryStr, [työsopimus_id]);
 
-    if (rows === undefined || rows.length === 0) {
-      throw new Error('Tyosuorituksia ei löytynyt.');
-    }
-
-    return rows;
-  } catch (e) {
-    throw new Error('Tyosuorituksia ei löytynyt.');
-  }
+  return rows;
 };
 
 export {

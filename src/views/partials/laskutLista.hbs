@@ -5,48 +5,47 @@ hxPushUrl="false"
 buttonText="Lisää"
 isDisabled=false}}
 
+<table class="text-right text-sm w-full mt-4">
+  <thead class="font-bold border-b-2 border-black">
+    <tr>
+      <th scope="col">Tunnus</th>
+      <th scope="col">Maksettu</th>
+      <th scope="col">Päivämäärä</th>
+      <th scope="col">Summa</th>
+      <th scope="col">Eräpvm</th>
+      <th scope="col" colspan="3">Huomiot</th>
+    </tr>
+  </thead>
 
-<div class="text-sm mt-4">
-  <div class="grid grid-cols-8 font-bold p-2 border-b-2 border-black">
-    <div>Tunnus</div>
-    <div>Maksettu</div>
-    <div>Päivämäärä</div>
-    <div>Summa</div>
-    <div>Eräpvm</div>
-    <div class="col-span-3">Huomiot</div>
-  </div>
+  <tbody>
+    {{#each laskut}}
+    <tr hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true" class="items-table-row">
+      <td>{{id}}</td>
+      <td>{{#if sopimusMaksettu}}Maksettu{{else}}Maksamatta{{/if}}</td>
+      <td>{{formatDate pvm}}</td>
+      <td>{{yhteissumma}} €</td>
+      <td>
+        <div {{#if expired}}class="px-2 m-1 rounded-md bg-red-500 text-white" {{/if}}>
+          {{formatDate era_pvm}}</div>
+      </td>
+      <td>
+        {{#if is_muistutuslasku}}
+        <div class="px-3 m-1 rounded-md bg-yellow-500 text-white">Muistutuslasku</div>
+        {{/if}}
+        {{#if is_karhulasku}}
+        <div class="px-3 m-1 rounded-md bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
 
-  {{#each laskut}}
-  <div class="grid grid-cols-8 p-2 items-center">
-    <div hx-get="/laskut/{{id}}" hx-target="#main-content" hx-push-url="true" class="items-table-row">
-      {{id}}</div>
-    <div>
-      {{#if sopimusMaksettu}}Maksettu{{else}}Maksamatta{{/if}}
-    </div>
-    <div>{{formatDate pvm}}</div>
-    <div>{{yhteissumma}} €</div>
-
-    <div {{#if expired}}class="px-2 -left-2 relative rounded-full bg-red-500 text-white" {{/if}}>
-      {{formatDate era_pvm}}
-    </div>
-
-    {{#if is_muistutuslasku}}
-    <div class="px-3 rounded-full bg-yellow-500 text-white">Muistutuslasku</div>
-    {{/if}}
-    {{#if is_karhulasku}}
-    <div class="px-3 rounded-full bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
-
-    {{#if ../writeAccess}}
-    {{#if showExpiredButton}}
-    <div class="col-span-2">
-      <button
-        class="font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 px-1 ml-2"
-        hx-get="/tyosopimukset/{{tyosuoritus_id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content">
-        Luo muistutuslasku
-      </button>
-    </div>
-    {{/if}}
-    {{/if}}
-  </div>
-  {{/each}}
-</div>
+        {{#if ../writeAccess}}
+        {{#if showExpiredButton}}
+        <button
+          class="font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 px-1 ml-2"
+          hx-get="/tyosopimukset/{{tyosuoritus_id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content">
+          Luo muistutuslasku
+        </button>
+        {{/if}}
+        {{/if}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

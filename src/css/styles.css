@@ -65,6 +65,7 @@ nav {
 .items-table-row {
     @apply
     dark:bg-tarsky-700
+    dark:odd:bg-tarsky-500
     odd:bg-tarsky-100
     hover:bg-tarsky-300 
     dark:hover:bg-tarsky-900

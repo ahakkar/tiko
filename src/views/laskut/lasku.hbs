@@ -135,13 +135,15 @@
 </div>
 {{/if}}
 
+{{log lasku}}
+
 <div class="grid grid-cols-8 pt-4">
   <div class="col-span-5 row-span-4">
     <div>Työn osuus laskulla ALV 0: {{lasku.tyo_alv0_summa}} €</div>
     <div>Tarvikkeiden osuus laskulla ALV 0: {{lasku.tarvikkeet_alv0_summa}} €</div>
     <div>Laskun summasta kotitalousvähennyskelpoinen osuus: {{lasku.kotitalousvahennys}} €</div>
     {{#if lasku.laskutuslisa}}
-    <div>Muistutuskulut: {{lasku.laskutuslisa}} €</div>
+    <div>Muistutuskulut: 5 € * {{lasku.jarjestysluku}}kpl, yht. {{lasku.laskutuslisa}} €</div>
     <div>Viivästyskorko: {{lasku.viivastyskorko}} €</div>
     {{/if}}
   </div>

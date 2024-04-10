@@ -58,10 +58,6 @@ export const haeAlvErittely = async (
     'tyosopimusAlvErittely.sql'
   );
 
-  if (erittely.length === 0 || erittely[0] === undefined) {
-    throw new Error('ALV-erittelyä ei löytynyt.');
-  }
-
   return erittely;
 };
 
