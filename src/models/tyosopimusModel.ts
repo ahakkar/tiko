@@ -52,16 +52,6 @@ export const paivitaProsentti = async (
   prosenttiStr: string
 ): Promise<boolean> => {
   const prosentti = parseFloat(prosenttiStr);
-  const urakkaResult = await query<Tyosuoritus>(
-    'SELECT urakka_id FROM tyosuoritus WHERE id = $1',
-    [id]
-  );
-
-  if (urakkaResult.rows.length === 0 || urakkaResult.rows[0] === undefined) {
-    return false;
-  }
-
-  const urakka_id = urakkaResult.rows[0]['urakka_id'];
 
   if (Number.isNaN(prosentti)) {
     return false;
@@ -74,6 +64,16 @@ export const paivitaProsentti = async (
     return false;
   }
 
+  const urakkaResult = await query<Tyosuoritus>(
+    'SELECT urakka_id FROM tyosuoritus WHERE id = $1',
+    [id]
+  );
+
+  if (urakkaResult.rows.length === 0 || urakkaResult.rows[0] === undefined) {
+    return false;
+  }
+
+  const urakka_id = urakkaResult.rows[0]['urakka_id'];
   let queryStr = '';
 
   switch (tyyppi) {
@@ -220,10 +220,34 @@ export const paivitaUrakkaHinta = async (tyosopimus_id: number) => {
 export const laskeSopimusHinta = async (
   tyosopimus_id: number
 ): Promise<Summat | undefined> => {
-  const rows = await getDataById<Summat>(tyosopimus_id, 'laskeSummat.sql');
-  if (rows[0] !== undefined) {
-    return rows[0];
+  // Selvitä onko työsopimus tyyppiä urakka
+  const sopimus = await query<Tyosopimus>(
+    'SELECT * FROM tyosuoritus WHERE id = $1',
+    [tyosopimus_id]
+  );
+
+  if (sopimus.rows[0] === undefined) {
+    return undefined;
   }
+  const urakka_id = sopimus.rows[0]['urakka_id'];
+
+  // Jos on urakka, laske urakan summat
+  if (urakka_id !== null) {
+    const rows = await getDataById<Summat>(
+      tyosopimus_id,
+      'laskeUrakkaSummat.sql'
+    );
+    if (rows[0] !== undefined) {
+      return rows[0];
+    }
+    // Muuten laske ilman ale- ja korotuskertoimia summat tuntityösopimukselle
+  } else {
+    const rows = await getDataById<Summat>(tyosopimus_id, 'laskeSummat.sql');
+    if (rows[0] !== undefined) {
+      return rows[0];
+    }
+  }
+
   return undefined;
 };
 
