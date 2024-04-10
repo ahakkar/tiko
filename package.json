@@ -10,7 +10,9 @@
     "dev": "nodemon --legacy-watch",
     "fix": "gts fix",
     "postbuild": "cp -R src/queries dist/queries && cp -R src/views dist/views",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/index.js",
+    "startpm": "pm2 start dist/index.js",
+    "stop": "pm2 stop dist/index.js"
   },
   "keywords": [],
   "author": "",
