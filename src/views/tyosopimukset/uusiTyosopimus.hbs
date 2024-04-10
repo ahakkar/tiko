@@ -5,7 +5,7 @@
 <form id="uusi-tyosopimus-form" hx-post="/tyosopimukset" hx-target="#main-content">
   <label>
     <h2 class="text-xl font-medium">Valitse työkohde</h2>
-    <select name="tyokohde_id" required class="modal-input">
+    <select name="tyokohde_id" required class="modal-input modal-i">
       <option value="">Työkohde</option>
       {{#each tyokohteet}}
       <option value="{{id}}">#{{id}}. {{tyyppi}}, {{osoite}}, {{postinumero}} {{postitoimipaikka}}</option>
@@ -17,7 +17,7 @@
 
   <label>
     <h2 class="text-xl font-medium">Valitse asiakas</h2>
-    <select name="asiakas_id" required class="modal-input">
+    <select name="asiakas_id" required class="modal-input modal-i">
       <option value="">Asiakas</option>
       {{#each asiakkaat}}
       <option value="{{id}}">#{{id}}. {{nimi}}</option>

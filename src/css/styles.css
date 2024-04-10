@@ -35,9 +35,21 @@ nav {
 .page-container {
     @apply 
     relative px-4 py-2 mt-8
-     bg-tarsky-200 
-     dark:bg-tarsky-700 
-     rounded-md shadow-xl;
+    bg-tarsky-200 
+    dark:bg-tarsky-700 
+    rounded-md shadow-xl;
+}
+
+.modal-w {
+    @apply 
+    bg-tarsky-200 
+    dark:bg-tarsky-700;
+}
+
+.modal-i {
+    @apply
+    bg-tarsky-200 
+    dark:bg-tarsky-700;
 }
 
 .otsikko-container {

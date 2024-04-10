@@ -13,14 +13,15 @@
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Laskun summa €</div>
       <input type="number" name="summa" min="0" max="{{max_summa}}" value="{{max_summa}}" step="0.01"
-        class="modal-input" required>
+        class="modal-input modal-i" required>
     </label>
   </div>
 
   <div class="mb-5">
     <label>
       <div class="mb-2 text-sm font-medium text-gray-900">Eräpäivä</div>
-      <input type="date" name="era_pvm" min="{{today}}" value="{{default_era_pvm}}" class="modal-input" required>
+      <input type="date" name="era_pvm" min="{{today}}" value="{{default_era_pvm}}" class="modal-input modal-i"
+        required>
     </label>
   </div>
 

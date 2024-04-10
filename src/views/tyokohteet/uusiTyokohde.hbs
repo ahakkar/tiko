@@ -5,7 +5,7 @@
 <form id="uusi-tyokohde-form" hx-post="/tyokohteet" hx-target="#modal-content">
   <label>
     <label class="modal-label" for="tyyppi">Kohteen tyyppi</label>
-    <select name="tyyppi" required class="modal-input">
+    <select name="tyyppi" required class="modal-input modal-i modal-i">
       <option value="">Työkohteen tyyppi</option>
       {{#each worksites}}
       <option value="{{this}}">{{this}}</option>
@@ -15,18 +15,19 @@
 
   <div class="mb-5">
     <label class="modal-label" for="osoite">Osoite</label>
-    <input type="text" name="osoite" id="osoite" placeholder="Osoite" required class="modal-input">
+    <input type="text" name="osoite" id="osoite" placeholder="Osoite" required class="modal-input modal-i modal-i">
   </div>
 
   <div class="mb-5">
     <label class="modal-label" for="postinumero">Postinumero</label>
-    <input type="text" name="postinumero" id="postinumero" placeholder="Postinumero" required class="modal-input">
+    <input type="text" name="postinumero" id="postinumero" placeholder="Postinumero" required
+      class="modal-input modal-i modal-i">
   </div>
 
   <div class="mb-5">
     <label class="modal-label" for="postitoimipaikka">Postitoimipaikka</label>
     <input type="text" name="postitoimipaikka" id="postitoimipaikka" placeholder="Postitoimipaikka" required
-      class="modal-input">
+      class="modal-input modal-i modal-i">
   </div>
 
   <div class="flex items-center">
