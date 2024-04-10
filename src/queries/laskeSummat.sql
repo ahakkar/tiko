@@ -23,4 +23,4 @@ FROM (
         tarvike t
     WHERE
         t.tyosuoritus_id = $1
-);
+) AS laskeSummat;

@@ -27,4 +27,4 @@ FROM (
     JOIN urakka u ON u.id = ts.urakka_id
     WHERE
         t.tyosuoritus_id = $1
-);
+) AS laskeUrakkaSummat;
