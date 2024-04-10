@@ -19,7 +19,7 @@ Antti Hakkarainen - modeleita, controllereita, tietokantakyselyitä, alv-näkymi
 
 Kilian Kugge - tietokannan luontilauseet, tietokantafunktiot, näkymät, tarvikkeet, xml-datan parsiminen
 
-Antti Pham - runko, login, middlewaret, controlleita, modaalit
+Antti Pham - runko, login, middlewaret, controlleita, modaali-ikkunat, docker-ympäristö
 
 ## Kehittäminen
 

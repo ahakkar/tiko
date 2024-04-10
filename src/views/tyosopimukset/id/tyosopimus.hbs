@@ -32,29 +32,33 @@
 </div>
 
 <div class="page-container">
-  <div class="container-titlebar">
-    <div class="text-2xl my-auto">Asiakas</div>
-  </div>
+  <div class="flex">
+    <div>
+      <h2 class="font-medium text-xl">Asiakas</h2>
+      <div class="grid grid-cols-2 mt-4">
 
-  <div class="grid grid-cols-2 mt-4">
-    <div class="flex">
-      <div>
-        <div>{{asiakas.nimi}}</div>
-        <div>{{asiakas.sahkoposti}}</div>
-        <div>{{asiakas.puhelinnumero}}</div>
-      </div>
-      <div class="px-10"></div>
-      <div class="shrink-0">
-        <div>{{asiakas.osoite}}</div>
-        <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
+        <div class="flex">
+          <div>
+            <div>{{asiakas.nimi}}</div>
+            <div>{{asiakas.sahkoposti}}</div>
+            <div>{{asiakas.puhelinnumero}}</div>
+          </div>
+          <div class="px-10"></div>
+          <div class="shrink-0">
+            <div>{{asiakas.osoite}}</div>
+            <div>{{asiakas.postinumero}}, {{asiakas.postitoimipaikka}}</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div>
       <h2 class="font-medium text-xl">Työkohde</h2>
-      <div>{{tyokohde.osoite}}</div>
-      <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
-      <div class="capitalize">{{tyokohde.tyyppi}}</div>
+      <div class="mt-4">
+        <div>{{tyokohde.osoite}}</div>
+        <div>{{tyokohde.postinumero}}, {{tyokohde.postitoimipaikka}}</div>
+        <div class="capitalize">{{tyokohde.tyyppi}}</div>
+      </div>
     </div>
   </div>
 </div>
