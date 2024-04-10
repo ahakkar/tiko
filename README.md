@@ -59,3 +59,17 @@ Tietokanta sijaitsee Dockerissa, joten komento täytyy ajaa Dockerin kautta:
 ```bash
 docker exec -it tiko_postgres psql -U tiko
 ```
+
+## Kuvia
+
+![Sopimusnäkymä](/doc/kuva01.png?raw=true "Työsopimusnäkymä")
+
+![Tarvikenäkymä](/doc/kuva02.png?raw=true "Tarvikenäkymä")
+
+![Asiakasnäkymä](/doc/kuva03.png?raw=true "Asiakasnäkymä")
+
+![Kaikki laskut](/doc/kuva04.png?raw=true "Kaikki laskut")
+
+![Laskunäkymä](/doc/kuva06.png?raw=true "Yksi lasku")
+
+![Light mode](/doc/kuva05.png?raw=true "Light mode")
