@@ -153,6 +153,7 @@ router.get('/:id', async (req, res) => {
       ...lasku,
       expired,
       showExpiredButton: !hasReminder && expired,
+      sopimusMaksettu: lasku.maksettu_pvm !== null,
     });
   }
 

@@ -29,21 +29,29 @@ isDisabled=false}}
           {{formatDate era_pvm}}</div>
       </td>
       <td>
-        {{#if is_muistutuslasku}}
-        <div class="px-3 m-1 rounded-md bg-yellow-500 text-white">Muistutuslasku</div>
-        {{/if}}
-        {{#if is_karhulasku}}
-        <div class="px-3 m-1 rounded-md bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
+        <div class="flex justify-between">
+          <div class="flex">
+            {{#if is_muistutuslasku}}
+            <div class="px-3 m-1 rounded-md bg-yellow-500 text-white">Muistutuslasku</div>
+            {{/if}}
+            {{#if is_karhulasku}}
+            <div class="px-3 m-1 rounded-md bg-red-500 text-white">{{karhuluku}}. karhulasku</div>{{/if}}
+          </div>
 
-        {{#if ../writeAccess}}
-        {{#if showExpiredButton}}
-        <button
-          class="font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 px-1 ml-2"
-          hx-get="/tyosopimukset/{{tyosuoritus_id}}/laskut/{{id}}/muistutuslaskut" hx-target="#modal-content">
-          Luo muistutuslasku
-        </button>
-        {{/if}}
-        {{/if}}
+          <div>
+            {{#if ../writeAccess}}
+            {{#if showExpiredButton}}
+            <button
+              class="font-semibold rounded hover:text-white text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 px-1 mx-1"
+              hx-trigger="click consume" hx-get="/tyosopimukset/{{tyosuoritus_id}}/laskut/{{id}}/muistutuslaskut"
+              hx-target="#modal-content">
+              Luo muistutuslasku
+            </button>
+            {{/if}}
+            {{/if}}
+          </div>
+
+        </div>
       </td>
     </tr>
     {{/each}}
