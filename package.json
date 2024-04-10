@@ -4,11 +4,13 @@
   "description": "This is a template readme file to enforce main default branch. Edit this file as you see fit.",
   "main": "index.js",
   "scripts": {
+    "build": "tsc && npm run postbuild",
     "build-css": "tailwindcss -i ./src/css/styles.css -o ./public/css/styles.css --minify",
     "compile": "tsc",
-    "fix": "gts fix",
     "dev": "nodemon --legacy-watch",
-    "start": "tsc && node dist/index.js"
+    "fix": "gts fix",
+    "postbuild": "cp -R src/queries dist/queries && cp -R src/views dist/views",
+    "start": "npm run build && node dist/index.js"
   },
   "keywords": [],
   "author": "",
