@@ -16,7 +16,9 @@ npm run dev
 Enemmistöpäätökset. Kaikki tekivät vähän kaikkea, erityisesti:
 
 Antti Hakkarainen - modeleita, controllereita, tietokantakyselyitä, alv-näkymiä, tyylit
+
 Kilian Kugge - tietokannan luontilauseet, tietokantafunktiot, näkymät, tarvikkeet, xml-datan parsiminen
+
 Antti Pham - runko, login, middlewaret, controlleita, modaalit
 
 ## Kehittäminen
