@@ -105,13 +105,38 @@
     <div class="flex items-center flex-shrink-0 h-8 border-b-2 border-black">
       {{#if is_urakka}}Urakan muuttujat:{{/if}}</div>
     <!-- Content -->
-    <div class="grid grid-cols-2">
+    <div class="grid grid-cols-3">
       {{#if is_urakka}}
-      <div>Aleprosentti:</div>
-      <div>{{formatPercentage urakka.aleprosentti}}</div>
+      <div class="flex items-center">
+        <span>Ale:</span>
+      </div>
+      <div class="flex items-center">
+        <span>{{formatPercentage urakka.aleprosentti}}</span>
+      </div>
+      <div>
+        {{#if writeAccess}}
+        <button hx-get="/tyosopimukset/{{tyosopimus.id}}/muokkaa/ale" hx-target="#modal-content" hx-push-url="false"
+          class="small-button {{#if isDisabled}}opacity-50 cursor-not-allowed{{/if}}" {{#if isDisabled}}disabled{{/if}}>
+          Muokkaa
+        </button>
+        {{/if}}
+      </div>
 
-      <div>Korotusprosentti:</div>
-      <div>{{formatPercentage urakka.korotusprosentti}}</div>
+      <div class="flex items-center">
+        <span>Korotus:</span>
+      </div>
+      <div class="flex items-center">
+        <span>{{formatPercentage urakka.korotusprosentti}}</span>
+      </div>
+      <div>
+        {{#if writeAccess}}
+        <button hx-get="/tyosopimukset/{{tyosopimus.id}}/muokkaa/korotus" hx-target="#modal-content" hx-push-url="false"
+          class="small-button {{#if isDisabled}}opacity-50 cursor-not-allowed{{/if}}" {{#if isDisabled}}disabled{{/if}}>
+          Muokkaa
+        </button>
+        {{/if}}
+      </div>
+
       {{/if}}
     </div>
   </div>

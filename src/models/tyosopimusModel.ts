@@ -8,6 +8,7 @@ import {
   KokoTyosopimus,
   Summat,
   AlvErittely,
+  Tyosuoritus,
 } from './interfaces';
 import {ContractState} from '../constants';
 import {FlatObject, flatToNestedObject} from '../utils/parse';
@@ -43,6 +44,55 @@ export const haeKokoTyosopimus = async (
   }
 
   return mapRowToKokoTyosopimus(rows[0]);
+};
+
+export const paivitaProsentti = async (
+  id: number,
+  tyyppi: string,
+  prosenttiStr: string
+): Promise<boolean> => {
+  const prosentti = parseFloat(prosenttiStr);
+  const urakkaResult = await query<Tyosuoritus>(
+    'SELECT urakka_id FROM tyosuoritus WHERE id = $1',
+    [id]
+  );
+
+  if (urakkaResult.rows.length === 0 || urakkaResult.rows[0] === undefined) {
+    return false;
+  }
+
+  const urakka_id = urakkaResult.rows[0]['urakka_id'];
+
+  if (Number.isNaN(prosentti)) {
+    return false;
+  } else if ((tyyppi === 'aleprosentti' && prosentti < 0) || prosentti > 1) {
+    return false;
+  } else if (
+    (tyyppi === 'korotusprosentti' && prosentti < 0) ||
+    prosentti > 9
+  ) {
+    return false;
+  }
+
+  let queryStr = '';
+
+  switch (tyyppi) {
+    case 'aleprosentti':
+      queryStr = 'UPDATE urakka SET aleprosentti = $1 WHERE id = $2';
+      break;
+    case 'korotusprosentti':
+      queryStr = 'UPDATE urakka SET korotusprosentti = $1 WHERE id = $2';
+      break;
+    default:
+      return false;
+  }
+
+  const result = await query<Urakka>(queryStr, [
+    prosenttiStr,
+    urakka_id.toString(),
+  ]);
+
+  return (result.rowCount || 0) > 0;
 };
 
 /**

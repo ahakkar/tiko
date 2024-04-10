@@ -1,0 +1,20 @@
+<h2 class="font-medium text-xl">Muokkaa urakan korotusta</h2>
+
+<form hx-post="/tyosopimukset/{{id}}/muokkaa/prosentti/korotus" hx-target="#modal-content">
+  <div class="mb-5">
+    <label>
+      <div class="mb-2 text-sm font-medium ">Korotusprosentti väliltä 0.00-9.00, 0.01 askelin:</div>
+      <input name="korotus" type="number" min="0" max="1" step="0.01" class="modal-input modal-i" required>
+    </label>
+  </div>
+
+  <div class="flex items-center">
+    <button type="submit" class="button-submit">
+      Tallenna
+    </button>
+    <div class="p-1"></div>
+    <button hx-get="/tyhja" hx-target="#modal-content" class="button-cancel">
+      Peruuta
+    </button>
+  </div>
+</form>

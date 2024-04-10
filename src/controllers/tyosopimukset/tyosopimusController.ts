@@ -9,6 +9,7 @@ import {
   paivitaUrakkaHinta,
   laskeSopimusHinta,
   haeAlvErittely,
+  paivitaProsentti,
 } from '../../models/tyosopimusModel';
 import tyot from './id/tyosuoritusController';
 import tarvikkeet from './id/tarvikeController';
@@ -175,11 +176,20 @@ router.get('/:id', async (req, res) => {
   res.render('tyosopimukset/id/tyosopimus', renderOptions);
 });
 
-router.patch('/:id/poista/tarvike/:id2', async (req, res) => {
-  const tyosopimus_id = req.params['id'];
-  const tarvike_id = req.params.id2;
-  await poistaTarvike(tyosopimus_id, tarvike_id);
-  res.set('hx-refresh', 'true').send();
+router.get('/:id/muokkaa/ale', async (req, res) => {
+  const id = req.params['id'];
+  res.render('tyosopimukset/id/prosentit/ale', {
+    layout: 'modal',
+    id,
+  });
+});
+
+router.get('/:id/muokkaa/korotus', async (req, res) => {
+  const id = req.params['id'];
+  res.render('tyosopimukset/id/prosentit/korotus', {
+    layout: 'modal',
+    id,
+  });
 });
 
 router.patch('/:id/poista/tyosuoritus/:id2', async (req, res) => {
@@ -187,6 +197,27 @@ router.patch('/:id/poista/tyosuoritus/:id2', async (req, res) => {
   const tyosuoritus_id = req.params.id2;
   console.log('poista työsuoritus', tyosopimus_id, tyosuoritus_id);
   await poistaTyosuoritus(tyosopimus_id, tyosuoritus_id);
+  res.set('hx-refresh', 'true').send();
+});
+
+router.patch('/:id/poista/tarvike/:id2', async (req, res) => {
+  const tyosopimus_id = req.params['id'];
+  const tarvike_id = req.params.id2;
+  await poistaTarvike(tyosopimus_id, tarvike_id);
+  res.set('hx-refresh', 'true').send();
+});
+
+router.post('/:id/muokkaa/prosentti/ale', async (req, res) => {
+  const tyosopimus_id = parseInt(req.params['id']);
+  const prosentti = req.body.ale;
+  await paivitaProsentti(tyosopimus_id, 'aleprosentti', prosentti);
+  res.set('hx-refresh', 'true').send();
+});
+
+router.post('/:id/muokkaa/prosentti/korotus', async (req, res) => {
+  const tyosopimus_id = parseInt(req.params['id']);
+  const prosentti = req.body.korotus;
+  await paivitaProsentti(tyosopimus_id, 'korotusprosentti', prosentti);
   res.set('hx-refresh', 'true').send();
 });
 
