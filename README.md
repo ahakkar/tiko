@@ -10,7 +10,7 @@ TypeScript + Node.js, Tailwind CSS, HTMX, PostgeSQL
 Luo tietokanta ja aja 1. tables.sql sinne.
 Luo .env ja säädä asetukset .env.example mukaisesti 
 npm install
-npm run dev
+npm start
 ```
 
 ## Projektin työnjako

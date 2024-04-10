@@ -1,6 +1,7 @@
 import {Express} from 'express';
 import {engine} from 'express-handlebars';
 import handlebarsHelpers from './handlebarsHelpers';
+import path from 'path';
 
 /**
  * Konfiguroi Express-sovellusta käyttämään Handlebarsia näkymien generointiin.
@@ -22,5 +23,5 @@ export const configHandlebars = (app: Express) => {
     })
   );
   app.set('view engine', 'hbs');
-  app.set('views', `${__dirname}/../views`);
+  app.set('views', path.join(process.cwd(), 'dist', 'views'));
 };
