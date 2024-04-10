@@ -2,7 +2,22 @@
 
 ## Teknologia
 
-## Ajaminen
+TypeScript + Node.js, Tailwind CSS, HTMX, PostgeSQL
+
+## Ajaminen manuaalisesti
+
+Luo tietokanta ja aja 1. tables.sql sinne.
+Luo .env ja säädä asetukset .env.example mukaisesti 
+npm install
+npm run dev
+
+## Projektin työnjako
+
+Enemmistöpäätökset. Kaikki tekivät vähän kaikkea, erityisesti:
+
+Antti Hakkarainen - modeleita, controllereita, tietokantakyselyitä, alv-näkymiä, tyylit
+Kilian Kugge - tietokannan luontilauseet, tietokantafunktiot, näkymät, tarvikkeet, xml-datan parsiminen
+Antti Pham - runko, login, middlewaret, controlleita, modaalit
 
 ## Kehittäminen
 
