@@ -62,14 +62,20 @@ docker exec -it tiko_postgres psql -U tiko
 
 ## Kuvia
 
+### Työsopimusnäkymä
 ![Sopimusnäkymä](/doc/kuva01.png?raw=true "Työsopimusnäkymä")
 
+### Tarvikenäkymä
 ![Tarvikenäkymä](/doc/kuva02.png?raw=true "Tarvikenäkymä")
 
+### Asiakasnäkymä
 ![Asiakasnäkymä](/doc/kuva03.png?raw=true "Asiakasnäkymä")
 
+### Kaikki laskut
 ![Kaikki laskut](/doc/kuva04.png?raw=true "Kaikki laskut")
 
+### Yksi lasku
 ![Laskunäkymä](/doc/kuva06.png?raw=true "Yksi lasku")
 
+### Light mode
 ![Light mode](/doc/kuva05.png?raw=true "Light mode")
