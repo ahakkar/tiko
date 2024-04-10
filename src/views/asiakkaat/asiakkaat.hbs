@@ -21,7 +21,7 @@
     </thead>
     <tbody>
       {{#each asiakkaat}}
-      <tr class="items-table-row">
+      <tr class="items-table-row" hx-get="/asiakkaat/{{id}}" hx-push-url="true" hx-target="#main-content">
         <td class="whitespace-nowrap p-2">{{nimi}}</td>
         <td class="whitespace-nowrap p-2">{{osoite}}</td>
         <td class="whitespace-nowrap p-2">{{postinumero}}</td>

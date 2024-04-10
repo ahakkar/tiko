@@ -1,1 +1,63 @@
-Yhden asiakkaan tiedot + asiakkaan laskut
+<div class="page-container mt-4">
+  {{> otsikko title=asiakas.nimi}}
+
+  <table class="min-w-full text-left text-sm mt-6">
+    <thead class="font-bold border-b-2 border-black">
+      <tr>
+        <th scope="col">Osoite</th>
+        <th scope="col">Postinumero</th>
+        <th scope="col">Postitoimipaikka</th>
+        <th scope="col">Sähköposti</th>
+        <th scope="col">Puhelinnumero</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="items-table-row">
+        <td class="whitespace-nowrap p-2">{{asiakas.osoite}}</td>
+        <td class="whitespace-nowrap p-2">{{asiakas.postinumero}}</td>
+        <td class="whitespace-nowrap p-2">{{asiakas.postitoimipaikka}}</td>
+        <td class="whitespace-nowrap p-2">{{asiakas.sahkoposti}}</td>
+        <td class="whitespace-nowrap p-2">{{asiakas.puhelinnumero}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-container mt-8">
+  {{> otsikkoJaNappi
+  title="Työsopimukset"
+  hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/uusi") hxTarget="#modal-content"
+  hxPushUrl="false"
+  buttonText="Lisää"
+  isDisabled=false}}
+
+  <table class="min-w-full text-left text-sm mt-6">
+    <thead class="font-bold border-b-2 border-black">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Osoite</th>
+        <th scope="col">Postinumero</th>
+        <th scope="col">Postitoimipaikka</th>
+        <th scope="col">Tila</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tyosopimukset}}
+
+      <tr hx-get="/tyosopimukset/{{id}}" hx-target="#main-content" hx-push-url="true" class="items-table-row">
+        <td class="whitespace-nowrap p-2">{{id}}</td>
+        <td class="whitespace-nowrap p-2">{{osoite}}</td>
+        <td class="whitespace-nowrap p-2">{{postinumero}}</td>
+        <td class="whitespace-nowrap p-2">{{postitoimipaikka}}</td>
+        <td class="whitespace-nowrap p-2 capitalize">{{tila}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<div class="page-container mt-8">
+  {{> otsikko title="Laskut"}}
+
+  {{> laskutLista laskut=laskut}}
+</div>
