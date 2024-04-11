@@ -64,6 +64,13 @@
 </div>
 
 <div class="page-container">
+  {{> otsikkoJaNappi
+  title="Laskut"
+  hxGetUrl=(concat "/tyosopimukset/" tyosopimus.id "/laskut") hxTarget="#modal-content"
+  hxPushUrl="false"
+  buttonText="Lisää"
+  isDisabled=false}}
+
   {{> laskutLista laskut=laskut}}
 </div>
 
